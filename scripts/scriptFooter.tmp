@@ -1,0 +1,5 @@
+  </script>
+{% endmacro %}
+
+{# mixins for using withing partials #}
+

@@ -1,0 +1,36 @@
+{
+  "name": "@focus-reactive/react-app-layer",
+  "version": "1.0.0",
+  "private": false,
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build:mixins": "babel ./templates -x .js -d ./temp && sh scripts/createMixins.sh",
+    "prepare": "package-prepare"
+  },
+  "dependencies": {
+    "@reach/dialog": "^0.10.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "styled-components": "^5.1.1",
+    "dayjs": "^1.8.26"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/preset-react": "^7.10.1",
+    "@usulpro/package-prepare": "^1.2.1"
+  },
+  "homepage": "https://github.com/GitNation/react-app-layer",
+  "bugs": {
+    "url": "https://github.com/GitNation/react-app-layer/issues"
+  },
+  "author": "Oleg Proskurin <oleg@focusreactive.com> (https://github.com/focusreactive)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GitNation/react-app-layer.git"
+  },
+  "license": "MIT"
+}

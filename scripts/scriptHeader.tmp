@@ -1,0 +1,5 @@
+{# this mixin should be injected into layout #}
+
+{% macro initEventsLayer(pageKey) %}
+  <script type="text/javascript">
+  'use strict'
