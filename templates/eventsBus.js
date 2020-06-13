@@ -20,7 +20,6 @@ const eventsBus = {
     };
     this.subscribers.forEach((cb) => cb(message));
     this.log.push(message);
-    console.log('event was sent', message);
   },
   mountEvent: function (id, name) {
     this.sendEvent('mount', {

@@ -15,6 +15,7 @@ const eventNames = [
   'discussion-room',
   'any-room',
   'link',
+  'random-room',
 ];
 
 const GlobalStyle = createGlobalStyle`
@@ -39,6 +40,16 @@ const navOutside = (link) => {
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+};
+
+const navToRandom = (content) => {
+  const { links } = content;
+  if (!links) {
+    return;
+  }
+  const len = links.length;
+  const ind = Math.floor(Math.random() * len);
+  navOutside(links[ind]);
 };
 
 const useBusEvents = (bus) => {
@@ -70,7 +81,11 @@ const useBusEvents = (bus) => {
 
       /* if link is available just click it */
       if ((!status || status === 'now') && isAuth) {
-        navOutside(payload.link);
+        if (payload.name === 'random-room') {
+          navToRandom(payload.data);
+        } else {
+          navOutside(payload.link);
+        }
       } else {
         setOpen(true);
       }

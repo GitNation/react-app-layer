@@ -127,7 +127,7 @@ export const convertEventTimeToISO = (date, time, z = 2) => {
     'MMMM dd HH:mm Z'
   ).toISO();
   if (!iso) {
-    console.log('convertEventTimeToISO -> !!!\n', date, time, iso);
+    // console.log('convertEventTimeToISO -> !!!\n', date, time, iso);
   }
   return iso;
 };
