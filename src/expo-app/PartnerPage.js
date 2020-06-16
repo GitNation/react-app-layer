@@ -176,31 +176,36 @@ export default function PartnerPage({ partners = {}, loading }) {
                   {isLive ? (
                     <LiveWidget>Live</LiveWidget>
                   ) : (
-                    'Consult the event schedule to see when the live stream starts.'
+                    'Consult the event schedule to see when the live stream starts. '
                   )}
                 </StreamingNote>
               </TopLinksContainer>
 
-              {ctaButtons && ctaButtons.primary && (
-                <CtaButtons>
-                  <CtaButton
-                    as="a"
-                    href={ctaButtons.primary.link}
-                    target="_blank"
-                  >
-                    {ctaButtons.primary.text}
-                  </CtaButton>
-                  {ctaButtons.secondary && (
-                    <CtaButtonSecondary
+              {ctaButtons &&
+                ctaButtons.primary &&
+                ctaButtons.primary.link &&
+                ctaButtons.primary.text && (
+                  <CtaButtons>
+                    <CtaButton
                       as="a"
-                      href={ctaButtons.secondary.link}
+                      href={ctaButtons.primary.link}
                       target="_blank"
                     >
-                      {ctaButtons.secondary.text}
-                    </CtaButtonSecondary>
-                  )}
-                </CtaButtons>
-              )}
+                      {ctaButtons.primary.text}
+                    </CtaButton>
+                    {ctaButtons.secondary &&
+                      ctaButtons.secondary.link &&
+                      ctaButtons.secondary.text && (
+                        <CtaButtonSecondary
+                          as="a"
+                          href={ctaButtons.secondary.link}
+                          target="_blank"
+                        >
+                          {ctaButtons.secondary.text}
+                        </CtaButtonSecondary>
+                      )}
+                  </CtaButtons>
+                )}
               <VideoContainer>
                 {embedLink && (
                   <VideoIframe

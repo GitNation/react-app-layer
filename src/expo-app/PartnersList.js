@@ -126,7 +126,6 @@ export default function PartnersList({ partners, loading }) {
                 <img src={logo} />
               </ImgWrapper>
               <Description>
-                <h2>{name}</h2>
                 <p>{description}</p>
               </Description>
               <CtaButton>Visit</CtaButton>

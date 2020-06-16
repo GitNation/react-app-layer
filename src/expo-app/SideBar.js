@@ -65,7 +65,43 @@ const Chat = styled.div`
   min-height: 400px;
 `;
 const Description = styled.div`
-  margin-top: 5px;
+  margin-top: 10px;
+
+  color: ${(props) => (props.extended ? 'white' : '#5f5f5f')};
+  font-size: 14px;
+  line-height: 1.5;
+
+  h2 {
+    color: #585858;
+    font-size: 18px;
+    margin: 0 0 15px 0;
+    font-weight: 400;
+  }
+
+  a {
+    color: white;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  ul {
+    margin-top: 10px;
+  }
+
+  li {
+    margin-bottom: 5px;
+    &:before {
+      content: '●';
+      display: inline-block;
+      margin-right: 10px;
+    }
+  }
+
+  p {
+    margin-top: 10px;
+  }
 `;
 const ChatIfrmae = styled.iframe`
   position: absolute;
@@ -75,10 +111,10 @@ const ChatIfrmae = styled.iframe`
   height: 100%;
 `;
 const ImageContainer = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: ${(props) => (props.bigger ? '20px' : '0px')};
 
   img {
-    height: 80px;
+    height: ${(props) => (props.bigger ? '120px' : '80px')};
   }
 `;
 
@@ -175,6 +211,8 @@ export default function SideBar({ partner }) {
     showTabNav,
     discordEmbedLink,
     chatDisabled,
+    aboutLink,
+    descriptionExtended,
   } = partner;
   const { path, url } = useRouteMatch();
   const [config, loading, error] = useObjectVal(db.ref('config'));
@@ -210,11 +248,6 @@ export default function SideBar({ partner }) {
               About
             </NavLink>
           </li>
-          <li>
-            <NavLink to={`${url}/perks`} activeClassName="selected">
-              Perks
-            </NavLink>
-          </li>
         </Tabs>
       )}
       <Switch>
@@ -224,7 +257,17 @@ export default function SideBar({ partner }) {
               <ImageContainer>
                 <img src={logo} />
               </ImageContainer>
-              <Description>{description}</Description>
+              <Description>
+                <p>{description}</p>
+
+                {aboutLink && aboutLink.link && aboutLink.text && (
+                  <p>
+                    <a href={aboutLink.link} target="_blank">
+                      {aboutLink.text}
+                    </a>
+                  </p>
+                )}
+              </Description>
             </PartnerInfo>
             <Chat>
               <DiscordOverlay>
@@ -267,9 +310,28 @@ export default function SideBar({ partner }) {
           path={chatDisabled ? path : `${path}/about`}
           exact={chatDisabled}
         >
-          About
+          <PartnerInfo>
+            <ImageContainer bigger>
+              <img src={logo} />
+            </ImageContainer>
+            <Description extended>
+              {descriptionExtended ? (
+                <div
+                  dangerouslySetInnerHTML={{ __html: descriptionExtended }}
+                />
+              ) : (
+                <p>{description}</p>
+              )}
+              {aboutLink && aboutLink.link && aboutLink.text && (
+                <p>
+                  <a href={aboutLink.link} target="_blank">
+                    Check more details at {aboutLink.text}
+                  </a>
+                </p>
+              )}
+            </Description>
+          </PartnerInfo>
         </Route>
-        <Route path={`${path}/perks`}>Perks</Route>
       </Switch>
     </Container>
   );
