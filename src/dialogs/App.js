@@ -7,6 +7,7 @@ import DialogPopup from './DialogPopup';
 import { getEventStatus } from './model';
 import NewTab from './NewTab';
 import TicketMessage from './TicketMessage';
+import SpeakerCard from './SpeakerCard';
 
 const eventNames = [
   'video-room',
@@ -16,6 +17,7 @@ const eventNames = [
   'any-room',
   'link',
   'random-room',
+  'speaker-card',
 ];
 
 const GlobalStyle = createGlobalStyle`
@@ -73,18 +75,27 @@ const useBusEvents = (bus) => {
   };
 
   const onEvent = ({ type, payload }) => {
+    console.log('onEvent -> payload', payload);
     if (type === 'click' && eventNames.includes(payload.name)) {
       setType(payload.name);
       setContent(payload);
 
       const { status, isAuth } = getDetails(payload);
 
+      if (payload.name === 'speaker-card') {
+        setOpen(true);
+        return;
+      }
+
       /* if link is available just click it */
       if ((!status || status === 'now') && isAuth) {
         if (payload.name === 'random-room') {
           navToRandom(payload.data);
-        } else {
+          return;
+        }
+        if (payload.link) {
           navOutside(payload.link);
+          return;
         }
       } else {
         setOpen(true);
@@ -115,9 +126,23 @@ const useBusEvents = (bus) => {
 
 const App = ({ bus }) => {
   const { isOpen, close, type, content, status, isAuth } = useBusEvents(bus);
+  console.log('App -> type', type);
 
   if (!content || !isOpen) {
     return null;
+  }
+
+  if (type === 'speaker-card') {
+    return (
+      <DialogOverlay isOpen={isOpen} onDismiss={close}>
+        <GlobalStyle isOpen={isOpen} />
+        <DialogContent aria-label="this activity is not available">
+          {isOpen ? (
+            <SpeakerCard type={type} content={content} status={status} />
+          ) : null}
+        </DialogContent>
+      </DialogOverlay>
+    );
   }
 
   if (!isAuth && status !== 'archived') {
