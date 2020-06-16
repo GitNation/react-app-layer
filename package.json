@@ -1,12 +1,13 @@
 {
   "name": "@focus-reactive/react-app-layer",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "private": false,
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "build:mixins": "babel ./templates -x .js -d ./temp && sh scripts/createMixins.sh",
     "dev": "nodemon --exec yarn prepare",
+    "dev:update-jsn": "nodemon --exec 'yarn prepare && cd ../Live.JSNation.com && yarn relative-deps'",
     "prepare": "package-prepare"
   },
   "dependencies": {

@@ -4,12 +4,14 @@ import styled from 'styled-components';
 import { db } from '../firebase';
 import { useObjectVal } from 'react-firebase-hooks/database';
 
-const LiveWidget = styled.div`
+export const LiveWidget = styled.div`
   padding: 5px 10px;
   background: red;
   color: white;
   font-size: 15px;
   margin-left: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
 `;
 
 function App() {

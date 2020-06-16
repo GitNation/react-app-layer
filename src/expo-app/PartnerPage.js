@@ -1,58 +1,128 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link, useParams } from 'react-router-dom';
+import SideBar from './SideBar';
+import { LiveWidget } from './LiveWidget';
 
-function PartnerListItem() {
-  let { slug } = useParams();
-  return <div>Now showing post {slug}</div>;
-}
+const brandColor = '#fef502';
 
+const desktopHeight = '896px';
+const tabletHeight = '600px';
 const Page = styled.div`
-  height: 100%;
+  position: relative;
+  overflow: hidden;
+  @media (min-width: 769px) {
+    min-height: ${tabletHeight};
+  }
+  @media (min-width: 1400px) {
+    min-height: ${desktopHeight};
+  }
 `;
-const Back = styled.div`
+const LoadingContainer = styled.div`
+  text-align: center;
+  margin-top: 60px;
+`;
+const Button = styled(Link)`
+  display: inline-block;
+  padding: 10px 5px;
+  font-size: 12px;
+  text-decoration: none;
+  color: white;
+  margin: 10px;
+  border: 3px solid #131311;
+  font-weight: 700;
+  min-width: 120px;
+  font-family: GothamPro, Arial, sans-serif;
+  text-align: center;
+  text-transform: uppercase;
+  transition: all ease 0.3s;
+
+  @media (min-width: 1400px) {
+    min-width: 180px;
+    padding: 15px 10px;
+    min-width: 100px;
+    font-size: 14px;
+  }
+
+  &:hover {
+    border-color: ${brandColor};
+    text-decoration: none;
+    color: white;
+  }
+`;
+const TopLinksContainer = styled.div`
   position: absolute;
-  z-index: 1;
-  left: 20px;
-  top: 20px;
-  background: white;
-  padding: 10px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+const Back = styled(Button)`
+  margin-right: 40px;
+`;
+const StreamingNote = styled.div`
+  align-self: center;
+  margin-right: 10px;
+  font-size: 12px;
+
+  @media (min-width: 1400px) {
+    font-size: 14px;
+  }
 `;
 const Container = styled.div`
   display: flex;
-  height: 100%;
+  flex-direction: column;
+
+  @media (min-width: 769px) {
+    min-height: ${tabletHeight};
+    flex-direction: row;
+  }
+
+  @media (min-width: 1400px) {
+    min-height: ${desktopHeight};
+  }
 `;
 const ContainerLeft = styled.div`
-  flex: auto;
-`;
-const VideoContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 100%;
+  padding-bottom: calc(56% + 120px);
+
+  @media (min-width: 769px) {
+    padding-bottom: 0;
+    width: auto;
+    flex: auto;
+  }
+`;
+const VideoContainer = styled.div`
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 60px;
+  height: calc(100% - 120px);
+
+  @media (min-width: 769px) {
+    position: relative;
+    top: auto;
+    left: auto;
+    margin: 72px 0;
+    height: calc(100% - 144px);
+  }
 `;
 const ContainerRight = styled.div`
   display: flex;
   flex-direction: column;
-  width: 30%;
-`;
-const PartnerInfo = styled.div`
-  padding: 20px;
-`;
-const Chat = styled.div`
-  position: relative;
-  flex: auto;
-  overflow: hidden;
-`;
-const Description = styled.div`
-  margin-top: 10px;
-`;
-const ChatIfrmae = styled.iframe`
-  position: absolute;
-  left: 0;
-  top: -72px;
   width: 100%;
-  height: calc(100% + 72px);
+
+  @media (min-width: 769px) {
+    width: 40%;
+  }
+
+  @media (min-width: 1400px) {
+    width: 30%;
+  }
 `;
+
 const VideoIframe = styled.iframe`
   position: absolute;
   left: 0;
@@ -60,87 +130,94 @@ const VideoIframe = styled.iframe`
   width: 100%;
   height: 100%;
 `;
-const VideoCta = styled.div`
+const CtaButtons = styled.div`
   position: absolute;
-  left: 20px;
-  bottom: 20px;
+  left: 0;
+  bottom: 0;
   z-index: 1;
 `;
-const Button = styled.a`
-  display: flex;
-  text-align: center;
-  background-color: #fef502;
-  padding: 26px 30px;
-  font-size: 14px;
-  font-family: GothamPro, Arial, sans-serif;
-  font-weight: 700;
-  color: #000;
-  text-decoration: none;
-  transition: all ease 0.3s;
-  transform: translateZ(0) perspective(1px);
-  backface-visibility: hidden;
+const CtaButton = styled(Button)`
+  background: ${brandColor};
+  border-color: ${brandColor};
+  color: black;
+
+  &:hover {
+    color: black;
+    background: white;
+    border-color: white;
+  }
+`;
+const CtaButtonSecondary = styled(Button)`
+  border-color: ${brandColor};
+  &:hover {
+    background: ${brandColor};
+    color: black;
+  }
 `;
 
-const partners = [
-  {
-    name: 'Mux',
-    description: 'API for video streaming',
-    logo: 'https://media.graphcms.com/1mzHE2TNS5uoBxP4eTdP',
-  },
-  {
-    name: 'Frontinty',
-    description: 'The React framework for WordPress',
-    logo: 'https://media.graphcms.com/cRxbGoigQaqfjzKWgsNH',
-  },
-];
-
-export default function PartnerPage({ partners }) {
+export default function PartnerPage({ partners = {}, loading }) {
   let { partner } = useParams();
 
-  const partnerObject = partners[partner];
+  const partnerObject = partners[partner] || {};
 
-  const { name, description, logo } = partnerObject;
+  const { ctaButtons, embedLink, isLive } = partnerObject;
 
   return (
     <Page>
-      <Back>
-        <Link to="/">Back to expo</Link>
-      </Back>
-      <VideoCta>
-        <Button
-          href="http://calendly.com/robert-haritonov/30min?back=1"
-          target="_blank"
-        >
-          Book 1-1 slot
-        </Button>
-      </VideoCta>
-      <Container>
-        <ContainerLeft>
-          <VideoContainer>
-            <VideoIframe
-              src="https://www.youtube.com/embed/gfbWjD4SwmU"
-              frameborder="0"
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen=""
-            ></VideoIframe>
-          </VideoContainer>
-        </ContainerLeft>
-        <ContainerRight>
-          <PartnerInfo>
-            <div>
-              <img src={logo} width={200} />
-            </div>
-            <h2>{name}</h2>
-            <Description>{description}</Description>
-          </PartnerInfo>
-          <Chat>
-            <ChatIfrmae
-              src="https://titanembeds.com/embed/717374104960761916?defaultchannel=717374221466075136&fixedsidenav=false&theme=DiscordDark"
-              frameborder="0"
-            ></ChatIfrmae>
-          </Chat>
-        </ContainerRight>
-      </Container>
+      {loading ? (
+        <LoadingContainer>Loading...</LoadingContainer>
+      ) : (
+        <>
+          <Container>
+            <ContainerLeft>
+              <TopLinksContainer>
+                <Back to="/">Back to expo</Back>
+                <StreamingNote>
+                  {isLive ? (
+                    <LiveWidget>Live</LiveWidget>
+                  ) : (
+                    'Consult the event schedule to see when the live stream starts.'
+                  )}
+                </StreamingNote>
+              </TopLinksContainer>
+
+              {ctaButtons && ctaButtons.primary && (
+                <CtaButtons>
+                  <CtaButton
+                    as="a"
+                    href={ctaButtons.primary.link}
+                    target="_blank"
+                  >
+                    {ctaButtons.primary.text}
+                  </CtaButton>
+                  {ctaButtons.secondary && (
+                    <CtaButtonSecondary
+                      as="a"
+                      href={ctaButtons.secondary.link}
+                      target="_blank"
+                    >
+                      {ctaButtons.secondary.text}
+                    </CtaButtonSecondary>
+                  )}
+                </CtaButtons>
+              )}
+              <VideoContainer>
+                {embedLink && (
+                  <VideoIframe
+                    src={embedLink}
+                    frameborder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen=""
+                  />
+                )}
+              </VideoContainer>
+            </ContainerLeft>
+            <ContainerRight>
+              <SideBar partner={partnerObject} />
+            </ContainerRight>
+          </Container>
+        </>
+      )}
     </Page>
   );
 }

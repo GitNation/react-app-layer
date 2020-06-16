@@ -8,11 +8,11 @@ import { db } from '../firebase';
 import { useObjectVal } from 'react-firebase-hooks/database';
 
 const AppContainer = styled.div`
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  margin-bottom: 20px;
+
+  @media (min-width: 769px) {
+    margin-bottom: 0;
+  }
 `;
 
 function App() {
@@ -23,18 +23,10 @@ function App() {
       <Router basename="expo" hashType="noslash">
         <Switch>
           <Route path="/booth/:partner">
-            {loading ? (
-              <div>Loading...</div>
-            ) : (
-              <PartnerPage partners={partners} />
-            )}
+            <PartnerPage partners={partners} loading={loading} />
           </Route>
           <Route path="/">
-            {loading ? (
-              <div>Loading...</div>
-            ) : (
-              <PartnersList partners={partners} />
-            )}
+            <PartnersList partners={partners} loading={loading} />
           </Route>
         </Switch>
       </Router>
