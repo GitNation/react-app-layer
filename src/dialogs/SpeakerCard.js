@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 
 const socialTitle = {
   tw: 'Twitter',
@@ -7,6 +8,11 @@ const socialTitle = {
   site: 'Site',
   default: 'Link',
 };
+
+const ActivityInfo = styled.div`
+  color: ${({ color }) => color};
+  border-left: 3px solid ${({ color }) => color};
+`;
 
 const selectQALink = (person) => {
   try {
@@ -47,7 +53,12 @@ function SpeakerCard({ type, content, status }) {
 
         <div className="pop-speaker__socials">
           {qaLink ? (
-            <a className="btn btn--border-transparent" href={qaLink}>
+            <a
+              className="btn btn--border-transparent"
+              href={qaLink}
+              target="_blanc"
+              rel="noopener noreferrer"
+            >
               JOIN SPEAKER'S VIDEO ROOM
             </a>
           ) : null}
@@ -57,6 +68,8 @@ function SpeakerCard({ type, content, status }) {
                 key={soc.link}
                 className="btn btn--border-transparent"
                 href={soc.link}
+                target="_blanc"
+                rel="noopener noreferrer"
               >
                 {/* {mixins.icon(social.icon)}  */}
                 {socialTitle[soc.icon] || socialTitle.default}
@@ -69,11 +82,14 @@ function SpeakerCard({ type, content, status }) {
         <div className="pop-speaker__mid">
           {person.activities.talks.map((talk) => (
             <React.Fragment key={talk.title}>
-              <div className="pop-speaker__activity-info">
+              <ActivityInfo
+                className="pop-speaker__activity-info"
+                color={person.tagBG || 'white'}
+              >
                 <span>{talk.label}</span>
                 <span>{talk.track.name}</span>
                 <span>{talk.timeString}</span>
-              </div>
+              </ActivityInfo>
               <h4 className="pop-speaker__activity-title">{talk.title}</h4>
               <div
                 className="pop-speaker__activity-desc"
