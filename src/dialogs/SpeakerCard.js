@@ -8,9 +8,18 @@ const socialTitle = {
   default: 'Link',
 };
 
+const selectQALink = (person) => {
+  try {
+    return person.activities.talks[0].extension.qaLink;
+  } catch (err) {
+    return null;
+  }
+};
+
 function SpeakerCard({ type, content, status }) {
   const person = content.data;
-  const videoRoomLink = '';
+  const qaLink = selectQALink(person);
+
   return (
     <div
       className="pop-speaker"
@@ -37,9 +46,11 @@ function SpeakerCard({ type, content, status }) {
         </div>
 
         <div className="pop-speaker__socials">
-          <a className="btn btn--border-transparent" href={videoRoomLink}>
-            JOIN SPEAKER'S VIDEO ROOM
-          </a>
+          {qaLink ? (
+            <a className="btn btn--border-transparent" href={qaLink}>
+              JOIN SPEAKER'S VIDEO ROOM
+            </a>
+          ) : null}
           {person.socials &&
             person.socials.map((soc) => (
               <a
@@ -59,7 +70,7 @@ function SpeakerCard({ type, content, status }) {
           {person.activities.talks.map((talk) => (
             <React.Fragment key={talk.title}>
               <div className="pop-speaker__activity-info">
-                <span>"TECH TITLE AND COLOR"</span>
+                <span>{talk.label}</span>
                 <span>{talk.track.name}</span>
                 <span>{talk.timeString}</span>
               </div>
