@@ -7,6 +7,7 @@ import DialogPopup from './DialogPopup';
 import { getEventStatus } from './model';
 import NewTab from './NewTab';
 import TicketMessage from './TicketMessage';
+import WatchMessage from './WatchMessage';
 import SpeakerCard from './SpeakerCard';
 
 const eventNames = [
@@ -18,6 +19,7 @@ const eventNames = [
   'link',
   'random-room',
   'speaker-card',
+  'watch-livestream',
 ];
 
 const GlobalStyle = createGlobalStyle`
@@ -128,6 +130,17 @@ const useBusEvents = (bus) => {
 
 const App = ({ bus }) => {
   const { isOpen, close, type, content, status, isAuth } = useBusEvents(bus);
+
+  if (type === 'watch-livestream') {
+    return (
+      <DialogOverlay isOpen={isOpen} onDismiss={close}>
+        <GlobalStyle isOpen={isOpen} />
+        <DialogContent aria-label="this activity is not available">
+          {isOpen ? <WatchMessage /> : null}
+        </DialogContent>
+      </DialogOverlay>
+    );
+  }
 
   if (!content || !isOpen) {
     return null;
