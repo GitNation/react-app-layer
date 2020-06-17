@@ -13,7 +13,6 @@ export const getEventStatus = (payload) => {
     return null;
   }
   const { date, time, duration = "20" } = eventData;
-  console.log("getEventStatus -> eventData", eventData)
   const isoStart = convertEventTimeToISO(date, time);
   const durationMM = parseInt(duration, 10);
   const checkStatus = createScheduleEvent(isoStart, durationMM);

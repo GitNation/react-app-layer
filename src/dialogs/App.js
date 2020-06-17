@@ -75,7 +75,6 @@ const useBusEvents = (bus) => {
   };
 
   const onEvent = ({ type, payload }) => {
-    console.log('onEvent -> payload', payload);
     if (type === 'click' && eventNames.includes(payload.name)) {
       setType(payload.name);
       setContent(payload);
@@ -126,7 +125,6 @@ const useBusEvents = (bus) => {
 
 const App = ({ bus }) => {
   const { isOpen, close, type, content, status, isAuth } = useBusEvents(bus);
-  console.log('App -> type', type);
 
   if (!content || !isOpen) {
     return null;
