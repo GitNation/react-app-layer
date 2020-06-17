@@ -8,9 +8,16 @@ import { mergeSchedule } from './magic';
 
 const App = ({ bus }) => {
   const content = bus.getContent();
-  const { customTracks, schedule, scheduleExtends, isAuth } = content;
-  const startTime = content.eventInfo.conferenceStart;
-  const endTime = content.eventInfo.conferenceFinish;
+  const {
+    customTracks,
+    schedule,
+    scheduleExtends,
+    isAuth,
+    eventInfo,
+  } = content;
+  const startTime = eventInfo.conferenceStart;
+  const endTime = eventInfo.conferenceFinish;
+  const { discordLink } = eventInfo;
   const timeTicks = createTimeTicks(startTime, endTime);
   const calcPosition = calcPositionFromTime(startTime);
   const trackWidth = calcPosition(endTime);
@@ -25,7 +32,7 @@ const App = ({ bus }) => {
       },
       isAuth,
       name: 'any-room',
-      link: eventContent.qaLink || eventContent.speakerRoomLink,
+      link: eventContent.qaLink || eventContent.speakerRoomLink || discordLink,
     };
     bus.clickEvent(payload);
   };

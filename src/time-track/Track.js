@@ -3,7 +3,7 @@ import cn from 'classnames';
 import styled from 'styled-components';
 import { calcWidth } from './model';
 
-const slackIcon = (
+const roomIcon = (
   <svg
     className="icon icon-sl"
     dangerouslySetInnerHTML={{
@@ -89,14 +89,21 @@ const iLt = (title, lightningTalks = []) => (
 const Tooltip = ({ children, on }) =>
   on ? <div className="track-tooltip">{children}</div> : null;
 
-const Talk = ({ talk }) => {
+const Talk = ({ talk, onClick }) => {
   const { pic, speaker, title, lightningTalks, text, name, place } = talk;
+
+  const handleClick = () => {
+    onClick({ date: '', track: '' });
+  };
+
   return (
     <div
       className="time-track__item js-time"
+      onClick={handleClick}
       style={{
         '--bgColor': talk.bgColor,
         width: '100%',
+        cursor: 'pointer',
       }}
     >
       {ePic(pic)}
@@ -108,13 +115,16 @@ const Talk = ({ talk }) => {
 };
 
 const QARoom = ({ talk, onClick }) => {
+  const handleClick = () => {
+    onClick({ date: '', track: '' });
+  };
   return (
     <a
-      onClick={onClick}
+      onClick={handleClick}
       className="time-track__link js-time"
       style={{ '--bgColor': talk.bgColor, width: '100%' }}
     >
-      Q&A {slackIcon}
+      Q&A {roomIcon}
     </a>
   );
 };
@@ -152,8 +162,8 @@ const TrackEvent = ({ event, calcPosition, onClick }) => {
   const position = calcPosition(event);
   const width = calcWidth(event.duration);
 
-  const handleClick = () => {
-    onClick(event);
+  const handleClick = (info) => {
+    onClick({ ...event, ...info });
   };
 
   if (event.qaLink) {
@@ -182,7 +192,7 @@ const TrackEvent = ({ event, calcPosition, onClick }) => {
 
   return (
     <EventContainer position={position} width={width}>
-      <Talk talk={event} />
+      <Talk talk={event} onClick={handleClick} />
     </EventContainer>
   );
 };
