@@ -34,11 +34,13 @@ const GlobalStyle = createGlobalStyle`
 
 `;
 
-const navOutside = (link) => {
+const navigateByLink = (link, samePage) => {
   const a = document.createElement('a');
   a.href = link;
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer';
+  if (!samePage) {
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+  }
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -51,7 +53,7 @@ const navToRandom = (content) => {
   }
   const len = links.length;
   const ind = Math.floor(Math.random() * len);
-  navOutside(links[ind]);
+  navigateByLink(links[ind]);
 };
 
 const useBusEvents = (bus) => {
@@ -93,7 +95,8 @@ const useBusEvents = (bus) => {
           return;
         }
         if (payload.link) {
-          navOutside(payload.link);
+          const samePage = payload.data && payload.data.samePage;
+          navigateByLink(payload.link, samePage);
           return;
         }
       } else {

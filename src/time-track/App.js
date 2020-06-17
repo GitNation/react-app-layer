@@ -45,15 +45,21 @@ const App = ({ bus }) => {
         trackWidth={trackWidth}
         calcPosition={calcPosition}
       >
-        {mSchedule.map((sch) => (
+        {mSchedule.map((sch, i) => (
           <Track
+            key={`${sch.title}-${i}`}
             track={sch}
             calcPosition={calcPosition}
             onClick={handleClick}
           />
         ))}
-        {customTracks.map((tr) => (
-          <Track track={tr} calcPosition={calcPosition} onClick={handleClick} />
+        {customTracks.map((tr, i) => (
+          <Track
+            key={`${tr.title}-${i}`}
+            track={tr}
+            calcPosition={calcPosition}
+            onClick={handleClick}
+          />
         ))}
       </TracksContent>
     </Container>

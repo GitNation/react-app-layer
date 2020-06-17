@@ -130,10 +130,19 @@ const QARoom = ({ talk, onClick }) => {
 };
 
 const SpeakerRoom = ({ talk, onClick }) => {
-  const { pic, speaker, title } = talk;
+  const { pic, speaker, title, speakerRoomLink } = talk;
+
+  const handleClick = () => {
+    let samePage = false;
+    if (speakerRoomLink[0] === '#') {
+      samePage = true;
+    }
+    onClick({ date: '', track: '', samePage });
+  };
+
   return (
     <a
-      onClick={onClick}
+      onClick={handleClick}
       className="time-track__link room js-time"
       style={{ '--bgColor': talk.bgColor, width: '100%' }}
     >
