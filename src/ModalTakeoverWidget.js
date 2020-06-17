@@ -59,8 +59,6 @@ function App() {
     'modal-takeover-widget-hide',
   );
 
-  console.log('hideModaltakeoverWidget', hideModaltakeoverWidget);
-
   if (hideModaltakeoverWidget === 'true') {
     return null;
   }
