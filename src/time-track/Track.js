@@ -7,7 +7,7 @@ const slackIcon = (
   <svg
     className="icon icon-sl"
     dangerouslySetInnerHTML={{
-      __html: '<use xlink:href="img/sprite.svg#icon-sl"></use>',
+      __html: '<use xlink:href="img/sprite.svg#icon-discord"></use>',
     }}
   ></svg>
 );
