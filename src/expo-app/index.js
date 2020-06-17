@@ -6,6 +6,13 @@ import PartnerPage from './PartnerPage';
 import PartnersList from './PartnersList';
 import { db } from '../firebase';
 import { useObjectVal } from 'react-firebase-hooks/database';
+import { createBrowserHistory } from 'history';
+
+const history = createBrowserHistory();
+
+history.listen(() => {
+  window._gauges && window._gauges.push(['track']);
+});
 
 const AppContainer = styled.div`
   margin-bottom: 20px;
@@ -20,7 +27,7 @@ function App() {
 
   return (
     <AppContainer>
-      <Router basename="expo" hashType="noslash">
+      <Router basename="expo" hashType="noslash" history={history}>
         <Switch>
           <Route path="/booth/:partner">
             <PartnerPage partners={partners} loading={loading} />
