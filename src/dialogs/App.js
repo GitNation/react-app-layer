@@ -68,9 +68,7 @@ const useBusEvents = (bus) => {
   const close = () => setOpen(false);
 
   const getDetails = (content) => {
-    console.log('getDetails -> content', content);
     const status = content ? getEventStatus(content) : null;
-    console.log('getDetails -> status', status);
     const isNow = status && status.status === 'now';
     const eventIsAuth = content && content.isAuth;
     const isAuth = eventIsAuth !== null ? eventIsAuth : bus.content.isAuth;
@@ -151,7 +149,7 @@ const App = ({ bus }) => {
     return (
       <DialogOverlay isOpen={isOpen} onDismiss={close}>
         <GlobalStyle isOpen={isOpen} />
-        <DialogContent aria-label="this activity is not available">
+        <DialogContent aria-label="video message from organizers">
           {isOpen ? <WatchMessage /> : null}
         </DialogContent>
       </DialogOverlay>

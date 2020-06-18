@@ -130,15 +130,19 @@ const QARoom = ({ talk, onClick }) => {
 };
 
 const SpeakerRoom = ({ talk, onClick }) => {
-  const { pic, speaker, title, speakerRoomLink } = talk;
+  const { pic, speaker, title, speakerRoomLink, type } = talk;
 
   const handleClick = () => {
     let samePage = false;
     if (speakerRoomLink[0] === '#') {
       samePage = true;
     }
-    // TODO: passing empty data and track will make speakers room available during the whole event
-    onClick({ date: '', track: '', samePage });
+    let override = {};
+    if (type === 'expo-room') {
+      // TODO: passing empty data and track will make speakers room available during the whole event
+      override = { date: '', track: '', time: '', duration: '' };
+    }
+    onClick({ ...override, samePage });
   };
 
   return (
