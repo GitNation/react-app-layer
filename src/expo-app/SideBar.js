@@ -213,6 +213,7 @@ export default function SideBar({ partner }) {
     chatDisabled,
     aboutLink,
     descriptionExtended,
+    perks,
   } = partner;
   const { path, url } = useRouteMatch();
   const [config, loading, error] = useObjectVal(db.ref('config'));
@@ -248,6 +249,13 @@ export default function SideBar({ partner }) {
               About
             </NavLink>
           </li>
+          {perks && (
+            <li>
+              <NavLink to={`${url}/perks`} activeClassName="selected">
+                Perks & Resources
+              </NavLink>
+            </li>
+          )}
         </Tabs>
       )}
       <Switch>
@@ -322,16 +330,18 @@ export default function SideBar({ partner }) {
               ) : (
                 <p>{description}</p>
               )}
-              {aboutLink && aboutLink.link && aboutLink.text && (
-                <p>
-                  <a href={aboutLink.link} target="_blank">
-                    Check more details at {aboutLink.text}
-                  </a>
-                </p>
-              )}
             </Description>
           </PartnerInfo>
         </Route>
+        {perks && (
+          <Route path={`${path}/perks`}>
+            <PartnerInfo>
+              <Description extended>
+                <div dangerouslySetInnerHTML={{ __html: perks }} />
+              </Description>
+            </PartnerInfo>
+          </Route>
+        )}
       </Switch>
     </Container>
   );
