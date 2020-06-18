@@ -43,7 +43,7 @@ const App = ({ bus }) => {
       },
       isAuth: authorizedContext,
       name: 'any-room',
-      link: eventContent.qaLink || eventContent.speakerRoomLink || discordLink,
+      link: eventContent.qaLink || eventContent.speakerRoomLink|| eventContent.discussionRoomLink || discordLink,
     };
     bus.clickEvent(payload);
   };
