@@ -138,7 +138,7 @@ const SpeakerRoom = ({ talk, onClick }) => {
       samePage = true;
     }
     // TODO: passing empty data and track will make speakers room available during the whole event
-    onClick({/*  date: '', track: '', */ samePage });
+    onClick({ date: '', track: '', samePage });
   };
 
   return (
