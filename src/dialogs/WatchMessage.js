@@ -29,8 +29,10 @@ const TicketMessage = () => {
           <p className="pop-ticket__desc">
             You should have received an email with personal access code, please
             enter it below to get to the live stream page. If you can't find the
-            email (including the spam folder), please send us your ticket order
-            number to <a href="mailto:hi@jsnation.com">hi@jsnation.com</a>.
+            email (including the spam folder), please check your code{' '}
+            <a href="https://forms.gle/SC4kGz57RnMBHEX2A">here</a>, if still
+            having trouble please <a href="mailto:hi@jsnation.com">send us</a>{' '}
+            your ticket order number to get help.
           </p>
           <form
             action="/watch-full-access"
