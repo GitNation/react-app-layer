@@ -22,6 +22,7 @@ const eventNames = [
   'speaker-card',
   'watch-livestream',
   'talk-calendar',
+  'quake',
 ];
 
 const GlobalStyle = createGlobalStyle`
@@ -58,6 +59,14 @@ const navToRandom = (content) => {
   const len = links.length;
   const ind = Math.floor(Math.random() * len);
   navigateByLink(links[ind]);
+};
+
+const navToQuake = (link) => {
+  const randInd = 1000 + Math.round(Math.random() * 999);
+  const defaultNick = `JSN Attender ${randInd}`;
+  const nickName = prompt('Enter you nickname', defaultNick);
+  const personalLink = `${link}&name ${nickName}`;
+  navigateByLink(personalLink);
 };
 
 const useBusEvents = (bus) => {
@@ -108,6 +117,10 @@ const useBusEvents = (bus) => {
       if ((!status || status === 'now') && isAuth) {
         if (payload.name === 'random-room') {
           navToRandom(payload.data);
+          return;
+        }
+        if (payload.name === 'quake') {
+          navToQuake(payload.link);
           return;
         }
         if (payload.link) {
