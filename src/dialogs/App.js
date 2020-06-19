@@ -9,6 +9,7 @@ import NewTab from './NewTab';
 import TicketMessage from './TicketMessage';
 import WatchMessage from './WatchMessage';
 import SpeakerCard from './SpeakerCard';
+import { createCalendarLink } from '../calendar-provider';
 
 const eventNames = [
   'video-room',
@@ -20,6 +21,7 @@ const eventNames = [
   'random-room',
   'speaker-card',
   'watch-livestream',
+  'talk-calendar',
 ];
 
 const GlobalStyle = createGlobalStyle`
@@ -68,7 +70,7 @@ const useBusEvents = (bus) => {
   const getDetails = (content) => {
     console.log('getDetails -> content', content);
     const status = content ? getEventStatus(content) : null;
-    console.log("getDetails -> status", status)
+    console.log('getDetails -> status', status);
     const isNow = status && status.status === 'now';
     const eventIsAuth = content && content.isAuth;
     const isAuth = eventIsAuth !== null ? eventIsAuth : bus.content.isAuth;
@@ -89,6 +91,18 @@ const useBusEvents = (bus) => {
 
       if (payload.name === 'speaker-card') {
         setOpen(true);
+        return;
+      }
+
+      if (payload.name === 'talk-calendar') {
+        const speaker = {
+          name: payload.data.speaker,
+          activities: {
+            talks: [payload.data],
+          },
+        };
+        const link = createCalendarLink(speaker);
+        navigateByLink(link);
         return;
       }
 
