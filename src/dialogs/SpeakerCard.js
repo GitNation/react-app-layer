@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { createCalendarLink } from '../calendar-provider';
+
 const socialTitle = {
   tw: 'Twitter',
   gh: 'Github',
@@ -8,10 +10,6 @@ const socialTitle = {
   site: 'Site',
   default: 'Link',
 };
-
-const ADD_EVENT_ID = 'aypbtNBcPzBIdDvukmvT46093';
-const TIMEZONE = 'Europe/Amsterdam';
-const FallbackStart = '2020-06-18 15:00';
 
 const fallbackTechColor = 'white';
 
@@ -28,49 +26,6 @@ const selectQALink = (person) => {
   }
 };
 
-{
-  /* <a href="https://www.addevent.com/dir/?client=CLIENT&start=start&end=end&title=title&timezone=timezone">Add to Calendar</a> */
-  /* https://www.addevent.com/dir/?client=aypbtNBcPzBIdDvukmvT46093&start=07%2F01%2F2020+09%3A00+AM&end=07%2F01%2F2020+11%3A00+AM&title=Title+of+the+event&description=Description+of+the+event&location=1600+Amphitheatre+Pkwy%2C+Mountain+View%2C+CA+94043&timezone=America%2FLos_Angeles */
-}
-
-const createDateTime = (isoDate, time) => {
-  try {
-    const d = new Date(isoDate);
-    const yyyy = d.getFullYear();
-    const mm = d.getMonth() + 1;
-    const dd = d.getDate();
-    return `${yyyy}-${mm}-${dd} ${time}`;
-  } catch (err) {
-    return FallbackStart;
-  }
-};
-
-const createEventTitle = (speaker, talk) => {
-  try {
-    return `${speaker.name} - ${talk.title} at JSNation Live`;
-  } catch (err) {
-    return 'JSNation Live Conference';
-  }
-};
-
-/*
-
-
-https://www.addevent.com/dir/?client=aypbtNBcPzBIdDvukmvT46093&start=2020-06-18%2015:00&duration=20&title=JSNation%20Live%20Conference&timezone=europe/amsterdam%22
-
-*/
-
-const createCalendarLink = (speaker) => {
-  const talk = speaker.activities.talks[0];
-  try {
-    const start = createDateTime(talk.isoDate, talk.time);
-    const title = createEventTitle(speaker, talk);
-
-    return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${start}&duration=${talk.duration}&title=${title}&timezone=${TIMEZONE}&alarm=15`;
-  } catch (err) {
-    return null;
-  }
-};
 
 function SpeakerCard({ type, content, status }) {
   const person = content.data;
@@ -142,7 +97,9 @@ function SpeakerCard({ type, content, status }) {
               >
                 <span>{talk.label}</span>
                 <span>{talk.track.name}</span>
-                <span title="time is shown for the conference timezone">{talk.timeString}</span>
+                <span title="time is shown for the conference timezone">
+                  {talk.timeString}
+                </span>
               </ActivityInfo>
               <h4 className="pop-speaker__activity-title">{talk.title}</h4>
               <div
