@@ -17,7 +17,7 @@ const TicketMessage = () => {
             link.
           </p>
           <a
-            href="https://ti.to/gitnation/jsnation-live"
+            href="https://ti.to/gitnation/react-summit"
             className="pop-ticket__btn btn btn--border"
             target="blank_"
           >

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const TicketMessage = () => {
   return (
@@ -18,7 +18,7 @@ const TicketMessage = () => {
             enjoy many other perks.
           </p>
           <a
-            href="https://ti.to/gitnation/jsnation-live"
+            href="https://ti.to/gitnation/react-summit"
             className="pop-ticket__btn btn btn--border"
             target="blank_"
           >
