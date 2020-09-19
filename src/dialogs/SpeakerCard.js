@@ -1,7 +1,20 @@
 import React from 'react';
-import styled from 'styled-components';
 
 import { createCalendarLink } from '../calendar-provider';
+import {
+  PopSpeaker,
+  PopSpeakerTop,
+  PopSpeakerAvatarWrap,
+  PopSpeakerAvatar,
+  PopSpeakerDesc,
+  PopSpeakerName,
+  PopSpeakerCompany,
+  PopSpeakerBio,
+  PopSpeakerSocials,
+  PopSpeakerBtn,
+  PopSpeakerMid,
+  PopSpeakerActivityInfo
+} from './styled';
 
 const socialTitle = {
   tw: 'Twitter',
@@ -12,11 +25,6 @@ const socialTitle = {
 };
 
 const fallbackTechColor = 'white';
-
-const ActivityInfo = styled.div`
-  color: ${({ color }) => color};
-  border-left: 3px solid ${({ color }) => color};
-`;
 
 const selectQALink = (person) => {
   try {
@@ -35,101 +43,75 @@ function SpeakerCard({ type, content, status }) {
     person.tagBG && person.tagBG !== 'black' ? person.tagBG : fallbackTechColor;
 
   return (
-    <div
-      className="pop-speaker"
-      id={`popup-${person.slug}`}
-      style={{ display: 'block' }}
-    >
-      <div className="pop-speaker__top">
-        <div className="pop-speaker__avatar-wrap">
-          <img
-            className="pop-speaker__avatar"
+    <PopSpeaker id={`popup-${person.slug}`}>
+      <PopSpeakerTop>
+        <PopSpeakerAvatarWrap>
+          <PopSpeakerAvatar
             src={person.avatar}
             alt={person.name}
           />
-        </div>
-        <div className="pop-speaker__desc">
-          <h4 className="pop-speaker__name">{person.name}</h4>
-          <p className="pop-speaker__company">{person.company}</p>
-          <div
-            className="pop-speaker__bio"
+        </PopSpeakerAvatarWrap>
+        <PopSpeakerDesc>
+          <PopSpeakerName addMobileMargin>
+            {person.name}
+          </PopSpeakerName>
+          <PopSpeakerCompany>
+            {person.company}
+          </PopSpeakerCompany>
+          <PopSpeakerBio
             dangerouslySetInnerHTML={{
               __html: person.bio,
             }}
           />
-        </div>
+        </PopSpeakerDesc>
 
-        <div className="pop-speaker__socials">
+        <PopSpeakerSocials>
           {qaLink ? (
-            <a
-              className="btn btn--border-transparent"
+            <PopSpeakerBtn
               href={qaLink}
               target="_blanc"
               rel="noopener noreferrer"
             >
               JOIN SPEAKER'S VIDEO ROOM
-            </a>
+            </PopSpeakerBtn>
           ) : null}
           {person.socials &&
             person.socials.map((soc) => (
-              <a
+              <PopSpeakerBtn
                 key={soc.link}
-                className="btn btn--border-transparent"
                 href={soc.link}
                 target="_blanc"
                 rel="noopener noreferrer"
               >
                 {/* {mixins.icon(social.icon)}  */}
                 {socialTitle[soc.icon] || socialTitle.default}
-              </a>
+              </PopSpeakerBtn>
             ))}
-        </div>
-      </div>
+        </PopSpeakerSocials>
+      </PopSpeakerTop>
 
       {person.activities && person.activities.talks ? (
-        <div className="pop-speaker__mid">
+        <PopSpeakerMid>
           {person.activities.talks.map((talk) => (
             <React.Fragment key={talk.title}>
-              <ActivityInfo
-                className="pop-speaker__activity-info"
-                color={techColor}
-              >
-                <span>{talk.label}</span>
-                <span>{talk.track.name}</span>
-                <span title="time is shown for the conference timezone">
-                  {talk.timeString}
-                </span>
-              </ActivityInfo>
-              <h4 className="pop-speaker__activity-title">{talk.title}</h4>
-              <div
-                className="pop-speaker__activity-desc"
+              <PopSpeakerActivityInfo color={techColor}>
+                { talk.label && <span>{talk.label}</span> }
+                { talk.track.name && <span>{talk.track.name}</span> }
+                { talk.timeString && (<span title="time is shown for the conference timezone">{talk.timeString}</span>) }
+              </PopSpeakerActivityInfo>
+              <PopSpeakerName>
+                {talk.title}
+              </PopSpeakerName>
+              <PopSpeakerBio
                 dangerouslySetInnerHTML={{
                   __html: talk.description,
                 }}
               />
-
-              {/*{calendarLink ? (*/}
-              {/*  <a*/}
-              {/*    title="Add Talk to Calendar"*/}
-              {/*    className="pop-speaker__btn btn btn--border-transparent"*/}
-              {/*    href={calendarLink}*/}
-              {/*    target="_blanc"*/}
-              {/*    rel="noopener noreferrer"*/}
-              {/*  >*/}
-              {/*    Add Talk to Calendar*/}
-              {/*    /!* <!-- <span className="start">06/29/2020 08:00 AM</span>*/}
-              {/*        <span className="end">06/29/2020 10:00 AM</span>*/}
-              {/*        <span className="timezone">America/Los_Angeles</span>*/}
-              {/*        <span className="title">Summary of the event</span>*/}
-              {/*        <span className="description">Description of the event</span>*/}
-              {/*        <span className="location">Location of the event</span> --> *!/*/}
-              {/*  </a>*/}
-              {/*) : null}*/}
             </React.Fragment>
           ))}
-        </div>
+        </PopSpeakerMid>
       ) : null}
-    </div>
+    </PopSpeaker>
   );
 }
 
