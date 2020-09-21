@@ -240,6 +240,10 @@ export const PopTicketDesc = styled.p`
   line-height: 1.5;
   text-align: center;
   margin-bottom: 28px;
+  
+  a {
+    color: var(--color-brand);
+  }
 `;
 
 export const PopTicketButtonWithBorder = styled(PopButton)`
@@ -335,7 +339,7 @@ export const PopTicketInput = styled.input`
   }
 `;
 
-export const PopTicketButton = styled.button`
+export const PopTicketSubmitButton = styled.button`
     display: flex;
     align-items: center;
     position: absolute;
@@ -360,7 +364,7 @@ export const PopTicketArrowSvg = styled.svg`
     fill: var(--color-brand, #fff);
     font-size: 20px;
     
-    ${PopTicketButton}:hover & {
+    ${PopTicketSubmitButton}:hover & {
       transform: translateX(5px);
     }
 `;

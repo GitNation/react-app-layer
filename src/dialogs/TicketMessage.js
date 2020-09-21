@@ -11,7 +11,7 @@ import {
   PopTicketForm,
   PopTicketField,
   PopTicketInput,
-  PopTicketButton,
+  PopTicketSubmitButton,
   PopTicketArrowSvg
 } from './styled';
 
@@ -52,12 +52,12 @@ const TicketMessage = () => {
                 name="code"
                 placeholder="Your code"
               />
-              <PopTicketButton type="submit">
+              <PopTicketSubmitButton type="submit">
                 <span>Unlock</span>
                 <PopTicketArrowSvg>
                   <use xlinkHref="img/sprite.svg#icon-arrow-right" />
                 </PopTicketArrowSvg>
-              </PopTicketButton>
+              </PopTicketSubmitButton>
             </PopTicketField>
           </PopTicketForm>
         </PopTicketColRight>
