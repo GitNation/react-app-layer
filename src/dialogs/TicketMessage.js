@@ -15,8 +15,7 @@ import {
   PopTicketArrowSvg
 } from './styled';
 
-const TicketMessage = (props) => {
-  console.log('####: ', props);
+const TicketMessage = () => {
   return (
     <PopTicket id="popup-ticket">
       <PopTicketTwoCol>
