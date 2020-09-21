@@ -8,6 +8,7 @@ import {
   PopSpeakerAvatar,
   PopSpeakerDesc,
   PopSpeakerName,
+  PopSpeakerTitle,
   PopSpeakerCompany,
   PopSpeakerBio,
   PopSpeakerSocials,
@@ -52,7 +53,7 @@ function SpeakerCard({ type, content, status }) {
           />
         </PopSpeakerAvatarWrap>
         <PopSpeakerDesc>
-          <PopSpeakerName addMobileMargin>
+          <PopSpeakerName>
             {person.name}
           </PopSpeakerName>
           <PopSpeakerCompany>
@@ -95,13 +96,13 @@ function SpeakerCard({ type, content, status }) {
           {person.activities.talks.map((talk) => (
             <React.Fragment key={talk.title}>
               <PopSpeakerActivityInfo color={techColor}>
-                { talk.label && <span>{talk.label}</span> }
-                { talk.track.name && <span>{talk.track.name}</span> }
-                { talk.timeString && (<span title="time is shown for the conference timezone">{talk.timeString}</span>) }
+                <span>{talk.label}</span>
+                <span>{talk.track.name}</span>
+                <span title="time is shown for the conference timezone">{talk.timeString}</span>
               </PopSpeakerActivityInfo>
-              <PopSpeakerName>
+              <PopSpeakerTitle>
                 {talk.title}
-              </PopSpeakerName>
+              </PopSpeakerTitle>
               <PopSpeakerBio
                 dangerouslySetInnerHTML={{
                   __html: talk.description,
