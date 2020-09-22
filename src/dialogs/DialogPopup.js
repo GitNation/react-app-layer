@@ -3,18 +3,9 @@ import { getMessage, getTitle } from './model';
 
 import {
   PopTicket,
-  PopTicketTwoCol,
-  PopTicketColLeft,
   PopTicketTitle,
   PopTicketDesc,
-  PopTicketButtonWithBorder,
-  PopTicketColRight,
-  PopTicketForm,
-  PopTicketField,
-  PopTicketInput,
-  PopTicketSubmitButton,
-  PopTicketArrowSvg
-} from './styled';
+} from './TicketMessage.styled';
 
 const InfoMessage = ({ title, message }) => {
   return (

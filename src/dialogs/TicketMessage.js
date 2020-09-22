@@ -13,7 +13,7 @@ import {
   PopTicketInput,
   PopTicketSubmitButton,
   PopTicketArrowSvg
-} from './styled';
+} from './TicketMessage.styled';
 
 const TicketMessage = () => {
   return (

@@ -15,7 +15,7 @@ import {
   PopSpeakerBtn,
   PopSpeakerMid,
   PopSpeakerActivityInfo
-} from './styled';
+} from './SpeakerCard.styled';
 
 const socialTitle = {
   tw: 'Twitter',
