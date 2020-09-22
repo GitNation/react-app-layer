@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { createCalendarLink } from '../calendar-provider';
-
 const socialTitle = {
   tw: 'Twitter',
   gh: 'Github',
@@ -29,7 +27,6 @@ const selectQALink = (person) => {
 function SpeakerCard({ type, content, status }) {
   const person = content.data;
   const qaLink = selectQALink(person);
-  const calendarLink = createCalendarLink(person);
 
   const techColor =
     person.tagBG && person.tagBG !== 'black' ? person.tagBG : fallbackTechColor;
@@ -107,24 +104,6 @@ function SpeakerCard({ type, content, status }) {
                   __html: talk.description,
                 }}
               />
-
-              {/*{calendarLink ? (*/}
-              {/*  <a*/}
-              {/*    title="Add Talk to Calendar"*/}
-              {/*    className="pop-speaker__btn btn btn--border-transparent"*/}
-              {/*    href={calendarLink}*/}
-              {/*    target="_blanc"*/}
-              {/*    rel="noopener noreferrer"*/}
-              {/*  >*/}
-              {/*    Add Talk to Calendar*/}
-              {/*    /!* <!-- <span className="start">06/29/2020 08:00 AM</span>*/}
-              {/*        <span className="end">06/29/2020 10:00 AM</span>*/}
-              {/*        <span className="timezone">America/Los_Angeles</span>*/}
-              {/*        <span className="title">Summary of the event</span>*/}
-              {/*        <span className="description">Description of the event</span>*/}
-              {/*        <span className="location">Location of the event</span> --> *!/*/}
-              {/*  </a>*/}
-              {/*) : null}*/}
             </React.Fragment>
           ))}
         </div>
