@@ -36,9 +36,6 @@ const selectQALink = (person) => {
 };
 
 function SpeakerCard({ type, content, status }) {
-
-  console.log('####: content', content);
-
   const person = content.data;
   const qaLink = selectQALink(person);
   const calendarLink = createCalendarLink(person);
