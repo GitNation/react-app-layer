@@ -172,7 +172,7 @@ export const PopTicketSubmitButton = styled.button`
     padding: 0 20px;
     align-items: center;
     background-color: transparent;
-    ont-size: 14px;
+    font-size: 14px;
     font-weight: 700;
     text-transform: uppercase;
     color: var(--color-brand, #fff);
