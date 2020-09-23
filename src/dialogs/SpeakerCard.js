@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 
 import { createCalendarLink } from '../calendar-provider';
 import {
@@ -36,6 +36,12 @@ const selectQALink = (person) => {
 };
 
 function SpeakerCard({ type, content, status }) {
+  const [minHeightTalkDesc, setMinHeightTalkDesc] = useState(0);
+  const socialBtnRef = useCallback(node => {
+    if (node !== null) {
+      setMinHeightTalkDesc(node.getBoundingClientRect().height);
+    }
+  }, []);
   const person = content.data;
   const qaLink = selectQALink(person);
   const calendarLink = createCalendarLink(person);
@@ -76,23 +82,27 @@ function SpeakerCard({ type, content, status }) {
               JOIN SPEAKER'S VIDEO ROOM
             </PopSpeakerBtn>
           ) : null}
-          {person.socials &&
-            person.socials.map((soc) => (
-              <PopSpeakerBtn
-                key={soc.link}
-                href={soc.link}
-                target="_blanc"
-                rel="noopener noreferrer"
-              >
-                {/* {mixins.icon(social.icon)}  */}
-                {socialTitle[soc.icon] || socialTitle.default}
-              </PopSpeakerBtn>
-            ))}
+          {person.socials && (
+            <div ref={socialBtnRef}>
+              {
+                person.socials.map((soc) => (
+                  <PopSpeakerBtn
+                    key={soc.link}
+                    href={soc.link}
+                    target="_blanc"
+                    rel="noopener noreferrer"
+                  >
+                    {socialTitle[soc.icon] || socialTitle.default}
+                  </PopSpeakerBtn>
+                ))
+              }
+            </div>
+          )}
         </PopSpeakerSocials>
       </PopSpeakerTop>
 
       {person.activities && person.activities.talks ? (
-        <PopSpeakerMid>
+        <PopSpeakerMid minHeight={minHeightTalkDesc}>
           {person.activities.talks.map((talk) => (
             <React.Fragment key={talk.title}>
               <PopSpeakerActivityInfo color={techColor}>

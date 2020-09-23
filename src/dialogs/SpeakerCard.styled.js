@@ -145,6 +145,7 @@ export const PopSpeakerBtn = styled(PopButton)`
 `;
 
 export const PopSpeakerMid = styled.div`
+    min-height: calc(var(--sideSpacing) + ${({minHeight}) => minHeight}px + var(--sideSpacing));
     padding: var(--sideSpacing) calc(254px + var(--sideSpacing)) var(--sideSpacing) var(--sideSpacing);
     
     @media only screen and (max-width: 599px) {
