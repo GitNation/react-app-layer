@@ -192,7 +192,7 @@ const App = ({ bus }) => {
       <DialogOverlay isOpen={isOpen} onDismiss={close}>
         <GlobalStyle isOpen={isOpen} />
         <DialogContent aria-label="this activity is not available">
-          {isOpen ? <TicketMessage link={content.link} /> : null}
+          {isOpen ? <TicketMessage /> : null}
         </DialogContent>
       </DialogOverlay>
     );
