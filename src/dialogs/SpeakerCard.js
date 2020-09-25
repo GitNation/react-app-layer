@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-
 import { createCalendarLink } from '../calendar-provider';
 import {
   PopSpeaker,
@@ -44,7 +43,6 @@ function SpeakerCard({ type, content, status }) {
   }, []);
   const person = content.data;
   const qaLink = selectQALink(person);
-  const calendarLink = createCalendarLink(person);
 
   const techColor =
     person.tagBG && person.tagBG !== 'black' ? person.tagBG : fallbackTechColor;
