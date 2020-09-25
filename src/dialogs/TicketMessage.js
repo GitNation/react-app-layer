@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TicketMessage = () => {
+const TicketMessage = ({ link }) => {
   return (
     <div
       className="pop-ticket fancybox-content"
@@ -18,7 +18,7 @@ const TicketMessage = () => {
             enjoy many other perks.
           </p>
           <a
-            href="https://ti.to/gitnation/react-summit"
+            href={link}
             className="pop-ticket__btn btn btn--border"
             target="blank_"
           >
