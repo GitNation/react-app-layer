@@ -27,8 +27,8 @@ const TicketMessage = ({ link }) => {
             ticket and get to join Q&amp;As with pro speakers, advice lounge
             with our experts, networking rooms, afterparty, and you’ll also
             enjoy many other perks.
-          </p>
-          <a
+          </PopTicketDesc>
+          <PopTicketButtonWithBorder
             href={link}
             className="pop-ticket__btn btn btn--border"
             target="blank_"
