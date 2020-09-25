@@ -15,7 +15,7 @@ import {
   PopTicketArrowSvg
 } from './TicketMessage.styled';
 
-const TicketMessage = ({ link }) => {
+const TicketMessage = () => {
   return (
     <PopTicket id="popup-ticket">
       <PopTicketTwoCol>
@@ -27,9 +27,9 @@ const TicketMessage = ({ link }) => {
             ticket and get to join Q&amp;As with pro speakers, advice lounge
             with our experts, networking rooms, afterparty, and you’ll also
             enjoy many other perks.
-          </p>
-          <a
-            href={link}
+          </PopTicketDesc>
+          <PopTicketButtonWithBorder>
+            href="https://ti.to/gitnation/react-summit"
             className="pop-ticket__btn btn btn--border"
             target="blank_"
           >
