@@ -1,16 +1,20 @@
 import React from 'react';
 import { getMessage, getTitle } from './model';
 
+import {
+  PopTicket,
+  PopTicketTitle,
+  PopTicketDesc,
+} from './TicketMessage.styled';
+
 const InfoMessage = ({ title, message }) => {
   return (
-    <div
-      className="pop-ticket fancybox-content"
-      id="popup-ticket"
-      style={{ display: 'inline-block', padding: 30 }}
+    <PopTicket id="popup-ticket"
+      style={{ padding: 30 }}
     >
-      <p className="pop-ticket__title">{title}</p>
-      <p className="pop-ticket__desc">{message}</p>
-    </div>
+      <PopTicketTitle>{title}</PopTicketTitle>
+      <PopTicketDesc>{message}</PopTicketDesc>
+    </PopTicket>
   );
 };
 

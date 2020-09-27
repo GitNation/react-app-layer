@@ -1,5 +1,20 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState, useCallback } from 'react';
+import { createCalendarLink } from '../calendar-provider';
+import {
+  PopSpeaker,
+  PopSpeakerTop,
+  PopSpeakerAvatarWrap,
+  PopSpeakerAvatar,
+  PopSpeakerDesc,
+  PopSpeakerName,
+  PopSpeakerTitle,
+  PopSpeakerCompany,
+  PopSpeakerBio,
+  PopSpeakerSocials,
+  PopSpeakerBtn,
+  PopSpeakerMid,
+  PopSpeakerActivityInfo
+} from './SpeakerCard.styled';
 
 const socialTitle = {
   tw: 'Twitter',
@@ -11,11 +26,6 @@ const socialTitle = {
 
 const fallbackTechColor = 'white';
 
-const ActivityInfo = styled.div`
-  color: ${({ color }) => color};
-  border-left: 3px solid ${({ color }) => color};
-`;
-
 const selectQALink = (person) => {
   try {
     return person.activities.talks[0].extension.qaLink;
@@ -25,6 +35,12 @@ const selectQALink = (person) => {
 };
 
 function SpeakerCard({ type, content, status }) {
+  const [minHeightTalkDesc, setMinHeightTalkDesc] = useState(0);
+  const socialBtnRef = useCallback(node => {
+    if (node !== null) {
+      setMinHeightTalkDesc(node.getBoundingClientRect().height);
+    }
+  }, []);
   const person = content.data;
   const qaLink = selectQALink(person);
 
@@ -32,83 +48,79 @@ function SpeakerCard({ type, content, status }) {
     person.tagBG && person.tagBG !== 'black' ? person.tagBG : fallbackTechColor;
 
   return (
-    <div
-      className="pop-speaker"
-      id={`popup-${person.slug}`}
-      style={{ display: 'block' }}
-    >
-      <div className="pop-speaker__top">
-        <div className="pop-speaker__avatar-wrap">
-          <img
-            className="pop-speaker__avatar"
+    <PopSpeaker id={`popup-${person.slug}`}>
+      <PopSpeakerTop>
+        <PopSpeakerAvatarWrap>
+          <PopSpeakerAvatar
             src={person.avatar}
             alt={person.name}
           />
-        </div>
-        <div className="pop-speaker__desc">
-          <h4 className="pop-speaker__name">{person.name}</h4>
-          <p className="pop-speaker__company">{person.company}</p>
-          <div
-            className="pop-speaker__bio"
+        </PopSpeakerAvatarWrap>
+        <PopSpeakerDesc>
+          <PopSpeakerName>
+            {person.name}
+          </PopSpeakerName>
+          <PopSpeakerCompany>
+            {person.company}
+          </PopSpeakerCompany>
+          <PopSpeakerBio
             dangerouslySetInnerHTML={{
               __html: person.bio,
             }}
           />
-        </div>
+        </PopSpeakerDesc>
 
-        <div className="pop-speaker__socials">
+        <PopSpeakerSocials>
           {qaLink ? (
-            <a
-              className="btn btn--border-transparent"
+            <PopSpeakerBtn
               href={qaLink}
               target="_blanc"
               rel="noopener noreferrer"
             >
               JOIN SPEAKER'S VIDEO ROOM
-            </a>
+            </PopSpeakerBtn>
           ) : null}
-          {person.socials &&
-            person.socials.map((soc) => (
-              <a
-                key={soc.link}
-                className="btn btn--border-transparent"
-                href={soc.link}
-                target="_blanc"
-                rel="noopener noreferrer"
-              >
-                {/* {mixins.icon(social.icon)}  */}
-                {socialTitle[soc.icon] || socialTitle.default}
-              </a>
-            ))}
-        </div>
-      </div>
+          {person.socials && (
+            <div ref={socialBtnRef}>
+              {
+                person.socials.map((soc) => (
+                  <PopSpeakerBtn
+                    key={soc.link}
+                    href={soc.link}
+                    target="_blanc"
+                    rel="noopener noreferrer"
+                  >
+                    {socialTitle[soc.icon] || socialTitle.default}
+                  </PopSpeakerBtn>
+                ))
+              }
+            </div>
+          )}
+        </PopSpeakerSocials>
+      </PopSpeakerTop>
 
       {person.activities && person.activities.talks ? (
-        <div className="pop-speaker__mid">
+        <PopSpeakerMid minHeight={minHeightTalkDesc}>
           {person.activities.talks.map((talk) => (
             <React.Fragment key={talk.title}>
-              <ActivityInfo
-                className="pop-speaker__activity-info"
-                color={techColor}
-              >
+              <PopSpeakerActivityInfo color={techColor}>
                 <span>{talk.label}</span>
                 <span>{talk.track.name}</span>
-                <span title="time is shown for the conference timezone">
-                  {talk.timeString}
-                </span>
-              </ActivityInfo>
-              <h4 className="pop-speaker__activity-title">{talk.title}</h4>
-              <div
-                className="pop-speaker__activity-desc"
+                <span title="time is shown for the conference timezone">{talk.timeString}</span>
+              </PopSpeakerActivityInfo>
+              <PopSpeakerTitle>
+                {talk.title}
+              </PopSpeakerTitle>
+              <PopSpeakerBio
                 dangerouslySetInnerHTML={{
                   __html: talk.description,
                 }}
               />
             </React.Fragment>
           ))}
-        </div>
+        </PopSpeakerMid>
       ) : null}
-    </div>
+    </PopSpeaker>
   );
 }
 
