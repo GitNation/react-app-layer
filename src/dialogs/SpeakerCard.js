@@ -34,7 +34,7 @@ const selectQALink = (person) => {
   }
 };
 
-function SpeakerCard({ type, content, status }) {
+function SpeakerCard({ type, content, status, hideLabel }) {
   const [minHeightTalkDesc, setMinHeightTalkDesc] = useState(0);
   const socialBtnRef = useCallback((node) => {
     if (node !== null) {
@@ -95,8 +95,7 @@ function SpeakerCard({ type, content, status }) {
           {person.activities.talks.map((talk) => (
             <React.Fragment key={talk.title}>
               <PopSpeakerActivityInfo color={techColor}>
-                {/*TODO: pass disable option*/}
-                <span>{talk.label}</span>
+                <span>{!hideLabel ? talk.label : null}</span>
                 <span>{talk.track.name}</span>
                 <span title="time is shown for the conference timezone">
                   {talk.timeString}

@@ -12,10 +12,10 @@ import {
   PopTicketField,
   PopTicketInput,
   PopTicketSubmitButton,
-  PopTicketArrowSvg
+  PopTicketArrowSvg,
 } from './TicketMessage.styled';
 
-const TicketMessage = () => {
+const WatchMessage = ({ ticketsLink }) => {
   return (
     <PopTicket id="popup-ticket">
       <PopTicketTwoCol>
@@ -27,10 +27,7 @@ const TicketMessage = () => {
             link below and ticket confirmation email will include the watch
             link.
           </PopTicketDesc>
-          <PopTicketButtonWithBorder
-            href="https://ti.to/gitnation/react-summit"
-            target="blank_"
-          >
+          <PopTicketButtonWithBorder href={ticketsLink} target="blank_">
             Register
           </PopTicketButtonWithBorder>
         </PopTicketColLeft>
@@ -51,11 +48,7 @@ const TicketMessage = () => {
             noValidate
           >
             <PopTicketField>
-              <PopTicketInput
-                type="text"
-                name="code"
-                placeholder="Your code"
-              />
+              <PopTicketInput type="text" name="code" placeholder="Your code" />
               <PopTicketSubmitButton type="submit">
                 <span>Unlock</span>
                 <PopTicketArrowSvg>
@@ -70,4 +63,4 @@ const TicketMessage = () => {
   );
 };
 
-export default TicketMessage;
+export default WatchMessage;

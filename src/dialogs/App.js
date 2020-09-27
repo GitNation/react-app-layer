@@ -147,7 +147,7 @@ const useBusEvents = (bus) => {
     return unsubscribe;
   }, []);
 
-  const { status, isAuth, isNow } = getDetails(content);
+  const { status, isAuth, isNow, reactLayerConfig } = getDetails(content);
 
   return {
     isOpen,
@@ -157,18 +157,23 @@ const useBusEvents = (bus) => {
     status,
     isNow,
     isAuth,
+    reactLayerConfig,
   };
 };
 
 const App = ({ bus }) => {
   const { isOpen, close, type, content, status, isAuth } = useBusEvents(bus);
 
+  const { reactLayerConfig = {} } = bus.getContent();
+
+  const { ticketsLink, hideSpeakerPopupLabel } = reactLayerConfig;
+
   if (type === 'watch-livestream') {
     return (
       <DialogOverlay isOpen={isOpen} onDismiss={close}>
         <GlobalStyle isOpen={isOpen} />
         <DialogContent aria-label="video message from organizers">
-          {isOpen ? <WatchMessage /> : null}
+          {isOpen ? <WatchMessage ticketsLink={ticketsLink} /> : null}
         </DialogContent>
       </DialogOverlay>
     );
@@ -184,7 +189,12 @@ const App = ({ bus }) => {
         <GlobalStyle isOpen={isOpen} />
         <DialogContent aria-label="this activity is not available">
           {isOpen ? (
-            <SpeakerCard type={type} content={content} status={status} />
+            <SpeakerCard
+              type={type}
+              content={content}
+              status={status}
+              hideLabel={hideSpeakerPopupLabel}
+            />
           ) : null}
         </DialogContent>
       </DialogOverlay>
@@ -197,7 +207,7 @@ const App = ({ bus }) => {
       <DialogOverlay isOpen={isOpen} onDismiss={close}>
         <GlobalStyle isOpen={isOpen} />
         <DialogContent aria-label="this activity is not available">
-          {isOpen ? <TicketMessage /> : null}
+          {isOpen ? <TicketMessage ticketsLink={ticketsLink} /> : null}
         </DialogContent>
       </DialogOverlay>
     );
