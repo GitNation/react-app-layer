@@ -12,7 +12,7 @@ import {
   PopTicketField,
   PopTicketInput,
   PopTicketSubmitButton,
-  PopTicketArrowSvg
+  PopTicketArrowSvg,
 } from './TicketMessage.styled';
 
 const TicketMessage = () => {
@@ -22,13 +22,13 @@ const TicketMessage = () => {
         <PopTicketColLeft>
           <PopTicketTitle>Dont have a full ticket?</PopTicketTitle>
           <PopTicketDesc>
-            Free ticket holders can watch our conference talks, but all other
-            activities are only available to full-access attendees. Upgrade your
-            ticket and get to join Q&amp;As with pro speakers, advice lounge
-            with our experts, networking rooms, afterparty, and you’ll also
-            enjoy many other perks.
+            Watch-only ticket holders can watch our conference talks, but all
+            other activities are only available to full-access attendees.
+            Upgrade your ticket and get to join Q&amp;As with pro speakers,
+            advice lounge with our experts, networking rooms, afterparty, and
+            you’ll also enjoy many other perks.
           </PopTicketDesc>
-          <PopTicketButtonWithBorder>
+          <PopTicketButtonWithBorder
             href="https://ti.to/gitnation/react-summit"
             className="pop-ticket__btn btn btn--border"
             target="blank_"
@@ -39,7 +39,8 @@ const TicketMessage = () => {
         <PopTicketColRight>
           <PopTicketTitle>Have a full ticket?</PopTicketTitle>
           <PopTicketDesc>
-            Use your access code from the ticket to unlock all features
+            Use your ticket order number during conference days to unlock all
+            features.
           </PopTicketDesc>
           <PopTicketForm
             action="/watch-full-access"
@@ -48,11 +49,7 @@ const TicketMessage = () => {
             noValidate
           >
             <PopTicketField>
-              <PopTicketInput
-                type="text"
-                name="code"
-                placeholder="Your code"
-              />
+              <PopTicketInput type="text" name="code" placeholder="Your code" />
               <PopTicketSubmitButton type="submit">
                 <span>Unlock</span>
                 <PopTicketArrowSvg>
