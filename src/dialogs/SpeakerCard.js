@@ -13,7 +13,7 @@ import {
   PopSpeakerSocials,
   PopSpeakerBtn,
   PopSpeakerMid,
-  PopSpeakerActivityInfo
+  PopSpeakerActivityInfo,
 } from './SpeakerCard.styled';
 
 const socialTitle = {
@@ -36,7 +36,7 @@ const selectQALink = (person) => {
 
 function SpeakerCard({ type, content, status }) {
   const [minHeightTalkDesc, setMinHeightTalkDesc] = useState(0);
-  const socialBtnRef = useCallback(node => {
+  const socialBtnRef = useCallback((node) => {
     if (node !== null) {
       setMinHeightTalkDesc(node.getBoundingClientRect().height);
     }
@@ -51,18 +51,11 @@ function SpeakerCard({ type, content, status }) {
     <PopSpeaker id={`popup-${person.slug}`}>
       <PopSpeakerTop>
         <PopSpeakerAvatarWrap>
-          <PopSpeakerAvatar
-            src={person.avatar}
-            alt={person.name}
-          />
+          <PopSpeakerAvatar src={person.avatar} alt={person.name} />
         </PopSpeakerAvatarWrap>
         <PopSpeakerDesc>
-          <PopSpeakerName>
-            {person.name}
-          </PopSpeakerName>
-          <PopSpeakerCompany>
-            {person.company}
-          </PopSpeakerCompany>
+          <PopSpeakerName>{person.name}</PopSpeakerName>
+          <PopSpeakerCompany>{person.company}</PopSpeakerCompany>
           <PopSpeakerBio
             dangerouslySetInnerHTML={{
               __html: person.bio,
@@ -71,29 +64,27 @@ function SpeakerCard({ type, content, status }) {
         </PopSpeakerDesc>
 
         <PopSpeakerSocials>
-          {qaLink ? (
-            <PopSpeakerBtn
-              href={qaLink}
-              target="_blanc"
-              rel="noopener noreferrer"
-            >
-              JOIN SPEAKER'S VIDEO ROOM
-            </PopSpeakerBtn>
-          ) : null}
           {person.socials && (
             <div ref={socialBtnRef}>
-              {
-                person.socials.map((soc) => (
-                  <PopSpeakerBtn
-                    key={soc.link}
-                    href={soc.link}
-                    target="_blanc"
-                    rel="noopener noreferrer"
-                  >
-                    {socialTitle[soc.icon] || socialTitle.default}
-                  </PopSpeakerBtn>
-                ))
-              }
+              {/*{qaLink ? (*/}
+              {/*  <PopSpeakerBtn*/}
+              {/*    href={qaLink}*/}
+              {/*    target="_blanc"*/}
+              {/*    rel="noopener noreferrer"*/}
+              {/*  >*/}
+              {/*    JOIN SPEAKER'S VIDEO ROOM*/}
+              {/*  </PopSpeakerBtn>*/}
+              {/*) : null}*/}
+              {person.socials.map((soc) => (
+                <PopSpeakerBtn
+                  key={soc.link}
+                  href={soc.link}
+                  target="_blanc"
+                  rel="noopener noreferrer"
+                >
+                  {socialTitle[soc.icon] || socialTitle.default}
+                </PopSpeakerBtn>
+              ))}
             </div>
           )}
         </PopSpeakerSocials>
@@ -104,13 +95,14 @@ function SpeakerCard({ type, content, status }) {
           {person.activities.talks.map((talk) => (
             <React.Fragment key={talk.title}>
               <PopSpeakerActivityInfo color={techColor}>
+                {/*TODO: pass disable option*/}
                 <span>{talk.label}</span>
                 <span>{talk.track.name}</span>
-                <span title="time is shown for the conference timezone">{talk.timeString}</span>
+                <span title="time is shown for the conference timezone">
+                  {talk.timeString}
+                </span>
               </PopSpeakerActivityInfo>
-              <PopSpeakerTitle>
-                {talk.title}
-              </PopSpeakerTitle>
+              <PopSpeakerTitle>{talk.title}</PopSpeakerTitle>
               <PopSpeakerBio
                 dangerouslySetInnerHTML={{
                   __html: talk.description,
