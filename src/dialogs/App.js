@@ -34,9 +34,14 @@ const GlobalStyle = createGlobalStyle`
   }
 
   [data-reach-dialog-content] {
+    background: none;
     padding: 0;
   }
-
+  
+  [data-reach-dialog-overlay] [data-reach-dialog-content] {
+    width: 840px;
+    max-width: 100%;
+  }
 `;
 
 const navigateByLink = (link, samePage) => {
