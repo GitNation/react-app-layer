@@ -6,8 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build:mixins": "babel ./templates -x .js -d ./temp && sh scripts/createMixins.sh",
-    "dev": "nodemon --exec yarn prepare",
-    "dev:update-jsn": "nodemon --exec 'yarn prepare && cd ../Live.JSNation.com && yarn relative-deps'",
+    "dev": "nodemon --exec 'yarn prepare && cd ../live-conferences && yarn relative-deps'",
     "prepare": "package-prepare"
   },
   "dependencies": {
