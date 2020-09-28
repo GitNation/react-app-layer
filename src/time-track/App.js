@@ -24,24 +24,13 @@ const App = ({ bus }) => {
   const mSchedule = mergeSchedule(schedule);
 
   const handleClick = (eventContent) => {
-    let authorizedContext = isAuth;
-
-    // TODO: remove this monkey patch after JSNL
-    if (
-      eventContent.speakerRoomLink &&
-      eventContent.speakerRoomLink.startsWith('#expo')
-    ) {
-      // force fake full access on certain link
-      authorizedContext = true;
-    }
-
     const payload = {
       data: {
         ...eventContent,
         /* TODO: switch to real date */
         date: eventContent.date || eventContent.track,
       },
-      isAuth: authorizedContext,
+      isAuth,
       name: 'any-room',
       link:
         eventContent.qaLink ||
