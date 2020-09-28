@@ -179,7 +179,14 @@ const App = ({ bus }) => {
 
   const { reactLayerConfig = {} } = bus.getContent();
 
-  const { ticketsLink, hideSpeakerPopupLabel } = reactLayerConfig;
+  const {
+    ticketsLink,
+    hideSpeakerPopupLabel,
+    calendarEventDescription,
+    calendarEventName,
+    conferenceStart,
+    conferenceEnd,
+  } = reactLayerConfig;
 
   if (type === 'watch-livestream') {
     return (
@@ -207,6 +214,12 @@ const App = ({ bus }) => {
               content={content}
               status={status}
               hideLabel={hideSpeakerPopupLabel}
+              calendarLinkOptions={{
+                calendarEventDescription,
+                calendarEventName,
+                conferenceStart,
+                conferenceEnd,
+              }}
             />
           ) : null}
         </DialogContent>

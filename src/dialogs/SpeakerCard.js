@@ -14,6 +14,7 @@ import {
   PopSpeakerBtn,
   PopSpeakerMid,
   PopSpeakerActivityInfo,
+  PopCalendarButton,
 } from './SpeakerCard.styled';
 
 const socialTitle = {
@@ -34,7 +35,13 @@ const selectQALink = (person) => {
   }
 };
 
-function SpeakerCard({ type, content, status, hideLabel }) {
+function SpeakerCard({
+  type,
+  content,
+  status,
+  hideLabel,
+  calendarLinkOptions,
+}) {
   const [minHeightTalkDesc, setMinHeightTalkDesc] = useState(0);
   const socialBtnRef = useCallback((node) => {
     if (node !== null && window.matchMedia('(min-width: 600px)').matches) {
@@ -43,6 +50,7 @@ function SpeakerCard({ type, content, status, hideLabel }) {
   }, []);
   const person = content.data;
   const qaLink = selectQALink(person);
+  const calendarLink = createCalendarLink(person, calendarLinkOptions);
 
   const techColor =
     person.tagBG && person.tagBG !== 'black' ? person.tagBG : fallbackTechColor;
@@ -107,6 +115,16 @@ function SpeakerCard({ type, content, status, hideLabel }) {
                     __html: talk.description,
                   }}
                 />
+                {calendarLink ? (
+                  <PopCalendarButton
+                    title="Add Talk to Calendar"
+                    href={calendarLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Add Talk to Calendar
+                  </PopCalendarButton>
+                ) : null}
               </React.Fragment>
             ))
           : null}
