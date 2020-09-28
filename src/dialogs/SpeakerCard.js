@@ -105,9 +105,11 @@ function SpeakerCard({
                 <PopSpeakerActivityInfo color={techColor}>
                   <span>{!hideLabel ? talk.label : null}</span>
                   <span>{talk.track.name}</span>
-                  <span title="time is shown for the conference timezone">
-                    {talk.timeString}
-                  </span>
+                  {talk.timeString && (
+                    <span title="time is shown for the conference timezone">
+                      {talk.timeString}
+                    </span>
+                  )}
                 </PopSpeakerActivityInfo>
                 <PopSpeakerTitle>{talk.title}</PopSpeakerTitle>
                 <PopSpeakerBio
@@ -115,7 +117,7 @@ function SpeakerCard({
                     __html: talk.description,
                   }}
                 />
-                {calendarLink ? (
+                {talk.timeString && calendarLink ? (
                   <PopCalendarButton
                     title="Add Talk to Calendar"
                     href={calendarLink}
