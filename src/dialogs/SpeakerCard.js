@@ -37,7 +37,7 @@ const selectQALink = (person) => {
 function SpeakerCard({ type, content, status, hideLabel }) {
   const [minHeightTalkDesc, setMinHeightTalkDesc] = useState(0);
   const socialBtnRef = useCallback((node) => {
-    if (node !== null) {
+    if (node !== null && window.matchMedia('(min-width: 600px)').matches) {
       setMinHeightTalkDesc(node.getBoundingClientRect().height);
     }
   }, []);
@@ -90,27 +90,27 @@ function SpeakerCard({ type, content, status, hideLabel }) {
         </PopSpeakerSocials>
       </PopSpeakerTop>
 
-      {person.activities && person.activities.talks ? (
-        <PopSpeakerMid minHeight={minHeightTalkDesc}>
-          {person.activities.talks.map((talk) => (
-            <React.Fragment key={talk.title}>
-              <PopSpeakerActivityInfo color={techColor}>
-                <span>{!hideLabel ? talk.label : null}</span>
-                <span>{talk.track.name}</span>
-                <span title="time is shown for the conference timezone">
-                  {talk.timeString}
-                </span>
-              </PopSpeakerActivityInfo>
-              <PopSpeakerTitle>{talk.title}</PopSpeakerTitle>
-              <PopSpeakerBio
-                dangerouslySetInnerHTML={{
-                  __html: talk.description,
-                }}
-              />
-            </React.Fragment>
-          ))}
-        </PopSpeakerMid>
-      ) : null}
+      <PopSpeakerMid minHeight={minHeightTalkDesc}>
+        {person.activities && person.activities.talks
+          ? person.activities.talks.map((talk) => (
+              <React.Fragment key={talk.title}>
+                <PopSpeakerActivityInfo color={techColor}>
+                  <span>{!hideLabel ? talk.label : null}</span>
+                  <span>{talk.track.name}</span>
+                  <span title="time is shown for the conference timezone">
+                    {talk.timeString}
+                  </span>
+                </PopSpeakerActivityInfo>
+                <PopSpeakerTitle>{talk.title}</PopSpeakerTitle>
+                <PopSpeakerBio
+                  dangerouslySetInnerHTML={{
+                    __html: talk.description,
+                  }}
+                />
+              </React.Fragment>
+            ))
+          : null}
+      </PopSpeakerMid>
     </PopSpeaker>
   );
 }
