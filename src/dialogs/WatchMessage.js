@@ -15,6 +15,8 @@ import {
   PopTicketArrowSvg,
 } from './TicketMessage.styled';
 
+// TODO: remove hardcode for JSNation
+
 const WatchMessage = ({ ticketsLink }) => {
   return (
     <PopTicket id="popup-ticket">

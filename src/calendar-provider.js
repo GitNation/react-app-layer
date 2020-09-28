@@ -1,48 +1,46 @@
 const ADD_EVENT_ID = 'aypbtNBcPzBIdDvukmvT46093';
 const TIMEZONE = 'Europe/Amsterdam';
-const FallbackStart = '2020-06-18 15:00';
 
-// TODO: obviously this patch should be removed for next events
-const magicHappensHere = ({ yyyy, mm, dd, time, track }) => {
-  const trackName = (track && track.name) || track;
-  if (trackName !== 'June 19') {
-    return null;
-  }
-  return `${yyyy}-${mm}-19 ${time}`;
+const createDateTime = (isoDate, time) => {
+  const d = new Date(isoDate);
+  const yyyy = d.getFullYear();
+  const mm = d.getMonth() + 1;
+  const dd = d.getDate();
+  return `${yyyy}-${mm}-${dd}${time ? ` ${time}` : ''}`;
 };
 
-export const createDateTime = (isoDate, time, track) => {
+const createEventTitle = (speaker, talk, eventName) => {
   try {
-    const d = new Date(isoDate);
-    const yyyy = d.getFullYear();
-    const mm = d.getMonth() + 1;
-    const dd = d.getDate();
-    const magicDate = magicHappensHere({ yyyy, mm, dd, time, track });
-    if (magicDate) {
-      return magicDate;
-    }
-    return `${yyyy}-${mm}-${dd} ${time}`;
+    return `${speaker.name} - "${talk.title}" at ${eventName}`;
   } catch (err) {
-    return FallbackStart;
+    return eventName;
   }
 };
 
-export const createEventTitle = (speaker, talk) => {
-  try {
-    return `${speaker.name} - ${talk.title} at JSNation Live`;
-  } catch (err) {
-    return 'JSNation Live Conference';
-  }
-};
-
-export const createCalendarLink = (speaker) => {
+export const createCalendarLink = (
+  speaker,
+  {
+    calendarEventDescription,
+    calendarEventName,
+    conferenceStart,
+    conferenceEnd,
+  },
+) => {
   const talk = speaker.activities && speaker.activities.talks[0];
   try {
-    const start = createDateTime(talk.isoDate, talk.time, talk.track);
-    const title = createEventTitle(speaker, talk);
+    const start = createDateTime(talk.isoDate, talk.time);
+    const title = createEventTitle(speaker, talk, calendarEventName);
 
-    return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${start}&duration=${talk.duration}&title=${title}&timezone=${TIMEZONE}&alarm=15`;
+    return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${start}&duration=${talk.duration}&title=${title}&description=${calendarEventDescription}&timezone=${TIMEZONE}&alarm=15`;
   } catch (err) {
+    // Fallback whole day event
+    if (calendarEventName && conferenceStart && conferenceEnd) {
+      const start = createDateTime(conferenceStart);
+      const end = createDateTime(conferenceEnd);
+
+      return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${start}&end=${end}&title=${calendarEventName}&description=${calendarEventDescription}&timezone=${TIMEZONE}&all_day_event=true`;
+    }
+
     return null;
   }
 };

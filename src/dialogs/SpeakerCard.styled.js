@@ -98,6 +98,15 @@ export const PopSpeakerBio = styled.div`
   font-weight: 500;
   color: var(--color-popup-general-text, #5f5f5f);
   line-height: 1.46;
+
+  a {
+    text-decoration: underline;
+    color: var(--color-popup-title, #fff);
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
 `;
 
 export const PopSpeakerSocials = styled.div`
@@ -114,7 +123,6 @@ export const PopSpeakerSocials = styled.div`
 `;
 
 export const PopButton = styled.a`
-  display: flex;
   cursor: pointer;
   text-align: center;
   background-color: var(--color-brand, #fff);
@@ -127,9 +135,6 @@ export const PopButton = styled.a`
   color: var(--color-popup-button-text, #000);
   text-decoration: none;
   transition: all ease 0.3s;
-  transform: translateZ(0) perspective(1px);
-  backface-visibility: hidden;
-  border: 2px solid transparent;
 
   &:hover {
     background-color: var(--color-brand-hover, #f0f0f0);
@@ -137,6 +142,8 @@ export const PopButton = styled.a`
 `;
 
 export const PopSpeakerBtn = styled(PopButton)`
+  display: block;
+
   &:not(:first-child) {
     margin: 10px 0 0;
   }
@@ -144,6 +151,12 @@ export const PopSpeakerBtn = styled(PopButton)`
   @media only screen and (max-width: 1200px) {
     padding: 15px 20px;
   }
+`;
+
+export const PopCalendarButton = styled(PopButton)`
+  display: block;
+  margin-top: 20px;
+  width: 100%;
 `;
 
 export const PopSpeakerMid = styled.div`

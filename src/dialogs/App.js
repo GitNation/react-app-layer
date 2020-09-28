@@ -99,6 +99,14 @@ const useBusEvents = (bus) => {
       setType(payload.name);
       setContent(payload);
 
+      const { reactLayerConfig = {} } = bus.getContent();
+      const {
+        calendarEventDescription,
+        calendarEventName,
+        conferenceStart,
+        conferenceEnd,
+      } = reactLayerConfig;
+
       const { status, isAuth } = getDetails(payload);
 
       if (payload.name === 'speaker-card') {
@@ -113,7 +121,12 @@ const useBusEvents = (bus) => {
             talks: [payload.data],
           },
         };
-        const link = createCalendarLink(speaker);
+        const link = createCalendarLink(speaker, {
+          calendarEventDescription,
+          calendarEventName,
+          conferenceStart,
+          conferenceEnd,
+        });
         navigateByLink(link);
         return;
       }
