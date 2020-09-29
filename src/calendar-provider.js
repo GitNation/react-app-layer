@@ -28,8 +28,8 @@ export const createCalendarLink = (
     conferenceEnd,
   },
 ) => {
-  const talk = speaker.activities && speaker.activities.talks[0];
   try {
+    const talk = speaker.activities && speaker.activities.talks[0];
     const start = createDateTime(talk.isoDate, talk.time);
     const title = createEventTitle(speaker, talk, calendarEventName);
 
