@@ -82,6 +82,8 @@ const useBusEvents = (bus) => {
   const close = () => setOpen(false);
 
   const getDetails = (content) => {
+    const { reactLayerConfig = {} } = bus.getContent();
+
     const status = content ? getEventStatus(content) : null;
     const isNow = status && status.status === 'now';
     const eventIsAuth = content && content.isAuth;
@@ -91,6 +93,7 @@ const useBusEvents = (bus) => {
       status: status && status.status,
       isNow,
       isAuth,
+      reactLayerConfig,
     };
   };
 
@@ -99,15 +102,14 @@ const useBusEvents = (bus) => {
       setType(payload.name);
       setContent(payload);
 
-      const { reactLayerConfig = {} } = bus.getContent();
+      const { status, isAuth, reactLayerConfig } = getDetails(payload);
+
       const {
         calendarEventDescription,
         calendarEventName,
         conferenceStart,
         conferenceEnd,
       } = reactLayerConfig;
-
-      const { status, isAuth } = getDetails(payload);
 
       if (payload.name === 'speaker-card') {
         setOpen(true);

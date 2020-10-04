@@ -7,7 +7,10 @@ import { setGlobals } from './time-provider';
 
 const eventsBus = window.eventsBus;
 const content = eventsBus.getContent();
-setGlobals({ ...content.eventInfo });
+setGlobals({
+  ...content.eventInfo,
+  reactLayerConfig: content.reactLayerConfig,
+});
 
 const initApp = () => {
   initExpoApp(eventsBus);

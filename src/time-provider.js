@@ -62,7 +62,7 @@ function getClientTime() {
     clientDD,
     clientHH,
     clientMM,
-    clientSS
+    clientSS,
   );
 
   const clientUTCTime = new Date(utcYY, utcMI, utcDD, utcHH, utcMM, utcSS);
@@ -110,7 +110,7 @@ export const getCurrentTime = () => {
     clientTime.utcDD,
     clientTime.utcHH,
     clientTime.utcMM,
-    clientTime.utcSS
+    clientTime.utcSS,
   );
   return currentTime;
 };
@@ -124,7 +124,7 @@ export const getLocalTime = () => {
 export const convertEventTimeToISO = (date, time, z = 2) => {
   const iso = DateTime.fromFormat(
     `${date} ${time} +${z}`,
-    'MMMM dd HH:mm Z'
+    'MMMM dd HH:mm Z',
   ).toISO();
   if (!iso) {
     // console.log('convertEventTimeToISO -> !!!\n', date, time, iso);
@@ -211,10 +211,7 @@ const SchdStatus = {
 };
 
 export const createScheduleEvent = (isoStart, durationMM) => {
-  const globArchiveIso = convertEventTimeToISO(
-    globalSettings.conferenceFinish.date,
-    globalSettings.conferenceFinish.time
-  );
+  const globArchiveIso = globalSettings.reactLayerConfig.conferenceEnd;
   const secArchive = iso2sec(globArchiveIso);
   const secStart = iso2sec(isoStart);
   const secEnd = secStart + durationMM * 60;
