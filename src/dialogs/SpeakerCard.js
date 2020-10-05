@@ -105,9 +105,15 @@ function SpeakerCard({
                 <PopSpeakerActivityInfo color={techColor}>
                   <span>{!hideLabel ? talk.label : null}</span>
                   <span>{talk.track.name}</span>
-                  {talk.timeString && (
-                    <span title="time is shown for the conference timezone">
-                      {talk.timeString}
+                  {talk.time && talk.isoDate && (
+                    <span title="time is show in your local browser tme">
+                      {new Date(
+                        `${talk.isoDate.split('T')[0]} ${talk.time} GMT+0200`,
+                      )
+                        .toLocaleTimeString('en-GB')
+                        .split(':')
+                        .slice(0, 2)
+                        .join(':')}
                     </span>
                   )}
                 </PopSpeakerActivityInfo>
