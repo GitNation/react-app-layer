@@ -107,8 +107,11 @@ function SpeakerCard({
                   <span>{talk.track.name}</span>
                   {talk.time && talk.isoDate && (
                     <span title="time is show in your local browser tme">
+                      {/* Hacking dates as somehow the dataset has separate ISO date and separate non-ISO time */}
                       {new Date(
-                        `${talk.isoDate.split('T')[0]} ${talk.time} GMT+0200`,
+                        `${new Date(talk.isoDate).toDateString()} ${
+                          talk.time
+                        } GMT+0200`,
                       )
                         .toLocaleTimeString('en-GB')
                         .split(':')
