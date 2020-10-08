@@ -191,3 +191,29 @@ export const PopTicketArrowSvg = styled.svg`
       transform: translateX(5px);
     }
 `;
+
+export const ForgotLinkContainer = styled.div`
+  position: absolute;
+  bottom: -20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: var(--color-brand);
+  font-size: 12px;
+  cursor: pointer;
+`
+
+export const ButtonsContainer = styled.span`
+  display: flex;
+  justify-content: space-around;
+  padding: 0 40px;
+  margin-top: 16px;
+
+  @media only screen and (max-width: 767px) {
+    flex-direction: column-reverse;
+
+    a:nth-child(2) {
+        margin-bottom: 16px;
+    }
+  }
+`
