@@ -1,7 +1,9 @@
 export const titoFindTicket = (email, callback) => {
   try {
     fetch(
-      `https://gn-functions.netlify.app/.netlify/functions/tito-find-user-code?email=${email}`,
+      `https://gn-functions.netlify.app/.netlify/functions/tito-find-user-code?email=${encodeURIComponent(
+        email,
+      )}`,
     )
       .then((response) => {
         return response.json();
