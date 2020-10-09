@@ -13,11 +13,12 @@ import {
   PopTicketInput,
   PopTicketSubmitButton,
   PopTicketArrowSvg,
+  ForgotLinkContainer,
 } from './TicketMessage.styled';
 
 // TODO: remove hardcode for JSNation
 
-const WatchMessage = ({ ticketsLink }) => {
+const WatchMessage = ({ ticketsLink, onForgotLinkClick }) => {
   return (
     <PopTicket id="popup-ticket">
       <PopTicketTwoCol>
@@ -38,10 +39,7 @@ const WatchMessage = ({ ticketsLink }) => {
           <PopTicketDesc>
             You should have received an email with personal access code, please
             enter it below to get to the live stream page. If you can't find the
-            email (including the spam folder), please check your code{' '}
-            <a href="https://forms.gle/SC4kGz57RnMBHEX2A">here</a>, if still
-            having trouble please <a href="mailto:hi@jsnation.com">send us</a>{' '}
-            your ticket order number to get help.
+            email (including the spam folder), please follow the link below.
           </PopTicketDesc>
           <PopTicketForm
             action="/watch-full-access"
@@ -57,6 +55,9 @@ const WatchMessage = ({ ticketsLink }) => {
                   <use xlinkHref="img/sprite.svg#icon-arrow-right" />
                 </PopTicketArrowSvg>
               </PopTicketSubmitButton>
+              <ForgotLinkContainer onClick={onForgotLinkClick}>
+                Can't find my code
+              </ForgotLinkContainer>
             </PopTicketField>
           </PopTicketForm>
         </PopTicketColRight>
