@@ -4,7 +4,6 @@ import Aside from './Aside';
 import TracksContent from './TracksContent';
 import Track from './Track';
 import { createTimeTicks, calcPositionFromTime } from './model';
-import { mergeSchedule } from './magic';
 
 const App = ({ bus }) => {
   const content = bus.getContent();
@@ -15,13 +14,13 @@ const App = ({ bus }) => {
     isAuth,
     eventInfo,
   } = content;
+
   const startTime = eventInfo.conferenceStart;
   const endTime = eventInfo.conferenceFinish;
   const { discordLink } = eventInfo;
   const timeTicks = createTimeTicks(startTime, endTime);
   const calcPosition = calcPositionFromTime(startTime);
   const trackWidth = calcPosition(endTime);
-  const mSchedule = mergeSchedule(schedule);
 
   const handleClick = (eventContent) => {
     const payload = {
@@ -43,13 +42,13 @@ const App = ({ bus }) => {
 
   return (
     <Container>
-      <Aside schedule={mSchedule} customTracks={customTracks} />
+      <Aside schedule={schedule} customTracks={customTracks} />
       <TracksContent
         timeTicks={timeTicks}
         trackWidth={trackWidth}
         calcPosition={calcPosition}
       >
-        {mSchedule.map((sch, i) => (
+        {schedule.map((sch, i) => (
           <Track
             key={`${sch.title}-${i}`}
             track={sch}
