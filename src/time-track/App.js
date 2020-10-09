@@ -4,7 +4,6 @@ import Aside from './Aside';
 import TracksContent from './TracksContent';
 import Track from './Track';
 import { createTimeTicks, calcPositionFromTime } from './model';
-import { mergeSchedule } from './magic';
 
 const App = ({ bus }) => {
   const content = bus.getContent();
