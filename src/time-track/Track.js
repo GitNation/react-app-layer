@@ -36,11 +36,11 @@ const TrackContent = styled.div`
   width: 100%;
 `;
 
-const ePic = (pic) =>
+const ePic = (pic, imageFormat = 'jpg') =>
   pic ? (
     <div className="time-track__pic">
       <img
-        src={`https://media.graphcms.com/output=format:jpg/resize=fit:crop,height:72,width:72/${pic}`}
+        src={`https://media.graphcms.com/output=format:${imageFormat}/resize=fit:crop,height:72,width:72/${pic}`}
       />
     </div>
   ) : null;
@@ -165,7 +165,7 @@ const DiscussionRoom = ({ talk, onClick }) => {
       className="time-track__link discussion js-time"
       style={{ '--bgColor': talk.bgColor, width: '100%' }}
     >
-      {ePic(pic)}
+      {ePic(pic, 'png')}
       {eTitle(speaker, title)}
       {camIcon}
     </a>
