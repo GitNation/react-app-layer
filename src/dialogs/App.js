@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Dialog, DialogOverlay, DialogContent } from '@reach/dialog';
 import '@reach/dialog/styles.css';
 import styled, { createGlobalStyle } from 'styled-components';
@@ -183,7 +183,10 @@ const App = ({ bus }) => {
 
   const { reactLayerConfig = {} } = bus.getContent();
 
-  const onForgotLinkClick = () => bus.clickEvent({ name: 'remind-code-modal' });
+  const onForgotLinkClick = useCallback(
+    () => bus.clickEvent({ name: 'remind-code-modal' }),
+    [bus],
+  );
 
   const {
     ticketsLink,
