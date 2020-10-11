@@ -42,12 +42,7 @@ const TicketMessage = ({ ticketsLink }) => {
             Use your ticket order number during conference days to unlock all
             features.
           </PopTicketDesc>
-          <PopTicketForm
-            action="/watch-full-access"
-            method="get"
-            target="_blank"
-            noValidate
-          >
+          <PopTicketForm action="/live" method="get" target="_blank" noValidate>
             <PopTicketField>
               <PopTicketInput type="text" name="code" placeholder="Your code" />
               <PopTicketSubmitButton type="submit">

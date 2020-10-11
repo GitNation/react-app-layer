@@ -221,7 +221,7 @@ export default function SideBar({ partner }) {
     'expo-app-remember-hide-discord-invite',
   );
   const discordInviteLink =
-    window.location.href.indexOf('watch-full-access') >= 0
+    window.location.href.indexOf('live') >= 0
       ? config && config.discordFullAccessInvite
       : config && config.discordReadOnlyInvite;
 

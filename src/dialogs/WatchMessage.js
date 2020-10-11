@@ -39,12 +39,7 @@ const WatchMessage = ({ ticketsLink, onForgotLinkClick }) => {
             Enter the code below to access the live stream page with activated
             ticket features.
           </PopTicketDesc>
-          <PopTicketForm
-            action="/watch-full-access"
-            method="get"
-            target="_blank"
-            noValidate
-          >
+          <PopTicketForm action="/live" method="get" target="_blank" noValidate>
             <PopTicketField>
               <PopTicketInput type="text" name="code" placeholder="Your code" />
               <PopTicketSubmitButton type="submit">
