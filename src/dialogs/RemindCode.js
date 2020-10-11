@@ -67,11 +67,13 @@ const RemindCode = ({ ticketsLink }) => {
     <PopTicket id="popup-ticket">
       <PopTicketColLeft>
         <PopTicketTitle>Find my registration</PopTicketTitle>
-        <PopTicketDesc>
-          Please enter your email used to order the ticket and we will try
-          matching it will the order and redirect you to the corresponding watch
-          page.
-        </PopTicketDesc>
+        {!error && (
+          <PopTicketDesc>
+            Please enter your email used to order the ticket and we will try
+            matching it will the order and redirect you to the corresponding
+            watch page.
+          </PopTicketDesc>
+        )}
         {error && (
           <PopTicketDesc>
             {error}
