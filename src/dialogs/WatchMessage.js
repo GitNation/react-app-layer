@@ -16,8 +16,6 @@ import {
   ForgotLinkContainer,
 } from './TicketMessage.styled';
 
-// TODO: remove hardcode for JSNation
-
 const WatchMessage = ({ ticketsLink, onForgotLinkClick }) => {
   return (
     <PopTicket id="popup-ticket">
@@ -35,11 +33,11 @@ const WatchMessage = ({ ticketsLink, onForgotLinkClick }) => {
           </PopTicketButtonWithBorder>
         </PopTicketColLeft>
         <PopTicketColRight>
-          <PopTicketTitle>Have a full ticket?</PopTicketTitle>
+          <PopTicketTitle>Have a paid ticket?</PopTicketTitle>
           <PopTicketDesc>
-            You should have received an email with personal access code, please
-            enter it below to get to the live stream page. If you can't find the
-            email (including the spam folder), please follow the link below.
+            You should have received an email with the personal access code.
+            Enter the code below to access the live stream page with activated
+            ticket features.
           </PopTicketDesc>
           <PopTicketForm
             action="/watch-full-access"
@@ -56,7 +54,7 @@ const WatchMessage = ({ ticketsLink, onForgotLinkClick }) => {
                 </PopTicketArrowSvg>
               </PopTicketSubmitButton>
               <ForgotLinkContainer onClick={onForgotLinkClick}>
-                Can't find my code
+                Can't find your code?
               </ForgotLinkContainer>
             </PopTicketField>
           </PopTicketForm>

@@ -40,7 +40,9 @@ const RemindCode = ({ ticketsLink }) => {
 
     if (!isTicketExists) {
       changeIsLoading(false);
-      setError('Sorry, we cannot find your ticket');
+      setError(
+        'Sorry, we could not find your ticket. Please try other email, or contact the event team.',
+      );
 
       return;
     }
@@ -69,9 +71,10 @@ const RemindCode = ({ ticketsLink }) => {
         <PopTicketTitle>Find my registration</PopTicketTitle>
         {!error && (
           <PopTicketDesc>
-            Please enter your email used to order the ticket and we will try
-            matching it will the order and redirect you to the corresponding
-            watch page.
+            If you can't locate the email with the code (including in spam folder)
+          from event team and ticketing system - please enter your email used to
+          order the ticket and we will try matching it, once we found your order
+          you will be redirected to the watch page.
           </PopTicketDesc>
         )}
         {error && (
