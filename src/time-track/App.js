@@ -58,6 +58,17 @@ const App = ({ bus }) => {
       payload.data = speakerData;
     }
 
+    // TODO make type_id for events in db schema
+
+    if (
+      !eventContent.speakerRoomLink &&
+      !eventContent.discussionRoomLink &&
+      !eventContent.speaker &&
+      !discordLink
+    ) {
+      payload.isAuth = true;
+    }
+
     bus.clickEvent(payload);
   };
 
