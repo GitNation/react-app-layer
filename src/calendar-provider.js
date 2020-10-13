@@ -1,8 +1,10 @@
 const ADD_EVENT_ID = 'aypbtNBcPzBIdDvukmvT46093';
 const TIMEZONE = 'Europe/Amsterdam';
 
-const createDateTime = (isoDate, time) => {
-  const d = new Date(isoDate);
+const createDateTime = (isoDateWithoutTime, time) => {
+  const d = new Date(isoDateWithoutTime);
+  // get date always in original time zone
+  d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
   const yyyy = d.getFullYear();
   const mm = d.getMonth() + 1;
   const dd = d.getDate();
