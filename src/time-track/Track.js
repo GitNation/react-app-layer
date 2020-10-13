@@ -116,7 +116,7 @@ const Talk = ({ talk, onClick }) => {
 
 const QARoom = ({ talk, onClick }) => {
   const handleClick = () => {
-    onClick({ date: '', track: '' });
+    onClick({ date: '', track: '', isQaEvent: true });
   };
   return (
     <a
@@ -172,15 +172,15 @@ const DiscussionRoom = ({ talk, onClick }) => {
   );
 };
 
-const TrackEvent = ({ event, calcPosition, onClick }) => {
+const TrackEvent = ({ event, calcPosition, onClick, trackTitle }) => {
   const position = calcPosition(event);
   const width = calcWidth(event.duration);
 
   const handleClick = (info) => {
-    onClick({ ...event, ...info });
+    onClick({ ...event, ...info, trackTitle });
   };
 
-  if (event.qaLink) {
+  if (event.qaLink || event.title.indexOf('Q&A') === 0) {
     return (
       <EventContainer position={position} width={width}>
         <QARoom talk={event} onClick={handleClick} />
@@ -212,7 +212,8 @@ const TrackEvent = ({ event, calcPosition, onClick }) => {
 };
 
 function Track({ track, calcPosition, onClick }) {
-  const { list } = track;
+  const { list, title } = track;
+
   return (
     <div
       className={cn('time-track__track', { odd: track.odd })}
@@ -228,6 +229,7 @@ function Track({ track, calcPosition, onClick }) {
           <TrackEvent
             key={i}
             event={evt}
+            trackTitle={title}
             calcPosition={calcPosition}
             onClick={onClick}
           />

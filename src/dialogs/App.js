@@ -25,6 +25,7 @@ const eventNames = [
   'talk-calendar',
   'quake',
   'remind-code-modal',
+  'open-base-modal',
 ];
 
 const GlobalStyle = createGlobalStyle`
