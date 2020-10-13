@@ -11,8 +11,13 @@ const App = ({ bus }) => {
     customTracks,
     schedule,
     scheduleExtends,
-    isAuth,
     eventInfo,
+    isAuth,
+    isCustomTrackAvailable,
+    availableTracks,
+    chatLink,
+    chatLinkAuth,
+    speakers,
   } = content;
 
   const startTime = eventInfo.conferenceStart;
@@ -23,6 +28,7 @@ const App = ({ bus }) => {
   const trackWidth = calcPosition(endTime);
 
   const handleClick = (eventContent) => {
+    const isTrackAvailable = availableTracks.includes(eventContent.trackTitle);
     const payload = {
       data: {
         ...eventContent,
@@ -32,11 +38,26 @@ const App = ({ bus }) => {
       isAuth,
       name: 'any-room',
       link:
-        eventContent.qaLink ||
         eventContent.speakerRoomLink ||
         eventContent.discussionRoomLink ||
         discordLink,
     };
+
+    if (eventContent.isQaEvent) {
+      payload.isAuth = true;
+
+      payload.link = isAuth && isCustomTrackAvailable ? chatLinkAuth : chatLink;
+    }
+
+    if (eventContent.speaker && isTrackAvailable) {
+      const speakerData = speakers.main.find(
+        (s) => s.name === eventContent.speaker,
+      );
+
+      payload.name = 'speaker-card';
+      payload.data = speakerData;
+    }
+
     bus.clickEvent(payload);
   };
 
