@@ -183,7 +183,7 @@ const TrackEvent = ({ event, calcPosition, onClick, trackTitle }) => {
   if (event.qaLink || event.title.indexOf('Q&A') === 0) {
     return (
       <EventContainer position={position} width={width}>
-        <QARoom talk={event} onClick={handleClick} isAuth />
+        <QARoom talk={event} onClick={handleClick} />
       </EventContainer>
     );
   }
