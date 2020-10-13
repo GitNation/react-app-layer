@@ -213,7 +213,6 @@ const TrackEvent = ({ event, calcPosition, onClick, trackTitle }) => {
 
 function Track({ track, calcPosition, onClick }) {
   const { list, title } = track;
-  console.log(list);
 
   return (
     <div
