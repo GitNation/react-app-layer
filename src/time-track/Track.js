@@ -55,8 +55,7 @@ const getTitleStr = (speaker, title) =>
 const iSpeaker = (name, place, title, text) => (
   <React.Fragment>
     <p className="track-tooltip__speaker">
-      {name}
-      {Boolean(name) ? ',' : ''} {place}
+      {name}, {place}
     </p>
     <p className="track-tooltip__title">«‎{title}»</p>
     <div
