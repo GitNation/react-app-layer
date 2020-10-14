@@ -71,7 +71,7 @@ const navToRandom = (content) => {
 
 const navToQuake = (link) => {
   const randInd = 1000 + Math.round(Math.random() * 999);
-  const defaultNick = `JSN Attender ${randInd}`;
+  const defaultNick = `GitNation hero ${randInd}`;
   const nickName = prompt('Enter you nickname', defaultNick);
   const personalLink = `${link}&name ${nickName}`;
   navigateByLink(personalLink);
