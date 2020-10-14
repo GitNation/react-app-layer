@@ -50,9 +50,12 @@ const App = ({ bus }) => {
     }
 
     if (eventContent.speaker && isTrackAvailable) {
-      const speakerData = speakers.main.find(
-        (s) => s.name === eventContent.speaker,
-      );
+      const speakerData = speakers.main.find((s) => {
+        return (
+          s.name.trim().toLowerCase() ===
+          eventContent.speaker.trim().toLowerCase()
+        );
+      });
 
       payload.name = 'speaker-card';
       payload.data = speakerData;

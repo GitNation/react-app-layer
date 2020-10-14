@@ -46,15 +46,17 @@ const ePic = (pic, imageFormat = 'jpg') =>
   ) : null;
 
 const eTitle = (speaker, title) => (
-  <div className="time-track__speaker">
-    {speaker ? `${speaker} «‎${title}»` : title}
-  </div>
+  <div className="time-track__speaker">{getTitleStr(speaker, title)}</div>
 );
+
+const getTitleStr = (speaker, title) =>
+  speaker ? `${speaker} «‎${title}»` : title;
 
 const iSpeaker = (name, place, title, text) => (
   <React.Fragment>
     <p className="track-tooltip__speaker">
-      {name}, {place}
+      {name}
+      {Boolean(name) ? ',' : ''} {place}
     </p>
     <p className="track-tooltip__title">«‎{title}»</p>
     <div
@@ -100,6 +102,7 @@ const Talk = ({ talk, onClick }) => {
     <div
       className="time-track__item js-time"
       onClick={handleClick}
+      title={getTitleStr(speaker, title)}
       style={{
         '--bgColor': talk.bgColor,
         width: '100%',
