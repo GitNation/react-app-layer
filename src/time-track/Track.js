@@ -101,7 +101,7 @@ const Talk = ({ talk, onClick }) => {
     <div
       className="time-track__item js-time"
       onClick={handleClick}
-      title={getTitleStr(speaker, title)}
+      title={!name && !lightningTalks ? getTitleStr(speaker, title) : ''}
       style={{
         '--bgColor': talk.bgColor,
         width: '100%',
