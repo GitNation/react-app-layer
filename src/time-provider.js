@@ -122,10 +122,12 @@ export const getLocalTime = () => {
 };
 
 export const convertEventTimeToISO = (date, time, z = 2) => {
-  const iso = DateTime.fromFormat(
-    `${date} ${time} +${z}`,
-    'MMMM dd HH:mm Z',
-  ).toISO();
+  const correctFormat =
+    typeof z === 'string' ? 'MMMM dd HH:mm z' : 'MMMM dd HH:mm Z';
+  const correctDateStr =
+    typeof z === 'string' ? `${date} ${time} ${z}` : `${date} ${time} +${z}`;
+
+  const iso = DateTime.fromFormat(correctDateStr, correctFormat).toISO();
   if (!iso) {
     // console.log('convertEventTimeToISO -> !!!\n', date, time, iso);
   }
@@ -185,7 +187,7 @@ export const generateTimeEvents = ({ isoStart, isoEnd, cb, difSS = 10 }) => {
     const time = {
       date: tm.toFormat('MMMM dd'),
       time: tm.toFormat('HH:mm'),
-      z: parseInt(tm.toFormat('Z'), 10),
+      z: tm.zoneName,
     };
     cb(time);
   };
