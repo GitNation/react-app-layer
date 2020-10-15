@@ -26,7 +26,8 @@ export const calcPositionFromTime = (startEvent, k = 1) => {
 
     // events can have different date keys and formats
     // leaded to one type MMMM dd
-    const correctDate = date || DateTime.fromISO(isoDate).toFormat('MMMM dd');
+    const correctDate =
+      date || DateTime.fromISO(isoDate, { setZone: true }).toFormat('MMMM dd');
 
     const local = convertEventTimeToLocal(correctDate, time, z);
     const sec = local.sec;
