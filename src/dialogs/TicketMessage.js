@@ -39,12 +39,16 @@ const TicketMessage = ({ ticketsLink }) => {
         <PopTicketColRight>
           <PopTicketTitle>Have a full ticket?</PopTicketTitle>
           <PopTicketDesc>
-            Use your ticket order number during conference days to unlock all
-            features.
+            During conference days, enter your email assigned to the ticket
+            order to unlock all features.
           </PopTicketDesc>
           <PopTicketForm action="/live" method="get" target="_blank" noValidate>
             <PopTicketField>
-              <PopTicketInput type="text" name="code" placeholder="Your code" />
+              <PopTicketInput
+                type="email"
+                name="email"
+                placeholder="Your email"
+              />
               <PopTicketSubmitButton type="submit">
                 <span>Unlock</span>
                 <PopTicketArrowSvg>
