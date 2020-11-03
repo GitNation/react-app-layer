@@ -42,7 +42,7 @@ const WatchMessage = ({ ticketsLink }) => {
             <PopTicketField>
               <PopTicketInput
                 type="text"
-                name="mail"
+                name="email"
                 placeholder="Your email"
               />
               <PopTicketSubmitButton type="submit">
