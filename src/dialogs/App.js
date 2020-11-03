@@ -9,7 +9,6 @@ import NewTab from './NewTab';
 import TicketMessage from './TicketMessage';
 import WatchMessage from './WatchMessage';
 import SpeakerCard from './SpeakerCard';
-import RemindCode from './RemindCode';
 import { createCalendarLink } from '../calendar-provider';
 
 const eventNames = [
@@ -24,7 +23,6 @@ const eventNames = [
   'watch-livestream',
   'talk-calendar',
   'quake',
-  'remind-code-modal',
   'open-base-modal',
 ];
 
@@ -184,11 +182,6 @@ const App = ({ bus }) => {
 
   const { reactLayerConfig = {} } = bus.getContent();
 
-  const onForgotLinkClick = useCallback(
-    () => bus.clickEvent({ name: 'remind-code-modal' }),
-    [bus],
-  );
-
   const {
     ticketsLink,
     hideSpeakerPopupLabel,
@@ -198,28 +191,12 @@ const App = ({ bus }) => {
     conferenceEnd,
   } = reactLayerConfig;
 
-  if (type === 'remind-code-modal') {
-    return (
-      <DialogOverlay isOpen={isOpen} onDismiss={close}>
-        <GlobalStyle isOpen={isOpen} />
-        <DialogContent aria-label="video message from organizers">
-          {isOpen && <RemindCode ticketsLink={ticketsLink} />}
-        </DialogContent>
-      </DialogOverlay>
-    );
-  }
-
   if (type === 'watch-livestream') {
     return (
       <DialogOverlay isOpen={isOpen} onDismiss={close}>
         <GlobalStyle isOpen={isOpen} />
         <DialogContent aria-label="video message from organizers">
-          {isOpen ? (
-            <WatchMessage
-              ticketsLink={ticketsLink}
-              onForgotLinkClick={onForgotLinkClick}
-            />
-          ) : null}
+          {isOpen ? <WatchMessage ticketsLink={ticketsLink} /> : null}
         </DialogContent>
       </DialogOverlay>
     );
