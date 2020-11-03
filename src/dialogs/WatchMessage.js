@@ -13,10 +13,9 @@ import {
   PopTicketInput,
   PopTicketSubmitButton,
   PopTicketArrowSvg,
-  ForgotLinkContainer,
 } from './TicketMessage.styled';
 
-const WatchMessage = ({ ticketsLink, onForgotLinkClick }) => {
+const WatchMessage = ({ ticketsLink }) => {
   return (
     <PopTicket id="popup-ticket">
       <PopTicketTwoCol>
@@ -35,22 +34,23 @@ const WatchMessage = ({ ticketsLink, onForgotLinkClick }) => {
         <PopTicketColRight>
           <PopTicketTitle>Have a paid ticket?</PopTicketTitle>
           <PopTicketDesc>
-            You should have received an email with the personal access code.
-            Enter the code below to access the live stream page with activated
-            ticket features.
+            Please enter your email associated with the ticket order below. If
+            you're not sure, please check an email from the event org team
+            containing direct access link and other useful instructions.
           </PopTicketDesc>
           <PopTicketForm action="/live" method="get" target="_blank" noValidate>
             <PopTicketField>
-              <PopTicketInput type="text" name="code" placeholder="Your code" />
+              <PopTicketInput
+                type="text"
+                name="mail"
+                placeholder="Your email"
+              />
               <PopTicketSubmitButton type="submit">
                 <span>Unlock</span>
                 <PopTicketArrowSvg>
                   <use xlinkHref="img/sprite.svg#icon-arrow-right" />
                 </PopTicketArrowSvg>
               </PopTicketSubmitButton>
-              <ForgotLinkContainer onClick={onForgotLinkClick}>
-                Can't find your code?
-              </ForgotLinkContainer>
             </PopTicketField>
           </PopTicketForm>
         </PopTicketColRight>
