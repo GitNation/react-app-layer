@@ -28,7 +28,13 @@ const App = ({ bus }) => {
   const trackWidth = calcPosition(endTime);
 
   const handleClick = (eventContent) => {
-    const isTrackAvailable = availableTracks.includes(eventContent.trackTitle);
+    let isTrackAvailable = true;
+
+    // some conferences may provide availableTracks: Array<string>
+    if (availableTracks) {
+      isTrackAvailable = availableTracks.includes(eventContent.trackTitle);
+    }
+
     const payload = {
       data: {
         ...eventContent,
