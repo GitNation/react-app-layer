@@ -29,6 +29,8 @@ const App = ({ bus }) => {
 
   const handleClick = (eventContent) => {
     let isTrackAvailable = true;
+
+    // some conferences may provide availableTracks: Array<string>
     if (availableTracks) {
       isTrackAvailable = availableTracks.includes(eventContent.trackTitle);
     }
