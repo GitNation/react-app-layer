@@ -28,7 +28,11 @@ const App = ({ bus }) => {
   const trackWidth = calcPosition(endTime);
 
   const handleClick = (eventContent) => {
-    const isTrackAvailable = availableTracks.includes(eventContent.trackTitle);
+    let isTrackAvailable = true;
+    if (availableTracks) {
+      isTrackAvailable = availableTracks.includes(eventContent.trackTitle);
+    }
+
     const payload = {
       data: {
         ...eventContent,
