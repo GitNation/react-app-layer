@@ -121,7 +121,7 @@ export const getLocalTime = () => {
   return new Date();
 };
 
-export const convertEventTimeToISO = (date, time, z = 2) => {
+export const convertEventTimeToISO = (date, time, z = 1) => {
   const correctFormat =
     typeof z === 'string' ? 'MMMM dd HH:mm z' : 'MMMM dd HH:mm Z';
   const correctDateStr =
@@ -137,7 +137,7 @@ export const convertEventTimeToISO = (date, time, z = 2) => {
 export const iso2sec = (iso) =>
   Math.floor(DateTime.fromISO(iso).toMillis() / 1000);
 
-export const convertEventTimeToLocal = (date, time, z = 2) => {
+export const convertEventTimeToLocal = (date, time, z = 1) => {
   const iso = convertEventTimeToISO(date, time, z);
   const local = DateTime.fromISO(iso);
   return {
