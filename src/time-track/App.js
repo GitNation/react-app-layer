@@ -10,10 +10,8 @@ const App = ({ bus }) => {
   const {
     customTracks,
     schedule,
-    scheduleExtends,
     eventInfo,
     isAuth,
-    isCustomTrackAvailable,
     availableTracks,
     chatLink,
     chatLinkAuth,
@@ -52,10 +50,10 @@ const App = ({ bus }) => {
     if (eventContent.isQaEvent) {
       payload.isAuth = true;
 
-      payload.link = isAuth && isCustomTrackAvailable ? chatLinkAuth : chatLink;
+      payload.link = isAuth ? chatLinkAuth : chatLink;
     }
 
-    if (eventContent.speaker && isTrackAvailable) {
+    if (eventContent.speaker && isTrackAvailable && speakers) {
       const speakerData = speakers.main.find((s) => {
         return (
           s.name.trim().toLowerCase() ===
