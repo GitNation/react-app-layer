@@ -13,14 +13,17 @@ const App = ({ bus }) => {
     eventInfo,
     isAuth,
     availableTracks,
-    chatLink,
-    chatLinkAuth,
+
     speakers,
   } = content;
 
-  const startTime = eventInfo.conferenceStart;
-  const endTime = eventInfo.conferenceFinish;
-  const { discordLink } = eventInfo;
+  const {
+    discordLink,
+    chatLink,
+    chatLinkAuth,
+    conferenceStart: startTime,
+    conferenceFinish: endTime,
+  } = eventInfo;
   const timeTicks = createTimeTicks(startTime, endTime);
   const calcPosition = calcPositionFromTime(startTime);
   const trackWidth = calcPosition(endTime);
