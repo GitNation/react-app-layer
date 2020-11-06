@@ -111,7 +111,7 @@ function SpeakerCard({
                       {new Date(
                         `${new Date(talk.isoDate).toDateString()} ${
                           talk.time
-                        } GMT+0200`,
+                        } GMT+0100`,
                       )
                         .toLocaleTimeString('en-GB')
                         .split(':')
