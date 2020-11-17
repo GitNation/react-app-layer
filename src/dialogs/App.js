@@ -113,6 +113,13 @@ const useBusEvents = (bus) => {
       } = reactLayerConfig;
 
       if (payload.name === 'speaker-card') {
+        // google analytics
+        if (window.gtag) {
+          gtag('event', `${payload.data.name}; ${payload.isAuth ? 'user logged in' : 'user not logged in'}`, {
+            event_category: 'speakers',
+          });
+        }
+
         setOpen(true);
         return;
       }
