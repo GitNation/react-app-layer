@@ -10,6 +10,7 @@ import TicketMessage from './TicketMessage';
 import WatchMessage from './WatchMessage';
 import SpeakerCard from './SpeakerCard';
 import { createCalendarLink } from '../calendar-provider';
+import { trackGAEvent } from '../services/ga';
 
 const eventNames = [
   'video-room',
@@ -113,14 +114,13 @@ const useBusEvents = (bus) => {
       } = reactLayerConfig;
 
       if (payload.name === 'speaker-card') {
-        // google analytics
-        if (window.gtag) {
-          gtag('event', `${payload.data.name}; ${payload.isAuth ? 'user logged in' : 'user not logged in'}`, {
-            event_category: 'speakers',
-          });
-        }
-
+        trackGAEvent(
+          'popup-click',
+          `speaker-click - name:${payload.data.name}`,
+          payload.isAuth,
+        );
         setOpen(true);
+
         return;
       }
 
@@ -131,6 +131,13 @@ const useBusEvents = (bus) => {
             talks: [payload.data],
           },
         };
+
+        trackGAEvent(
+          'popup-click',
+          `add-to-calendar-click - speaker:${payload.data.speaker}`,
+          false,
+        );
+
         const link = createCalendarLink(speaker, {
           calendarEventDescription,
           calendarEventName,
@@ -142,23 +149,51 @@ const useBusEvents = (bus) => {
       }
 
       /* if link is available just click it */
-      if ((!status || status === 'now') && isAuth) {
+      if (!status || status === 'now') {
         if (payload.name === 'random-room') {
-          navToRandom(payload.data);
+          trackGAEvent('popup-click', `random-room-click`, isAuth);
+
+          if (isAuth) {
+            navToRandom(payload.data);
+          } else {
+            setOpen(true);
+          }
+
           return;
         }
+
         if (payload.name === 'quake') {
-          navToQuake(payload.link);
+          trackGAEvent('popup-click', 'quake-click', isAuth);
+
+          if (isAuth) {
+            navToQuake(payload.link);
+          } else {
+            setOpen(true);
+          }
+
           return;
         }
+
         if (payload.link) {
           const samePage = payload.data && payload.data.samePage;
-          navigateByLink(payload.link, samePage);
+
+          trackGAEvent(
+            'popup-click',
+            `navigation-link-click - link:${payload.link}`,
+            true,
+          );
+
+          if (isAuth) {
+            navigateByLink(payload.link, samePage);
+          } else {
+            setOpen(true);
+          }
+
           return;
         }
-      } else {
-        setOpen(true);
       }
+
+      setOpen(true);
     }
   };
 
