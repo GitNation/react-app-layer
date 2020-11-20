@@ -32,25 +32,21 @@ export const createCalendarLink = (
 ) => {
   try {
     const talk = speaker.activities && speaker.activities.talks[0];
-    const start = createDateTime(talk.isoDate, talk.time);
     const title = createEventTitle(speaker, talk, calendarEventName);
 
-    return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${start}&duration=${
-      talk.duration
-    }&title=${title}${
+    return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${
+      talk.isoDate || talk.timeString
+    }&duration=${talk.duration}&title=${title}${
       calendarEventDescription ? `&description=${calendarEventDescription}` : ''
-    }&timezone=${TIMEZONE}&alarm=15`;
+    }&timezone=Europe/London&alarm=15`;
   } catch (err) {
     // Fallback whole day event
     if (calendarEventName && conferenceStart && conferenceEnd) {
-      const start = createDateTime(conferenceStart);
-      const end = createDateTime(conferenceEnd);
-
-      return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${start}&end=${end}&title=${calendarEventName}${
+      return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${conferenceStart}&end=${conferenceEnd}&title=${calendarEventName}${
         calendarEventDescription
           ? `&description=${calendarEventDescription}`
           : ''
-      }&timezone=${TIMEZONE}&all_day_event=true`;
+      }&timezone=Europe/London&all_day_event=true`;
     }
 
     return null;

@@ -83,7 +83,7 @@ const useBusEvents = (bus) => {
   const close = () => setOpen(false);
 
   const getDetails = (content) => {
-    const { reactLayerConfig = {} } = bus.getContent();
+    const { reactLayerConfig = {}, eventInfo } = bus.getContent();
 
     const status = content ? getEventStatus(content) : null;
     const isNow = status && status.status === 'now';
@@ -94,7 +94,11 @@ const useBusEvents = (bus) => {
       status: status && status.status,
       isNow,
       isAuth,
-      reactLayerConfig,
+      reactLayerConfig: {
+        ...reactLayerConfig,
+        conferenceStart: eventInfo.conferenceStart,
+        conferenceEnd: eventInfo.conferenceFinish,
+      },
     };
   };
 
