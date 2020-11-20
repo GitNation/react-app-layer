@@ -36,12 +36,10 @@ const TrackContent = styled.div`
   width: 100%;
 `;
 
-const ePic = (pic, imageFormat = 'jpg') =>
+const ePic = (pic) =>
   pic ? (
     <div className="time-track__pic">
-      <img
-        src={`https://media.graphcms.com/output=format:${imageFormat}/resize=fit:crop,height:72,width:72/${pic}`}
-      />
+      <img src={pic.url} />
     </div>
   ) : null;
 
@@ -181,7 +179,7 @@ const TrackEvent = ({ event, calcPosition, onClick, trackTitle }) => {
     onClick({ ...event, ...info, trackTitle });
   };
 
-  if (event.qaLink || event.title.indexOf('Q&A') === 0) {
+  if (event.eventType === 'QA') {
     return (
       <EventContainer position={position} width={width}>
         <QARoom talk={event} onClick={handleClick} />
@@ -189,7 +187,7 @@ const TrackEvent = ({ event, calcPosition, onClick, trackTitle }) => {
     );
   }
 
-  if (event.speakerRoomLink) {
+  if (event.eventType === 'SpeakersRoom') {
     return (
       <EventContainer position={position} width={width}>
         <SpeakerRoom talk={event} onClick={handleClick} />
@@ -197,7 +195,7 @@ const TrackEvent = ({ event, calcPosition, onClick, trackTitle }) => {
     );
   }
 
-  if (event.discussionRoomLink) {
+  if ((event.type = 'PanelDiscussion')) {
     return (
       <EventContainer position={position} width={width}>
         <DiscussionRoom talk={event} onClick={handleClick} />
@@ -214,7 +212,6 @@ const TrackEvent = ({ event, calcPosition, onClick, trackTitle }) => {
 
 function Track({ track, calcPosition, onClick }) {
   const { list, title } = track;
-  console.log('track', track);
 
   return (
     <div

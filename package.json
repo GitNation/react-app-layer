@@ -1,6 +1,6 @@
 {
   "name": "@focus-reactive/react-app-layer",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "private": false,
   "description": "",
   "main": "dist/index.js",
