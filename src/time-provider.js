@@ -137,8 +137,7 @@ export const convertEventTimeToISO = (date, time, z = 1) => {
 export const iso2sec = (iso) =>
   Math.floor(DateTime.fromISO(iso).toMillis() / 1000);
 
-export const convertEventTimeToLocal = (date, time, z = 1) => {
-  const iso = convertEventTimeToISO(date, time, z);
+export const convertEventTimeToLocal = (iso) => {
   const local = DateTime.fromISO(iso);
   return {
     date: local.toFormat('dd MMM'),

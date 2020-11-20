@@ -11,25 +11,17 @@ const trackStepInMin = 5;
 const pxPerMinute = 50 / trackStepInMin;
 
 export const createTimeTicks = (startEvent, endEvent) => {
-  const isoStart = convertEventTimeToISO(startEvent.date, startEvent.time);
-  const isoEnd = convertEventTimeToISO(endEvent.date, endEvent.time);
-  const ticks = createTimeRange(isoStart, isoEnd, trackStepInMin);
+  const ticks = createTimeRange(startEvent, endEvent, trackStepInMin);
 
   return ticks;
 };
 
 export const calcPositionFromTime = (startEvent, k = 1) => {
-  const isoStart = convertEventTimeToISO(startEvent.date, startEvent.time);
-  const secStart = iso2sec(isoStart);
+  const secStart = iso2sec(startEvent);
   return (event) => {
-    const { date, time, isoDate, z } = event;
+    const { time, isoDate, z } = event;
 
-    // events can have different date keys and formats
-    // leaded to one type MMMM dd
-    const correctDate =
-      date || DateTime.fromISO(isoDate, { setZone: true }).toFormat('MMMM dd');
-
-    const local = convertEventTimeToLocal(correctDate, time, z);
+    const local = convertEventTimeToLocal(isoDate, time, z);
     const sec = local.sec;
     const dist = ((sec - secStart) * pxPerMinute * k) / 60;
 

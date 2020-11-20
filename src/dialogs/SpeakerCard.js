@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import dayjs from 'dayjs';
 import { createCalendarLink } from '../calendar-provider';
 import {
   PopSpeaker,
@@ -50,6 +51,7 @@ function SpeakerCard({
   }, []);
   const person = content.data;
   const qaLink = selectQALink(person);
+
   const calendarLink = createCalendarLink(person, calendarLinkOptions);
 
   const techColor =
@@ -100,44 +102,37 @@ function SpeakerCard({
 
       <PopSpeakerMid minHeight={minHeightTalkDesc}>
         {person.activities && person.activities.talks
-          ? person.activities.talks.map((talk) => (
-              <React.Fragment key={talk.title}>
-                <PopSpeakerActivityInfo color={techColor}>
-                  <span>{!hideLabel ? talk.label : null}</span>
-                  <span>{talk.track.name}</span>
-                  {talk.time && talk.isoDate && (
-                    <span title="time is show in your local browser tme">
-                      {/* Hacking dates as somehow the dataset has separate ISO date and separate non-ISO time */}
-                      {new Date(
-                        `${new Date(talk.isoDate).toDateString()} ${
-                          talk.time
-                        } GMT+0100`,
-                      )
-                        .toLocaleTimeString('en-GB')
-                        .split(':')
-                        .slice(0, 2)
-                        .join(':')}
-                    </span>
-                  )}
-                </PopSpeakerActivityInfo>
-                <PopSpeakerTitle>{talk.title}</PopSpeakerTitle>
-                <PopSpeakerBio
-                  dangerouslySetInnerHTML={{
-                    __html: talk.description,
-                  }}
-                />
-                {talk.timeString && calendarLink ? (
-                  <PopCalendarButton
-                    title="Add Talk to Calendar"
-                    href={calendarLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Add Talk to Calendar
-                  </PopCalendarButton>
-                ) : null}
-              </React.Fragment>
-            ))
+          ? person.activities.talks.map((talk) => {
+              return (
+                <React.Fragment key={talk.title}>
+                  <PopSpeakerActivityInfo color={techColor}>
+                    <span>{!hideLabel ? talk.label : null}</span>
+                    <span>{talk.track.name}</span>
+                    {talk.timeString && (
+                      <span title="time is show in your local browser tme">
+                        {dayjs(talk.timeString).format('HH:mm')}
+                      </span>
+                    )}
+                  </PopSpeakerActivityInfo>
+                  <PopSpeakerTitle>{talk.title}</PopSpeakerTitle>
+                  <PopSpeakerBio
+                    dangerouslySetInnerHTML={{
+                      __html: talk.description,
+                    }}
+                  />
+                  {talk.timeString && calendarLink ? (
+                    <PopCalendarButton
+                      title="Add Talk to Calendar"
+                      href={calendarLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Add Talk to Calendar
+                    </PopCalendarButton>
+                  ) : null}
+                </React.Fragment>
+              );
+            })
           : null}
       </PopSpeakerMid>
     </PopSpeaker>
