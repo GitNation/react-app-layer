@@ -103,7 +103,6 @@ function SpeakerCard({
       <PopSpeakerMid minHeight={minHeightTalkDesc}>
         {person.activities && person.activities.talks
           ? person.activities.talks.map((talk) => {
-              console.log(talk);
               return (
                 <React.Fragment key={talk.title}>
                   <PopSpeakerActivityInfo color={techColor}>
