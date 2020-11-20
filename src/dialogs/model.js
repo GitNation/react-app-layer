@@ -13,9 +13,9 @@ export const getEventStatus = (payload) => {
     return null;
   }
   const { duration = '20', isoDate, timeString } = eventData;
-  const isoDate = isoDate || timeString;
+  const correctDate = isoDate || timeString;
   const durationMM = parseInt(duration, 10);
-  const checkStatus = createScheduleEvent(isoStart, durationMM);
+  const checkStatus = createScheduleEvent(correctDate, durationMM);
   const now = getCurrentLocalISO();
   const status = checkStatus(now);
   return status;
