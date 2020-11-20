@@ -89,7 +89,8 @@ const Tooltip = ({ children, on }) =>
   on ? <div className="track-tooltip">{children}</div> : null;
 
 const Talk = ({ talk, onClick }) => {
-  const { pic, speaker, title, lightningTalks, text, name, place } = talk;
+  const { avatar, speaker, title, lightningTalks, text, name, place } = talk;
+
   const handleClick = () => {
     onClick({ date: '', track: '' });
   };
@@ -105,7 +106,7 @@ const Talk = ({ talk, onClick }) => {
         cursor: 'pointer',
       }}
     >
-      {ePic(pic)}
+      {ePic(avatar)}
       {eTitle(speaker, title)}
       <Tooltip on={!!name}>{iSpeaker(name, place, title, text)}</Tooltip>
       <Tooltip on={!!lightningTalks}>{iLt(title, lightningTalks)}</Tooltip>
@@ -195,7 +196,7 @@ const TrackEvent = ({ event, calcPosition, onClick, trackTitle }) => {
     );
   }
 
-  if ((event.type = 'PanelDiscussion')) {
+  if (event.type === 'PanelDiscussion') {
     return (
       <EventContainer position={position} width={width}>
         <DiscussionRoom talk={event} onClick={handleClick} />
