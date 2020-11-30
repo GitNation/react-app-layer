@@ -130,11 +130,12 @@ const QARoom = ({ talk, onClick }) => {
 };
 
 const SpeakerRoom = ({ talk, onClick }) => {
-  const { pic, speaker, title, speakerRoomLink, type } = talk;
+  const { speakers, title, roomLink, type } = talk;
+  const [speaker] = speakers;
 
   const handleClick = () => {
     let samePage = false;
-    if (speakerRoomLink[0] === '#') {
+    if (roomLink?.[0] === '#') {
       samePage = true;
     }
     let override = {};
@@ -151,8 +152,8 @@ const SpeakerRoom = ({ talk, onClick }) => {
       className="time-track__link room js-time"
       style={{ '--bgColor': talk.bgColor, width: '100%' }}
     >
-      {ePic(pic)}
-      {eTitle(speaker, title)}
+      {ePic(speaker.avatar)}
+      {eTitle(speaker.name, title)}
     </a>
   );
 };
