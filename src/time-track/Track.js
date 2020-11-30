@@ -158,7 +158,7 @@ const SpeakerRoom = ({ talk, onClick }) => {
 };
 
 const DiscussionRoom = ({ talk, onClick }) => {
-  const { pic, speaker, title } = talk;
+  const { pic, speakers, title } = talk;
   return (
     <a
       onClick={onClick}
@@ -166,7 +166,7 @@ const DiscussionRoom = ({ talk, onClick }) => {
       style={{ '--bgColor': talk.bgColor, width: '100%' }}
     >
       {ePic(pic, 'png')}
-      {eTitle(speaker, title)}
+      {eTitle(speakers?.[0]?.name || '', title)}
       {camIcon}
     </a>
   );
@@ -196,7 +196,10 @@ const TrackEvent = ({ event, calcPosition, onClick, trackTitle }) => {
     );
   }
 
-  if (event.type === 'PanelDiscussion') {
+  if (
+    event.eventType === 'PanelDiscussion' ||
+    event.eventType === 'DiscussionRoom'
+  ) {
     return (
       <EventContainer position={position} width={width}>
         <DiscussionRoom talk={event} onClick={handleClick} />
