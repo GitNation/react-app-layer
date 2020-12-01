@@ -15,7 +15,7 @@ const Aside = ({ schedule, customTracks }) => {
           className={cn('time-track__track', { odd: tr.odd })}
           key={`${tr.title}-${ind}`}
         >
-          {tr.notitle ? null : (
+          {tr.isPrimaryTrack && (
             <div className="time-track__track-title">{tr.title}</div>
           )}
         </div>

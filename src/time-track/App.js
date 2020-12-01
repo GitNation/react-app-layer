@@ -17,6 +17,29 @@ const App = ({ bus }) => {
     speakers,
   } = content;
 
+  const groupedCustomTracks = customTracks.reduce(
+    (resultTracks, currentTrack) => {
+      const separatedTracks = currentTrack.list.reduce((tracksMap, event) => {
+        const result = { ...tracksMap };
+
+        if (result[event.subTrackIndex]) {
+          result[event.subTrackIndex].list.push(event);
+        } else {
+          result[event.subTrackIndex] = {
+            ...currentTrack,
+            isPrimaryTrack: event.subTrackIndex === 'default',
+            list: [event],
+          };
+        }
+
+        return result;
+      }, {});
+
+      return [...resultTracks, ...Object.values(separatedTracks)];
+    },
+    [],
+  );
+
   const {
     discordLink,
     chatLink,
@@ -45,9 +68,7 @@ const App = ({ bus }) => {
       isAuth,
       name: 'any-room',
       link:
-        eventContent.roomLink ||
-        eventContent.discussionRoomLink ||
-        discordLink,
+        eventContent.roomLink || eventContent.discussionRoomLink || discordLink,
     };
 
     if (eventContent.isQaEvent) {
@@ -84,7 +105,7 @@ const App = ({ bus }) => {
 
   return (
     <Container>
-      <Aside schedule={schedule} customTracks={customTracks} />
+      <Aside schedule={schedule} customTracks={groupedCustomTracks} />
       <TracksContent
         timeTicks={timeTicks}
         trackWidth={trackWidth}
@@ -98,7 +119,7 @@ const App = ({ bus }) => {
             onClick={handleClick}
           />
         ))}
-        {customTracks.map((tr, i) => (
+        {groupedCustomTracks.map((tr, i) => (
           <Track
             key={`${tr.title}-${i}`}
             track={tr}
