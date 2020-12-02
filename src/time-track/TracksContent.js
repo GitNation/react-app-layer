@@ -9,8 +9,9 @@ const autoScrollPosition = window.innerWidth * 0.2;
 const useCurrentTime = (calcPosition) => {
   const [position, setPosition] = React.useState(null);
 
-  const updateTime = (time) => {
-    const pos = calcPosition(time);
+  const updateTime = () => {
+    const date = new Date();
+    const pos = calcPosition({ isoDate: date.toISOString() });
     setPosition(pos);
   };
 
@@ -22,7 +23,6 @@ const useCurrentTime = (calcPosition) => {
 };
 
 function TracksContent({ children, timeTicks, trackWidth, calcPosition }) {
-  const [manualScroll, setManualScroll] = React.useState(false);
   const trackEl = React.useRef(null);
   const position = useCurrentTime(calcPosition);
 
