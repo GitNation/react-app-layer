@@ -13,7 +13,7 @@ const createDateTime = (isoDateWithoutTime, time) => {
 
 const createEventTitle = (speaker, talk, eventName) => {
   try {
-    return `${speaker.name} - "${talk.title}"${
+    return `${speaker.name || ''}${speaker.name ? ' - ' : ''}"${talk.title}"${
       eventName ? ` at ${eventName}` : ''
     }`;
   } catch (err) {
