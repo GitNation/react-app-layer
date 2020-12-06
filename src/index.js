@@ -1,5 +1,4 @@
-import { initExpoApp } from './expo-app';
-import { initExpoLiveWidget } from './expo-app/LiveWidget';
+import './firebase';
 import { initModalTakeoverWidget } from './ModalTakeoverWidget';
 import { initDialogs } from './dialogs';
 import { initTimeTrack } from './time-track';
@@ -13,10 +12,8 @@ setGlobals({
 });
 
 const initApp = () => {
-  initExpoApp(eventsBus);
   initDialogs(eventsBus);
   initTimeTrack(eventsBus);
-  initExpoLiveWidget(eventsBus);
   initModalTakeoverWidget(eventsBus);
 };
 

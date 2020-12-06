@@ -1,18 +1,22 @@
-import firebase from "firebase/app";
-import "firebase/database";
+import firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/analytics';
 
 //this config is being used for both development and production environment. Though, it is a best practice creating a second project and have two configs: one for production (prodConfig) and another for development (devConfig), so you choose the config based on the environment.
 
 const config = {
-  apiKey: "AIzaSyBf7T250-Zw9KKtluwz_5_FCImlyzgcHsg",
-  authDomain: "expo-jsn-live.firebaseapp.com",
-  databaseURL: "https://expo-jsn-live.firebaseio.com",
-  projectId: "expo-jsn-live",
-  storageBucket: "expo-jsn-live.appspot.com",
-  messagingSenderId: "435859589512",
-  appId: "1:435859589512:web:e69ddb814c4d0cc624923d"
+  apiKey: 'AIzaSyDvGCfd45wwjqhsb20d7O94GGt9-VvQsEc',
+  authDomain: 'gn-watch-app.firebaseapp.com',
+  projectId: 'gn-watch-app',
+  storageBucket: 'gn-watch-app.appspot.com',
+  messagingSenderId: '135946506727',
+  appId: '1:135946506727:web:e1976fc4ddef592a7fed42',
+  measurementId: 'G-DH7WHJXKGQ',
 };
 
+console.log('initializeApp');
+
 firebase.initializeApp(config);
+firebase.analytics();
 
 export const db = firebase.database();
