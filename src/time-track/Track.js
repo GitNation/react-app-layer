@@ -153,7 +153,7 @@ const SpeakerRoom = ({ talk, onClick }) => {
       style={{ '--bgColor': talk.bgColor, width: '100%' }}
     >
       {ePic(speaker.avatar)}
-      {eTitle(speaker.name, title)}
+      {eTitle('', title)}
     </a>
   );
 };
