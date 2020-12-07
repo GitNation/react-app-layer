@@ -167,7 +167,7 @@ const DiscussionRoom = ({ talk, onClick }) => {
       style={{ '--bgColor': talk.bgColor, width: '100%' }}
     >
       {ePic(pic, 'png')}
-      {eTitle(speakers?.[0]?.name || '', title)}
+      {eTitle('', title)}
       {camIcon}
     </a>
   );
