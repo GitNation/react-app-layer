@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
-import { db } from '../firebase';
 import { useObjectVal } from 'react-firebase-hooks/database';
+
+import { db } from '../firebase';
+import { trackGAEvent } from '../services/ga';
 
 const mountEventName = 'video-widget-mount';
 
@@ -55,8 +57,10 @@ function App({ bus }) {
   const content = bus.getContent();
   const { isAuth } = content;
 
-  const handleClick = (e) => {
+  const handleClick = (e, { title }) => {
     e.preventDefault();
+
+    trackGAEvent('video-widget-click', `title:${title};`, isAuth);
 
     const payload = {
       data: {},
@@ -79,7 +83,12 @@ function App({ bus }) {
 
             return (
               <Item key={i}>
-                <ItemLink href="#" onClick={handleClick}>
+                <ItemLink
+                  href="#"
+                  onClick={(e) => {
+                    handleClick(e, { title });
+                  }}
+                >
                   <Image>
                     <img src={image} alt={title} />
                   </Image>
