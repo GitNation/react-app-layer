@@ -11,9 +11,9 @@ const createDateTime = (isoDateWithoutTime, time) => {
   return `${yyyy}-${mm}-${dd}${time ? ` ${time}` : ''}`;
 };
 
-const createEventTitle = (speaker, talk, eventName) => {
+const createEventTitle = (speaker, eventName) => {
   try {
-    return `${speaker.name || ''}${speaker.name ? ' - ' : ''}"${talk.title}"${
+    return `${speaker.name || ''}${speaker.name ? ' - ' : ''}"${title}"${
       eventName ? ` at ${eventName}` : ''
     }`;
   } catch (err) {
@@ -32,7 +32,7 @@ export const createCalendarLink = (
 ) => {
   try {
     const talk = speaker.activities && speaker.activities.talks[0];
-    const title = createEventTitle(speaker, talk, calendarEventName);
+    const title = createEventTitle(speaker, calendarEventName);
 
     return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${
       talk.isoDate || talk.timeString
@@ -51,4 +51,15 @@ export const createCalendarLink = (
 
     return null;
   }
+};
+
+export const getWorkshopCalendarLink = (
+  { title, isoDate, duration },
+  calendarEventDescription,
+) => {
+  return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${isoDate}&duration=${
+    duration * 60
+  }&title=${title}${
+    calendarEventDescription ? `&description=${calendarEventDescription}` : ''
+  }&timezone=Europe/London&alarm=15`;
 };
