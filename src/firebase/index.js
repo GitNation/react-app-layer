@@ -6,6 +6,8 @@ import 'firebase/analytics';
 
 const config = {
   apiKey: 'AIzaSyDvGCfd45wwjqhsb20d7O94GGt9-VvQsEc',
+  databaseURL:
+    'https://gn-watch-app-default-rtdb.europe-west1.firebasedatabase.app',
   authDomain: 'gn-watch-app.firebaseapp.com',
   projectId: 'gn-watch-app',
   storageBucket: 'gn-watch-app.appspot.com',
