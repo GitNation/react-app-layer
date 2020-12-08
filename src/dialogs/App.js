@@ -9,7 +9,10 @@ import NewTab from './NewTab';
 import TicketMessage from './TicketMessage';
 import WatchMessage from './WatchMessage';
 import SpeakerCard from './SpeakerCard';
-import { createCalendarLink } from '../calendar-provider';
+import {
+  createCalendarLink,
+  getWorkshopCalendarLink,
+} from '../calendar-provider';
 
 const eventNames = [
   'video-room',
@@ -24,6 +27,7 @@ const eventNames = [
   'talk-calendar',
   'quake',
   'open-base-modal',
+  'workshop-calendar',
   'video-widget',
 ];
 
@@ -135,6 +139,19 @@ const useBusEvents = (bus) => {
           conferenceStart,
           conferenceEnd,
         });
+        console.log('link', link);
+
+        navigateByLink(link);
+
+        return;
+      }
+
+      if (payload.name === 'workshop-calendar') {
+        const link = getWorkshopCalendarLink(
+          payload.data,
+          calendarEventDescription,
+        );
+
         navigateByLink(link);
         return;
       }
