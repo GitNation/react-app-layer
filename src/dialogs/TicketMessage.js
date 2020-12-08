@@ -22,11 +22,11 @@ const TicketMessage = ({ ticketsLink }) => {
         <PopTicketColLeft>
           <PopTicketTitle>Dont have a full ticket?</PopTicketTitle>
           <PopTicketDesc>
-            Watch-only ticket holders can watch our conference talks, but all
-            other activities are only available to full-access attendees.
-            Upgrade your ticket and get to join Q&amp;As with pro speakers,
-            advice lounge with our experts, networking rooms, afterparty, and
-            you’ll also enjoy many other perks.
+            Watch-only ticket holders can watch our conference live, but all
+            other activities and video recordings are only available to
+            full-access attendees. Upgrade your ticket and get to join Q&amp;As
+            with pro speakers, advice lounge with our experts, networking rooms,
+            afterparty, and you’ll also enjoy many other perks.
           </PopTicketDesc>
           <PopTicketButtonWithBorder
             href={ticketsLink}

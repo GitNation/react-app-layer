@@ -28,6 +28,7 @@ const eventNames = [
   'quake',
   'open-base-modal',
   'workshop-calendar',
+  'video-widget',
 ];
 
 const GlobalStyle = createGlobalStyle`

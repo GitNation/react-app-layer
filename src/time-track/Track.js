@@ -153,7 +153,7 @@ const SpeakerRoom = ({ talk, onClick }) => {
       style={{ '--bgColor': talk.bgColor, width: '100%' }}
     >
       {ePic(speaker.avatar)}
-      {eTitle(speaker.name, title)}
+      {eTitle('', title)}
     </a>
   );
 };
@@ -167,7 +167,7 @@ const DiscussionRoom = ({ talk, onClick }) => {
       style={{ '--bgColor': talk.bgColor, width: '100%' }}
     >
       {ePic(pic, 'png')}
-      {eTitle(speakers?.[0]?.name || '', title)}
+      {eTitle('', title)}
       {camIcon}
     </a>
   );
