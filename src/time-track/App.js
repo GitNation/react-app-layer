@@ -26,7 +26,7 @@ const App = ({ bus }) => {
   } = eventInfo;
   const timeTicks = createTimeTicks(startTime, endTime);
   const calcPosition = calcPositionFromTime(startTime);
-  const trackWidth = calcPosition(endTime);
+  const trackWidth = calcPosition({ isoDate: endTime });
 
   const handleClick = (eventContent) => {
     let isTrackAvailable = true;
