@@ -24,16 +24,16 @@ const TicketNotFound = () => {
       <PopTicketTwoCol>
         <PopTicketColRight>
           <PopTicketTitle>
-            We could registered tickets to provided email
+            We could not find any associated tickets with the provided email
             {Boolean(email) && ` - ${email}`}
           </PopTicketTitle>
           <PopTicketDesc>
-            If you have ticket to the event, please double check the email used
-            to register on{' '}
+            If you have a ticket to the event, please double check the email
+            used to register on{' '}
             <a href="https://ti.to/gitnation/testjs-summit" target="_blank">
               Ti.to
             </a>{' '}
-            and enter your email below
+            or digital badges and enter your email below
           </PopTicketDesc>
           <PopTicketForm action="/live" method="get" target="_blank" noValidate>
             <PopTicketField>
