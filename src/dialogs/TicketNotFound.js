@@ -1,4 +1,5 @@
 import React from 'react';
+import { getCookie } from '../services/getCookie';
 
 import {
   PopTicket,
@@ -16,9 +17,7 @@ import {
 } from './TicketMessage.styled';
 
 const TicketNotFound = () => {
-  const email = window.location.search
-    ? window.location.search.split('?email=')[1]
-    : '';
+  const email = getCookie('watchMail');
 
   return (
     <PopTicket id="popup-ticket">
@@ -26,7 +25,7 @@ const TicketNotFound = () => {
         <PopTicketColRight>
           <PopTicketTitle>
             We could registered tickets to provided email
-            {email && ` - ${email}`}
+            {Boolean(email) && ` - ${email}`}
           </PopTicketTitle>
           <PopTicketDesc>
             If you have ticket to the event, please double check the email used
