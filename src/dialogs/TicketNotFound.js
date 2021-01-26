@@ -35,7 +35,7 @@ const TicketNotFound = () => {
             </a>{' '}
             or digital badges and enter your email below
           </PopTicketDesc>
-          <PopTicketForm action="/live" method="get" target="_blank" noValidate>
+          <PopTicketForm action="/live" method="get" noValidate>
             <PopTicketField>
               <PopTicketInput
                 type="email"
