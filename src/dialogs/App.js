@@ -8,6 +8,8 @@ import { getEventStatus } from './model';
 import NewTab from './NewTab';
 import TicketMessage from './TicketMessage';
 import WatchMessage from './WatchMessage';
+import WatchMessagePaid from './WatchMessagePaid';
+import TicketNotFound from './TicketNotFound';
 import SpeakerCard from './SpeakerCard';
 import {
   createCalendarLink,
@@ -24,6 +26,8 @@ const eventNames = [
   'random-room',
   'speaker-card',
   'watch-livestream',
+  'watch-livestream-paid',
+  'ticket-not-fount',
   'talk-calendar',
   'quake',
   'open-base-modal',
@@ -219,6 +223,27 @@ const App = ({ bus }) => {
         <GlobalStyle isOpen={isOpen} />
         <DialogContent aria-label="video message from organizers">
           {isOpen ? <WatchMessage ticketsLink={ticketsLink} /> : null}
+        </DialogContent>
+      </DialogOverlay>
+    );
+  }
+
+  if (type === 'watch-livestream-paid') {
+    return (
+      <DialogOverlay isOpen={isOpen} onDismiss={close}>
+        <GlobalStyle isOpen={isOpen} />
+        <DialogContent aria-label="video message from organizers">
+          {Boolean(isOpen) && <WatchMessagePaid />}
+        </DialogContent>
+      </DialogOverlay>
+    );
+  }
+  if (type === 'ticket-not-fount') {
+    return (
+      <DialogOverlay isOpen={isOpen} onDismiss={() => {}}>
+        <GlobalStyle isOpen={false} />
+        <DialogContent aria-label="video message from organizers">
+          {Boolean(isOpen) && <TicketNotFound />}
         </DialogContent>
       </DialogOverlay>
     );
