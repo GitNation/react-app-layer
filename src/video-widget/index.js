@@ -96,7 +96,7 @@ function App({ bus }) {
                     <Image>
                       <img src={image} alt={title} />
                     </Image>
-                    <Title>11{title}</Title>
+                    <Title>{title}</Title>
                   </ItemLink>
                 </Item>
               );
