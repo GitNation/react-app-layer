@@ -66,7 +66,7 @@ function App({ bus }) {
       data: {},
       isAuth,
       name: 'video-widget',
-      link: 'https://video.gitnation.org/orders/customer_info?o=44150',
+      link: 'https://video.gitnation.org/orders/customer_info?o=47888', // TODO:hardcoded testjs VOD access link
     };
 
     bus.clickEvent(payload);
@@ -74,33 +74,38 @@ function App({ bus }) {
     return false;
   };
 
-  return (
-    <Container>
-      {videos && (
-        <List>
-          {Object.keys(videos).map((video, i) => {
-            const { image, title } = videos[video];
+  return videos ? (
+    <section className="section video-widget" id="videos">
+      <div className="container">
+        <h3 className="section__title graphcms-container">
+          Published talk recordings
+        </h3>
+        <Container>
+          <List>
+            {Object.keys(videos).map((video, i) => {
+              const { image, title } = videos[video];
 
-            return (
-              <Item key={i}>
-                <ItemLink
-                  href="#"
-                  onClick={(e) => {
-                    handleClick(e, { title });
-                  }}
-                >
-                  <Image>
-                    <img src={image} alt={title} />
-                  </Image>
-                  <Title>{title}</Title>
-                </ItemLink>
-              </Item>
-            );
-          })}
-        </List>
-      )}
-    </Container>
-  );
+              return (
+                <Item key={i}>
+                  <ItemLink
+                    href="#"
+                    onClick={(e) => {
+                      handleClick(e, { title });
+                    }}
+                  >
+                    <Image>
+                      <img src={image} alt={title} />
+                    </Image>
+                    <Title>11{title}</Title>
+                  </ItemLink>
+                </Item>
+              );
+            })}
+          </List>
+        </Container>
+      </div>
+    </section>
+  ) : null;
 }
 
 const mountApp = (id, bus) => {
