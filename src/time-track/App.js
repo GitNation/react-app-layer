@@ -5,6 +5,7 @@ import TracksContent from './TracksContent';
 import Track from './Track';
 import { createTimeTicks, calcPositionFromTime } from './model';
 import { trackGAEvent } from '../services/ga';
+import { generateTimeEvents } from '../time-provider';
 
 const App = ({ bus }) => {
   const content = bus.getContent();
@@ -19,12 +20,12 @@ const App = ({ bus }) => {
   } = content;
 
   const {
-    discordLink,
     chatLink,
     chatLinkAuth,
     conferenceStart: startTime,
     conferenceFinish: endTime,
   } = eventInfo;
+
   const timeTicks = createTimeTicks(startTime, endTime);
   const calcPosition = calcPositionFromTime(startTime);
   const trackWidth = calcPosition({ isoDate: endTime });
@@ -37,6 +38,7 @@ const App = ({ bus }) => {
       isTrackAvailable = availableTracks.includes(eventContent.trackTitle);
     }
 
+    const correctDiscordLink = isAuth ? chatLinkAuth : chatLink;
     const payload = {
       data: {
         ...eventContent,
@@ -46,10 +48,16 @@ const App = ({ bus }) => {
       isAuth,
       name: 'any-room',
       link:
-        eventContent.roomLink || eventContent.discussionRoomLink || discordLink,
+        eventContent.roomLink ||
+        eventContent.discussionRoomLink ||
+        eventContent.additionalLink ||
+        correctDiscordLink,
     };
 
-    if (eventContent.isQaEvent) {
+    if (
+      eventContent.isQaEvent ||
+      eventContent.eventType === 'PanelDiscussion'
+    ) {
       payload.isAuth = true;
 
       payload.link = isAuth ? chatLinkAuth : chatLink;
@@ -73,12 +81,12 @@ const App = ({ bus }) => {
       !eventContent.roomLink &&
       !eventContent.discussionRoomLink &&
       !eventContent.speaker &&
-      !discordLink
+      !correctDiscordLink
     ) {
       payload.isAuth = true;
     }
 
-    trackGAEvent('TT', 'CL', payload?.data?.slug, isAuth)
+    trackGAEvent('TT', 'CL', payload?.data?.slug, isAuth);
 
     bus.clickEvent(payload);
   };
