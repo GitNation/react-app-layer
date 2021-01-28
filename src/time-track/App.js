@@ -4,6 +4,7 @@ import Aside from './Aside';
 import TracksContent from './TracksContent';
 import Track from './Track';
 import { createTimeTicks, calcPositionFromTime } from './model';
+import { trackGAEvent } from '../services/ga';
 
 const App = ({ bus }) => {
   const content = bus.getContent();
@@ -45,9 +46,7 @@ const App = ({ bus }) => {
       isAuth,
       name: 'any-room',
       link:
-        eventContent.roomLink ||
-        eventContent.discussionRoomLink ||
-        discordLink,
+        eventContent.roomLink || eventContent.discussionRoomLink || discordLink,
     };
 
     if (eventContent.isQaEvent) {
@@ -78,6 +77,8 @@ const App = ({ bus }) => {
     ) {
       payload.isAuth = true;
     }
+
+    trackGAEvent('TT', 'CL', payload?.data?.slug, isAuth)
 
     bus.clickEvent(payload);
   };
