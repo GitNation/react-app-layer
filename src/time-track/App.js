@@ -7,6 +7,14 @@ import { createTimeTicks, calcPositionFromTime } from './model';
 import { trackGAEvent } from '../services/ga';
 import { generateTimeEvents } from '../time-provider';
 
+// TODO add to cms boolean flag to ignore event click
+const IGNORE_CLICK_EVENT_SLUGS = [
+  'day-1-closing-ceremony',
+  'day-2-closing-ceremony',
+  'break',
+  'conference-opening',
+];
+
 const App = ({ bus }) => {
   const content = bus.getContent();
   const {
@@ -31,6 +39,10 @@ const App = ({ bus }) => {
   const trackWidth = calcPosition({ isoDate: endTime });
 
   const handleClick = (eventContent) => {
+    if (IGNORE_CLICK_EVENT_SLUGS.includes(eventContent.slug)) {
+      return;
+    }
+
     let isTrackAvailable = true;
 
     // some conferences may provide availableTracks: Array<string>
