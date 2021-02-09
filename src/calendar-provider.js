@@ -1,4 +1,5 @@
 const ADD_EVENT_ID = 'aypbtNBcPzBIdDvukmvT46093';
+import { DateTime } from 'luxon';
 const TIMEZONE = 'Europe/Amsterdam';
 
 const createDateTime = (isoDateWithoutTime, time) => {
@@ -34,11 +35,12 @@ export const createCalendarLink = (
     const talk = speaker.activities && speaker.activities.talks[0];
     const title = createEventTitle(speaker, calendarEventName);
 
-    return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${
-      talk.isoDate || talk.timeString
-    }&duration=${talk.duration}&title=${title}${
+    const localDate = DateTime.fromISO(talk.isoDate);
+    return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${localDate.toFormat('yyyy/MM/dd HH:mm')}&duration=${
+      talk.duration
+    }&title=${title}${
       calendarEventDescription ? `&description=${calendarEventDescription}` : ''
-    }&timezone=Europe/London&alarm=15`;
+    }&timezone=${localDate.zoneName}&alarm=15`;
   } catch (err) {
     // Fallback whole day event
     if (calendarEventName && conferenceStart && conferenceEnd) {

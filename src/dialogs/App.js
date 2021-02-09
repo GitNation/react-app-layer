@@ -143,7 +143,6 @@ const useBusEvents = (bus) => {
           conferenceStart,
           conferenceEnd,
         });
-        console.log('link', link);
 
         navigateByLink(link);
 
