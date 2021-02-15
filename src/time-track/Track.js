@@ -85,11 +85,42 @@ const iLt = (title, lightningTalks) => (
   </React.Fragment>
 );
 
+const DiscussionRoomTooltipContent = ({ text, title, speakers }) => {
+  if (text) {
+    return (
+      <div
+        className="time-track__discussion-link"
+        dangerouslySetInnerHTML={{ __html: text }}
+      />
+    );
+  }
+
+  return (
+    <div>
+      {speakers.map((info) => (
+        <p key={info.name}>
+          <strong>{info.name}</strong>
+          {info.company ? ` (${info.company})` : null}
+        </p>
+      ))}
+    </div>
+  );
+};
+
 const Tooltip = ({ children, on }) =>
   on ? <div className="track-tooltip">{children}</div> : null;
 
-const Talk = ({ talk, onClick }) => {
-  const { avatar, speaker, title, lightningTalks, text, name, place } = talk;
+const Talk = ({ talk, onClick, isOrgEvent }) => {
+  const {
+    avatar,
+    speaker,
+    title,
+    lightningTalks,
+    text,
+    name,
+    place,
+    description,
+  } = talk;
 
   const handleClick = () => {
     onClick({ date: '', track: '' });
@@ -110,6 +141,9 @@ const Talk = ({ talk, onClick }) => {
       {eTitle(speaker, title)}
       <Tooltip on={!!name}>{iSpeaker(name, place, title, text)}</Tooltip>
       <Tooltip on={!!lightningTalks}>{iLt(title, lightningTalks)}</Tooltip>
+      <Tooltip on={isOrgEvent && !!description}>
+        <div dangerouslySetInnerHTML={{ __html: description }} />
+      </Tooltip>
     </div>
   );
 };
@@ -159,16 +193,23 @@ const SpeakerRoom = ({ talk, onClick }) => {
 };
 
 const DiscussionRoom = ({ talk, onClick }) => {
-  const { pic, speakers, title } = talk;
+  const { pic, speakers, title, text } = talk;
   return (
     <a
       onClick={onClick}
-      className="time-track__link discussion js-time"
+      className="time-track__item time-track__link discussion js-time"
       style={{ '--bgColor': talk.bgColor, width: '100%' }}
     >
       {ePic(pic, 'png')}
       {eTitle('', title)}
       {camIcon}
+      <Tooltip on={!!title}>
+        <DiscussionRoomTooltipContent
+          text={text}
+          title={title}
+          speakers={speakers}
+        />
+      </Tooltip>
     </a>
   );
 };
@@ -204,6 +245,14 @@ const TrackEvent = ({ event, calcPosition, onClick, trackTitle }) => {
     return (
       <EventContainer position={position} width={width}>
         <DiscussionRoom talk={event} onClick={handleClick} />
+      </EventContainer>
+    );
+  }
+
+  if (event.eventType === 'OrgEvent') {
+    return (
+      <EventContainer position={position} width={width}>
+        <Talk talk={event} onClick={handleClick} isOrgEvent />
       </EventContainer>
     );
   }

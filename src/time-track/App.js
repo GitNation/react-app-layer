@@ -71,8 +71,14 @@ const App = ({ bus }) => {
       eventContent.eventType === 'PanelDiscussion'
     ) {
       payload.isAuth = true;
-
       payload.link = isAuth ? chatLinkAuth : chatLink;
+    }
+
+    if (
+      eventContent.eventType === 'OrgEvent' &&
+      eventContent.slug === 'afterparty'
+    ) {
+      payload.isAuth = true;
     }
 
     if (eventContent.speaker && isTrackAvailable && speakers) {
