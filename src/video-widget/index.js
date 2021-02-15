@@ -66,7 +66,7 @@ function App({ bus }) {
       data: {},
       isAuth,
       name: 'video-widget',
-      link: 'https://video.gitnation.org/orders/customer_info?o=47888', // TODO:hardcoded testjs VOD access link
+      link: 'https://video.gitnation.org/orders/customer_info?o=49215', // TODO:hardcoded nodecongress VOD access link
     };
 
     bus.clickEvent(payload);
