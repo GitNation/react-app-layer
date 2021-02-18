@@ -11,7 +11,7 @@ const mountEventName = 'video-widget-mount';
 const Container = styled.div``;
 
 const List = styled.ul`
-  overflow: scroll;
+  overflow: auto;
   white-space: nowrap;
   padding-bottom: 20px;
 `;
