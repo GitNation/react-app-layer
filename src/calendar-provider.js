@@ -35,10 +35,10 @@ export const createCalendarLink = (
     const talk = speaker.activities && speaker.activities.talks[0];
     const title = createEventTitle(speaker, calendarEventName);
 
-    const localDate = DateTime.fromISO(talk.isoDate);
-    return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${localDate.toFormat('yyyy/MM/dd HH:mm')}&duration=${
-      talk.duration
-    }&title=${title}${
+    const localDate = DateTime.fromISO(talk.isoDate || talk.timeString);
+    return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${localDate.toFormat(
+      'yyyy/MM/dd HH:mm',
+    )}&duration=${talk.duration}&title=${title}${
       calendarEventDescription ? `&description=${calendarEventDescription}` : ''
     }&timezone=${localDate.zoneName}&alarm=15`;
   } catch (err) {
