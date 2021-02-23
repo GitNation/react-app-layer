@@ -16,7 +16,7 @@ import {
   PopTicketArrowSvg,
 } from './TicketMessage.styled';
 
-const TicketNotFound = () => {
+const TicketNotFound = ({ ticketsLink }) => {
   const email = getCookie('watchMail');
 
   return (
@@ -30,7 +30,7 @@ const TicketNotFound = () => {
           <PopTicketDesc>
             If you have a ticket to the event, please double check the email
             used to register on{' '}
-            <a href="https://ti.to/gitnation/node-congress" target="_blank">
+            <a href={ticketsLink} target="_blank">
               Ti.to
             </a>{' '}
             or digital badges and enter your email below
@@ -53,7 +53,7 @@ const TicketNotFound = () => {
           <div style={{ height: '30px' }} />
           <PopTicketDesc>
             If you don't have a ticket, please register via our{' '}
-            <a href="https://ti.to/gitnation/node-congress" target="_blank">
+            <a href={ticketsLink} target="_blank">
               Ti.to
             </a>{' '}
             page.

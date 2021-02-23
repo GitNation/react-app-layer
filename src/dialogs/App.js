@@ -242,7 +242,7 @@ const App = ({ bus }) => {
       <DialogOverlay isOpen={isOpen} onDismiss={() => {}}>
         <GlobalStyle isOpen={false} />
         <DialogContent aria-label="video message from organizers">
-          {Boolean(isOpen) && <TicketNotFound />}
+          {Boolean(isOpen) && <TicketNotFound ticketsLink={ticketsLink} />}
         </DialogContent>
       </DialogOverlay>
     );
