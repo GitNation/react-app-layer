@@ -57,7 +57,7 @@ export const getWorkshopCalendarLink = (
   calendarEventDescription,
 ) => {
   const localDate = DateTime.fromISO(isoDate);
-  const encodedTitle = encodeURIComponent(title);
+  const encodedTitle = encodeURIComponent(`Workshop: ${title}`);
   const description = encodeURIComponent(calendarEventDescription);
   return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${localDate.toFormat(
     'yyyy/MM/dd HH:mm',
