@@ -36,10 +36,16 @@ export const createCalendarLink = (
     }&timezone=${localDate.zoneName}&alarm=15`;
   } catch (err) {
     // Fallback whole day event
+    const localDateEventStart = DateTime.fromISO(conferenceStart);
+    const localDateEventEnd = DateTime.fromISO(conferenceEnd);
     if (calendarEventName && conferenceStart && conferenceEnd) {
-      return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${conferenceStart}&end=${conferenceEnd}&title=${calendarEventName}${
+      return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${localDateEventStart.toFormat(
+        'yyyy/MM/dd HH:mm',
+      )}&end=${localDateEventEnd.toFormat(
+        'yyyy/MM/dd HH:mm',
+      )}&title=${calendarEventName}${
         description ? `&description=${description}` : ''
-      }&timezone=Europe/London&all_day_event=true`;
+      }&timezone=${localDateEventStart.zoneName}&all_day_event=true`;
     }
 
     return null;
@@ -50,9 +56,12 @@ export const getWorkshopCalendarLink = (
   { title, isoDate, duration },
   calendarEventDescription,
 ) => {
-  return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${isoDate}&duration=${
-    duration * 60
-  }&title=${title}${
-    calendarEventDescription ? `&description=${calendarEventDescription}` : ''
-  }&timezone=Europe/London&alarm=15`;
+  const localDate = DateTime.fromISO(isoDate);
+  const encodedTitle = encodeURIComponent(title);
+  const description = encodeURIComponent(calendarEventDescription);
+  return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${localDate.toFormat(
+    'yyyy/MM/dd HH:mm',
+  )}&duration=${duration * 60}&title=${encodedTitle}${
+    calendarEventDescription ? `&description=${description}` : ''
+  }&timezone=${localDate.zoneName}&alarm=15`;
 };
