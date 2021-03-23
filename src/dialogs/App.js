@@ -205,15 +205,18 @@ const useBusEvents = (bus) => {
 const App = ({ bus }) => {
   const { isOpen, close, type, content, status, isAuth } = useBusEvents(bus);
 
-  const { reactLayerConfig = {} } = bus.getContent();
+  const { reactLayerConfig = {}, eventInfo } = bus.getContent();
+
+  const {
+    conferenceStart: conferenceStart,
+    conferenceFinish: conferenceEnd,
+  } = eventInfo;
 
   const {
     ticketsLink,
     hideSpeakerPopupLabel,
     calendarEventDescription,
     calendarEventName,
-    conferenceStart,
-    conferenceEnd,
   } = reactLayerConfig;
 
   if (type === 'watch-livestream') {

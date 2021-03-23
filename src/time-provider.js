@@ -212,8 +212,7 @@ const SchdStatus = {
 };
 
 export const createScheduleEvent = (isoStart, durationMM) => {
-  const globArchiveIso = globalSettings.reactLayerConfig.conferenceEnd;
-  const secArchive = iso2sec(globArchiveIso);
+  const secArchive = iso2sec(globalSettings.conferenceFinish);
   const secStart = iso2sec(isoStart);
   const secEnd = secStart + durationMM * 60;
   return (isoTime) => {
