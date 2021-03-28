@@ -60,7 +60,7 @@ function App({ bus }) {
   const handleClick = (e, { title }) => {
     e.preventDefault();
 
-    trackGAEvent('video-widget-click', `title:${title};`, isAuth);
+    trackGAEvent('video-widget', 'click', `title:${title}`, isAuth);
 
     const payload = {
       data: {},

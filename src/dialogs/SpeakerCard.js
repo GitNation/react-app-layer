@@ -79,7 +79,7 @@ function SpeakerCard({
               {/*{qaLink ? (*/}
               {/*  <PopSpeakerBtn*/}
               {/*    href={qaLink}*/}
-              {/*    target="_blanc"*/}
+              {/*    target="_blank"*/}
               {/*    rel="noopener noreferrer"*/}
               {/*  >*/}
               {/*    JOIN SPEAKER'S VIDEO ROOM*/}
@@ -89,7 +89,7 @@ function SpeakerCard({
                 <PopSpeakerBtn
                   key={soc.link}
                   href={soc.link}
-                  target="_blanc"
+                  target="_blank"
                   rel="noopener noreferrer"
                 >
                   {socialTitle[soc.icon] || socialTitle.default}

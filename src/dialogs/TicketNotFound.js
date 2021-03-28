@@ -4,10 +4,8 @@ import { getCookie } from '../services/getCookie';
 import {
   PopTicket,
   PopTicketTwoCol,
-  PopTicketColLeft,
   PopTicketTitle,
   PopTicketDesc,
-  PopTicketButtonWithBorder,
   PopTicketColRight,
   PopTicketForm,
   PopTicketField,

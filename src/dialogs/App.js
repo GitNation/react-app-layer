@@ -11,6 +11,7 @@ import WatchMessage from './WatchMessage';
 import WatchMessagePaid from './WatchMessagePaid';
 import TicketNotFound from './TicketNotFound';
 import SpeakerCard from './SpeakerCard';
+import SponsorCard from './SponsorCard';
 import {
   createCalendarLink,
   getWorkshopCalendarLink,
@@ -25,6 +26,7 @@ const eventNames = [
   'link',
   'random-room',
   'speaker-card',
+  'sponsor-card',
   'watch-livestream',
   'watch-livestream-paid',
   'ticket-not-fount',
@@ -125,7 +127,7 @@ const useBusEvents = (bus) => {
         conferenceEnd,
       } = reactLayerConfig;
 
-      if (payload.name === 'speaker-card') {
+      if (payload.name === 'speaker-card' || payload.name === 'sponsor-card') {
         setOpen(true);
         return;
       }
@@ -259,7 +261,7 @@ const App = ({ bus }) => {
     return (
       <DialogOverlay isOpen={isOpen} onDismiss={close}>
         <GlobalStyle isOpen={isOpen} />
-        <DialogContent aria-label="this activity is not available">
+        <DialogContent aria-label="popup with details about speaker">
           {isOpen ? (
             <SpeakerCard
               type={type}
@@ -274,6 +276,17 @@ const App = ({ bus }) => {
               }}
             />
           ) : null}
+        </DialogContent>
+      </DialogOverlay>
+    );
+  }
+
+  if (type === 'sponsor-card') {
+    return (
+      <DialogOverlay isOpen={isOpen} onDismiss={close}>
+        <GlobalStyle isOpen={isOpen} />
+        <DialogContent aria-label="popup with details about partner">
+          {isOpen ? <SponsorCard content={content} /> : null}
         </DialogContent>
       </DialogOverlay>
     );
