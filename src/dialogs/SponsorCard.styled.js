@@ -64,7 +64,7 @@ export const PopSponsorTitle = styled.h4`
 export const PopSponsorBio = styled.div`
   font-size: 14px;
   font-weight: 500;
-  color: var(--color-popup-general-text, #5f5f5f);
+  color: var(--color-popup-general-text, #888);
   line-height: 1.46;
 
   a {
