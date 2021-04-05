@@ -122,6 +122,7 @@ const useBusEvents = (bus) => {
 
       const {
         calendarEventDescription,
+        calendarWorkshopDescription = '',
         calendarEventName,
         conferenceStart,
         conferenceEnd,
@@ -154,7 +155,7 @@ const useBusEvents = (bus) => {
       if (payload.name === 'workshop-calendar') {
         const link = getWorkshopCalendarLink(
           payload.data,
-          calendarEventDescription,
+          calendarWorkshopDescription,
         );
 
         navigateByLink(link);
