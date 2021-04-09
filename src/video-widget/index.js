@@ -55,7 +55,10 @@ const Title = styled.div`
 function App({ bus }) {
   const [videos, loading, error] = useObjectVal(db.ref('videos'));
   const content = bus.getContent();
-  const { isAuth } = content;
+  const {
+    isAuth,
+    reactLayerConfig: { linkToTalkRecordings },
+  } = content;
 
   const handleClick = (e, { title }) => {
     e.preventDefault();
@@ -66,7 +69,7 @@ function App({ bus }) {
       data: {},
       isAuth,
       name: 'video-widget',
-      link: 'https://video.gitnation.org/orders/customer_info?o=49215', // TODO:hardcoded nodecongress VOD access link
+      link: linkToTalkRecordings,
     };
 
     bus.clickEvent(payload);
