@@ -15,9 +15,11 @@ import {
 import { trackGAEvent } from '../services/ga';
 import { getCookie } from '../services/getCookie';
 
+export const buttonStates = ['initial', 'processing', 'submitted'];
+
 function SponsorCard({ content }) {
   const [minHeightTalkDesc, setMinHeightTalkDesc] = useState(0);
-  const [buttonClicked, setButtonState] = useState(false);
+  const [buttonState, setButtonState] = useState(buttonStates[0]);
   const buttonListRef = useCallback((node) => {
     if (node !== null && window.matchMedia('(min-width: 600px)').matches) {
       setMinHeightTalkDesc(node.getBoundingClientRect().height);
@@ -30,25 +32,26 @@ function SponsorCard({ content }) {
   const handleClick = (e) => {
     e.preventDefault();
 
-    if (!buttonClicked) {
-      // TODO: slackChannelName is used as an alternative to sponsor name, need to rebuild this with proper sponsor schema
+    if (buttonState === buttonStates[0]) {
       trackGAEvent(
         'sponsor-consent',
         'click',
-        `name:${sponsor.slackChannelName}`,
+        `name:${sponsor.itemID}`,
         content.isAuth,
       );
 
+      setButtonState(buttonStates[1]);
       try {
         fetch(
-          `https://script.google.com/macros/s/AKfycbxxLif_AS3Pz_WGZbYmkHla-FQdNhFUVYaJFPPJvhceE_TAdb_9dnMPVBpbLVOlGZJ6/exec?sponsor=${sponsor.slackChannelName}&email=${email}`,
+          `https://script.google.com/macros/s/AKfycbxxLif_AS3Pz_WGZbYmkHla-FQdNhFUVYaJFPPJvhceE_TAdb_9dnMPVBpbLVOlGZJ6/exec?sponsor=${sponsor.itemID}&email=${email}`,
           {
             method: 'POST',
           },
         ).then(() => {
-          setButtonState(true);
+          setButtonState(buttonStates[2]);
         });
       } catch (error) {
+        setButtonState(buttonStates[0]);
         throw new Error(
           `Failed recording attendee email consent: ${error.toString()}`,
         );
@@ -65,7 +68,8 @@ function SponsorCard({ content }) {
         <PopSponsorActions>
           <div ref={buttonListRef}>
             <PopSponsorBtn
-              disabled={buttonClicked}
+              disabled={buttonState !== buttonStates[0]}
+              state={buttonState}
               onClick={
                 email
                   ? handleClick
@@ -81,11 +85,15 @@ function SponsorCard({ content }) {
               href={email ? '#' : sponsor.registerLink}
               target="_blank"
             >
-              {buttonClicked ? 'Recorded' : "I'm interested"}
+              {buttonState === buttonStates[0]
+                ? "I'm interested"
+                : buttonState === buttonStates[2]
+                ? 'Recorded'
+                : 'Processing'}
             </PopSponsorBtn>
             {email && (
               <PopSponsorBtnDisclaimer>
-                confirm sharing your email with the partner
+                allow {sponsor.itemID} to send you more details over email
               </PopSponsorBtnDisclaimer>
             )}
           </div>
@@ -116,7 +124,7 @@ function SponsorCard({ content }) {
             trackGAEvent(
               'sponsors-offers',
               'click',
-              `name:${sponsor.slackChannelName}`,
+              `name:${sponsor.itemID}`,
               content.isAuth,
             );
           }}

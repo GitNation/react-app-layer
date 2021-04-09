@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { BgHeadImg } from './SpeakerCard.styled';
+import { buttonStates } from './SponsorCard';
 
 /**
  * In this document we used css variable:
@@ -45,12 +46,18 @@ export const PopSponsorTop = styled.div`
   }
 `;
 
-export const PopSponsorLogo = styled.img`
+export const PopSponsorLogo = styled.div`
   width: 400px;
-  height: auto;
+  height: 160px;
+
+  ${({ src }) => `
+  background: url(${src}) no-repeat center;
+    `}
+  background-size: contain;
 
   @media only screen and (max-width: 599px) {
     width: 100%;
+    height: 130px;
   }
 `;
 
@@ -118,10 +125,15 @@ export const PopButton = styled.a`
 export const PopSponsorBtn = styled(PopButton)`
   display: block;
 
-  ${({ disabled }) =>
-    disabled &&
+  ${({ state }) =>
+    state !== buttonStates[0] &&
     `
     cursor: default;
+    `}
+
+  ${({ state }) =>
+    state === buttonStates[1] &&
+    `
     opacity: 0.5;
     `}
 
