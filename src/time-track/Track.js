@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import cn from 'classnames';
 import styled from 'styled-components';
+import RelativePortal from 'react-relative-portal';
+
 import { calcWidth } from './model';
+import { TABLET_WIDTH } from '../constants';
 
 const roomIcon = (
   <svg
@@ -107,8 +110,7 @@ const DiscussionRoomTooltipContent = ({ text, title, speakers }) => {
   );
 };
 
-const Tooltip = ({ children, on }) =>
-  on ? <div className="track-tooltip">{children}</div> : null;
+const Tooltip = ({ children, on }) => (on ? <div>{children}</div> : null);
 
 const Talk = ({ talk, onClick, isOrgEvent }) => {
   const {
@@ -126,6 +128,17 @@ const Talk = ({ talk, onClick, isOrgEvent }) => {
     onClick({ date: '', track: '' });
   };
 
+  const [isVisible, toggleIsVisible] = useState(false);
+
+  const isAsLeastOneTooltipExists =
+    name || lightningTalks || (isOrgEvent && !!description);
+
+  const changePortalVisibility = useCallback((boolean) => {
+    if (window && window?.innerWidth > TABLET_WIDTH) {
+      toggleIsVisible(boolean);
+    }
+  }, []);
+
   return (
     <div
       className="time-track__item js-time"
@@ -136,14 +149,27 @@ const Talk = ({ talk, onClick, isOrgEvent }) => {
         width: '100%',
         cursor: 'pointer',
       }}
+      onMouseEnter={() => changePortalVisibility(true)}
+      onMouseLeave={() => changePortalVisibility(false)}
     >
       {ePic(avatar)}
       {eTitle(speaker, title)}
-      <Tooltip on={!!name}>{iSpeaker(name, place, title, text)}</Tooltip>
-      <Tooltip on={!!lightningTalks}>{iLt(title, lightningTalks)}</Tooltip>
-      <Tooltip on={isOrgEvent && !!description}>
-        <div dangerouslySetInnerHTML={{ __html: description }} />
-      </Tooltip>
+      <RelativePortal left={0} top={10}>
+        {isVisible && isAsLeastOneTooltipExists && (
+          <div
+            className="track-tooltip"
+            style={{ position: 'sticky', '--bgColor': talk.bgColor }}
+          >
+            <Tooltip on={!!name}>{iSpeaker(name, place, title, text)}</Tooltip>
+            <Tooltip on={!!lightningTalks}>
+              {iLt(title, lightningTalks)}
+            </Tooltip>
+            <Tooltip on={isOrgEvent && !!description}>
+              <div dangerouslySetInnerHTML={{ __html: description }} />
+            </Tooltip>
+          </div>
+        )}
+      </RelativePortal>
     </div>
   );
 };
@@ -194,22 +220,42 @@ const SpeakerRoom = ({ talk, onClick }) => {
 
 const DiscussionRoom = ({ talk, onClick }) => {
   const { pic, speakers, title, text } = talk;
+
+  const [isVisible, toggleIsVisible] = useState(false);
+
+  const changePortalVisibility = useCallback((boolean) => {
+    if (window && window?.innerWidth > TABLET_WIDTH) {
+      toggleIsVisible(boolean);
+    }
+  }, []);
+
   return (
     <a
       onClick={onClick}
       className="time-track__item time-track__link discussion js-time"
       style={{ '--bgColor': talk.bgColor, width: '100%' }}
+      onMouseEnter={() => changePortalVisibility(true)}
+      onMouseLeave={() => changePortalVisibility(false)}
     >
       {ePic(pic, 'png')}
       {eTitle('', title)}
       {camIcon}
-      <Tooltip on={!!title}>
-        <DiscussionRoomTooltipContent
-          text={text}
-          title={title}
-          speakers={speakers}
-        />
-      </Tooltip>
+      <RelativePortal left={0} top={10}>
+        {isVisible && title && (
+          <div
+            className="track-tooltip"
+            style={{ position: 'sticky', '--bgColor': talk.bgColor }}
+          >
+            <Tooltip on={!!title}>
+              <DiscussionRoomTooltipContent
+                text={text}
+                title={title}
+                speakers={speakers}
+              />
+            </Tooltip>
+          </div>
+        )}
+      </RelativePortal>
     </a>
   );
 };
