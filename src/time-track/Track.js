@@ -152,9 +152,7 @@ const Talk = ({ talk, onClick, isOrgEvent }) => {
       onMouseEnter={() => changePortalVisibility(true)}
       onMouseLeave={() => changePortalVisibility(false)}
     >
-      {ePic(avatar)}
-      {eTitle(speaker, title)}
-      <RelativePortal left={0} top={10}>
+      <RelativePortal left={0} top={20}>
         {isVisible && isAsLeastOneTooltipExists && (
           <div
             className="track-tooltip"
@@ -170,6 +168,8 @@ const Talk = ({ talk, onClick, isOrgEvent }) => {
           </div>
         )}
       </RelativePortal>
+      {ePic(avatar)}
+      {eTitle(speaker, title)}
     </div>
   );
 };
@@ -237,10 +237,7 @@ const DiscussionRoom = ({ talk, onClick }) => {
       onMouseEnter={() => changePortalVisibility(true)}
       onMouseLeave={() => changePortalVisibility(false)}
     >
-      {ePic(pic, 'png')}
-      {eTitle('', title)}
-      {camIcon}
-      <RelativePortal left={0} top={10}>
+      <RelativePortal left={0} top={20}>
         {isVisible && title && (
           <div
             className="track-tooltip"
@@ -256,6 +253,9 @@ const DiscussionRoom = ({ talk, onClick }) => {
           </div>
         )}
       </RelativePortal>
+      {ePic(pic, 'png')}
+      {eTitle('', title)}
+      {camIcon}
     </a>
   );
 };
