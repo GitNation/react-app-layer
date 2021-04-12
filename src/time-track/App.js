@@ -89,11 +89,6 @@ const App = ({ bus }) => {
       payload.data = speakerData;
     }
 
-    if (eventContent.lightningTalks) {
-      payload.name = 'lightning-talks';
-      payload.isAuth = isTrackAvailable;
-    }
-
     // TODO make type_id for events in db schema
 
     if (
@@ -105,8 +100,13 @@ const App = ({ bus }) => {
       payload.isAuth = true;
     }
 
+    if (eventContent.lightningTalks && isTrackAvailable) {
+      payload.name = 'lightning-talks';
+    }
+
     trackGAEvent('TT', 'CL', payload?.data?.slug, isAuth);
 
+    console.log('payload', payload);
     bus.clickEvent(payload);
   };
 
