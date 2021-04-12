@@ -65,3 +65,29 @@ export const getWorkshopCalendarLink = (
     calendarEventDescription ? `&description=${description}` : ''
   }&timezone=${localDate.zoneName}&alarm=15`;
 };
+
+export const getLightningTalksCalendarLink = ({
+  title,
+  isoDate,
+  duration,
+  lightningTalks,
+}) => {
+  const localDate = DateTime.fromISO(isoDate);
+  const encodedTitle = encodeURIComponent(`${title}`);
+  const description = encodeURIComponent(
+    lightningTalks.reduce((acc, cur) => {
+      const next = `"${cur.title}" by ${cur.speaker}`;
+      if (acc) {
+        return `${acc}, ${next}`;
+      }
+
+      return next;
+    }, ''),
+  );
+
+  return `https://www.addevent.com/dir/?client=${ADD_EVENT_ID}&start=${localDate.toFormat(
+    'yyyy/MM/dd HH:mm',
+  )}&duration=${duration}&title=${encodedTitle}${
+    lightningTalks.length ? `&description=${description}` : ''
+  }&timezone=${localDate.zoneName}&alarm=15`;
+};

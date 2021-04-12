@@ -16,6 +16,7 @@ import {
   createCalendarLink,
   getWorkshopCalendarLink,
 } from '../calendar-provider';
+import LightningTalkCard from './LightningTalksCard';
 
 const eventNames = [
   'video-room',
@@ -35,6 +36,7 @@ const eventNames = [
   'open-base-modal',
   'workshop-calendar',
   'video-widget',
+  'lightning-talks',
 ];
 
 const GlobalStyle = createGlobalStyle`
@@ -128,7 +130,11 @@ const useBusEvents = (bus) => {
         conferenceEnd,
       } = reactLayerConfig;
 
-      if (payload.name === 'speaker-card' || payload.name === 'sponsor-card') {
+      if (
+        payload.name === 'speaker-card' ||
+        payload.name === 'sponsor-card' ||
+        payload.name === 'lightning-talks'
+      ) {
         setOpen(true);
         return;
       }
@@ -265,6 +271,30 @@ const App = ({ bus }) => {
         <DialogContent aria-label="popup with details about speaker">
           {isOpen ? (
             <SpeakerCard
+              type={type}
+              content={content}
+              status={status}
+              hideLabel={hideSpeakerPopupLabel}
+              calendarLinkOptions={{
+                calendarEventDescription,
+                calendarEventName,
+                conferenceStart,
+                conferenceEnd,
+              }}
+            />
+          ) : null}
+        </DialogContent>
+      </DialogOverlay>
+    );
+  }
+
+  if (type === 'lightning-talks') {
+    return (
+      <DialogOverlay isOpen={isOpen} onDismiss={close}>
+        <GlobalStyle isOpen={isOpen} />
+        <DialogContent aria-label="popup with details about speaker">
+          {isOpen ? (
+            <LightningTalkCard
               type={type}
               content={content}
               status={status}

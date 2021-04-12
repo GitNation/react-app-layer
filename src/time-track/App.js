@@ -13,6 +13,9 @@ const IGNORE_CLICK_EVENT_SLUGS = [
   'day-2-closing-ceremony',
   'break',
   'conference-opening',
+  'day-1-opening',
+  'day-2-opening',
+  'day-3-opening',
 ];
 
 const App = ({ bus }) => {
@@ -74,13 +77,6 @@ const App = ({ bus }) => {
       payload.link = isAuth ? chatLinkAuth : chatLink;
     }
 
-    if (
-      eventContent.eventType === 'OrgEvent' &&
-      eventContent.slug === 'afterparty'
-    ) {
-      payload.isAuth = true;
-    }
-
     if (eventContent.speaker && isTrackAvailable && speakers) {
       const speakerData = speakers.main.find((s) => {
         return (
@@ -91,6 +87,11 @@ const App = ({ bus }) => {
 
       payload.name = 'speaker-card';
       payload.data = speakerData;
+    }
+
+    if (eventContent.lightningTalks) {
+      payload.name = 'lightning-talks';
+      payload.isAuth = isTrackAvailable;
     }
 
     // TODO make type_id for events in db schema

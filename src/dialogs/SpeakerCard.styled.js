@@ -190,3 +190,7 @@ export const PopSpeakerActivityInfo = styled.div`
     }
   }
 `;
+
+export const LightningTalkContainer = styled.div`
+  padding: 32px;
+`;
