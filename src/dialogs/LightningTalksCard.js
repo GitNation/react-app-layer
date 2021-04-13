@@ -21,7 +21,7 @@ function LightningTalkCard({ content: { data }, calendarLinkOptions }) {
 
   return (
     <>
-      <input id={inputId} style={{ height: 0 }} type="button" />
+      <div id={inputId} style={{ height: 0 }} tabIndex="1" />
       <PopSpeaker id={`popup-${data.slug}`}>
         {data.lightningTalks &&
           data.lightningTalks.map((talk) => {
