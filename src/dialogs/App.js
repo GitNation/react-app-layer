@@ -168,6 +168,12 @@ const useBusEvents = (bus) => {
         return;
       }
 
+      // video-widget should open link even after event is over
+      if (isAuth && payload.name === 'video-widget' && payload.link) {
+        navigateByLink(payload.link);
+        return;
+      }
+
       /* if link is available just click it */
       if ((!status || status === 'now') && isAuth) {
         if (payload.name === 'random-room') {
@@ -323,7 +329,8 @@ const App = ({ bus }) => {
     );
   }
 
-  if (!isAuth && status !== 'archived') {
+  // video-widget full ticket box should be shown event after event is over
+  if (!isAuth && (status !== 'archived' || type === 'video-widget')) {
     /* not Auth users always see tickets message */
     return (
       <DialogOverlay isOpen={isOpen} onDismiss={close}>
