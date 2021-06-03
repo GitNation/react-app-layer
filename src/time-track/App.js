@@ -4,6 +4,18 @@ import Aside from './Aside';
 import TracksContent from './TracksContent';
 import Track from './Track';
 import { createTimeTicks, calcPositionFromTime } from './model';
+import { trackGAEvent } from '../services/ga';
+
+// TODO add to cms boolean flag to ignore event click
+const IGNORE_CLICK_EVENT_SLUGS = [
+  'day-1-closing-ceremony',
+  'day-2-closing-ceremony',
+  'break',
+  'conference-opening',
+  'day-1-opening',
+  'day-2-opening',
+  'day-3-opening',
+];
 
 const App = ({ bus }) => {
   const content = bus.getContent();
@@ -41,17 +53,21 @@ const App = ({ bus }) => {
   );
 
   const {
-    discordLink,
     chatLink,
     chatLinkAuth,
     conferenceStart: startTime,
     conferenceFinish: endTime,
   } = eventInfo;
+
   const timeTicks = createTimeTicks(startTime, endTime);
   const calcPosition = calcPositionFromTime(startTime);
-  const trackWidth = calcPosition(endTime);
+  const trackWidth = calcPosition({ isoDate: endTime });
 
   const handleClick = (eventContent) => {
+    if (IGNORE_CLICK_EVENT_SLUGS.includes(eventContent.slug)) {
+      return;
+    }
+
     let isTrackAvailable = true;
 
     // some conferences may provide availableTracks: Array<string>
@@ -59,6 +75,7 @@ const App = ({ bus }) => {
       isTrackAvailable = availableTracks.includes(eventContent.trackTitle);
     }
 
+    const correctDiscordLink = isAuth ? chatLinkAuth : chatLink;
     const payload = {
       data: {
         ...eventContent,
@@ -68,12 +85,17 @@ const App = ({ bus }) => {
       isAuth,
       name: 'any-room',
       link:
-        eventContent.roomLink || eventContent.discussionRoomLink || discordLink,
+        eventContent.roomLink ||
+        eventContent.discussionRoomLink ||
+        eventContent.additionalLink ||
+        correctDiscordLink,
     };
 
-    if (eventContent.isQaEvent) {
+    if (
+      eventContent.isQaEvent ||
+      eventContent.eventType === 'PanelDiscussion'
+    ) {
       payload.isAuth = true;
-
       payload.link = isAuth ? chatLinkAuth : chatLink;
     }
 
@@ -95,11 +117,18 @@ const App = ({ bus }) => {
       !eventContent.roomLink &&
       !eventContent.discussionRoomLink &&
       !eventContent.speaker &&
-      !discordLink
+      !correctDiscordLink
     ) {
       payload.isAuth = true;
     }
 
+    if (eventContent.lightningTalks && isTrackAvailable) {
+      payload.name = 'lightning-talks';
+    }
+
+    trackGAEvent('TT', 'CL', payload?.data?.slug, isAuth);
+
+    console.log('payload', payload);
     bus.clickEvent(payload);
   };
 

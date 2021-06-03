@@ -15,32 +15,16 @@ import {
   PopTicketArrowSvg,
 } from './TicketMessage.styled';
 
-const TicketMessage = ({ ticketsLink }) => {
+const WatchMessagePaid = () => {
   return (
     <PopTicket id="popup-ticket">
       <PopTicketTwoCol>
-        <PopTicketColLeft>
-          <PopTicketTitle>Dont have a full ticket?</PopTicketTitle>
-          <PopTicketDesc>
-            Watch-only ticket holders can watch our conference live, but all
-            other activities and video recordings are only available to
-            full-access attendees. Upgrade your ticket and get to join Q&amp;As
-            with pro speakers, advice lounge with our experts, networking rooms,
-            afterparty, and you’ll also enjoy many other perks.
-          </PopTicketDesc>
-          <PopTicketButtonWithBorder
-            href={ticketsLink}
-            className="pop-ticket__btn btn btn--border"
-            target="blank_"
-          >
-            Get one
-          </PopTicketButtonWithBorder>
-        </PopTicketColLeft>
         <PopTicketColRight>
-          <PopTicketTitle>Have a full ticket?</PopTicketTitle>
+          <PopTicketTitle>Have a ticket?</PopTicketTitle>
           <PopTicketDesc>
-            During conference days, enter your email assigned to the ticket
-            order to unlock all features.
+            Please enter your email associated with the ticket order below. If
+            you're not sure, please check an email from the event org team
+            containing direct access link and other useful instructions.
           </PopTicketDesc>
           <PopTicketForm action="/live" method="get" target="_blank" noValidate>
             <PopTicketField>
@@ -63,4 +47,4 @@ const TicketMessage = ({ ticketsLink }) => {
   );
 };
 
-export default TicketMessage;
+export default WatchMessagePaid;

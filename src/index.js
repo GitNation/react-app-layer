@@ -1,9 +1,9 @@
-import { initExpoApp } from './expo-app';
-import { initExpoLiveWidget } from './expo-app/LiveWidget';
+import './firebase';
 import { initModalTakeoverWidget } from './ModalTakeoverWidget';
 import { initDialogs } from './dialogs';
 import { initTimeTrack } from './time-track';
 import { setGlobals } from './time-provider';
+import { initVideoWidget } from './video-widget';
 
 const eventsBus = window.eventsBus;
 const content = eventsBus.getContent();
@@ -13,10 +13,9 @@ setGlobals({
 });
 
 const initApp = () => {
-  initExpoApp(eventsBus);
+  initVideoWidget(eventsBus);
   initDialogs(eventsBus);
   initTimeTrack(eventsBus);
-  initExpoLiveWidget(eventsBus);
   initModalTakeoverWidget(eventsBus);
 };
 

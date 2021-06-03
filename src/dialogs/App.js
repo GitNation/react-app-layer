@@ -8,8 +8,15 @@ import { getEventStatus } from './model';
 import NewTab from './NewTab';
 import TicketMessage from './TicketMessage';
 import WatchMessage from './WatchMessage';
+import WatchMessagePaid from './WatchMessagePaid';
+import TicketNotFound from './TicketNotFound';
 import SpeakerCard from './SpeakerCard';
-import { createCalendarLink } from '../calendar-provider';
+import SponsorCard from './SponsorCard';
+import {
+  createCalendarLink,
+  getWorkshopCalendarLink,
+} from '../calendar-provider';
+import LightningTalkCard from './LightningTalksCard';
 
 const eventNames = [
   'video-room',
@@ -20,10 +27,16 @@ const eventNames = [
   'link',
   'random-room',
   'speaker-card',
+  'sponsor-card',
   'watch-livestream',
+  'watch-livestream-paid',
+  'ticket-not-fount',
   'talk-calendar',
   'quake',
   'open-base-modal',
+  'workshop-calendar',
+  'video-widget',
+  'lightning-talks',
 ];
 
 const GlobalStyle = createGlobalStyle`
@@ -111,12 +124,17 @@ const useBusEvents = (bus) => {
 
       const {
         calendarEventDescription,
+        calendarWorkshopDescription = '',
         calendarEventName,
         conferenceStart,
         conferenceEnd,
       } = reactLayerConfig;
 
-      if (payload.name === 'speaker-card') {
+      if (
+        payload.name === 'speaker-card' ||
+        payload.name === 'sponsor-card' ||
+        payload.name === 'lightning-talks'
+      ) {
         setOpen(true);
         return;
       }
@@ -134,7 +152,25 @@ const useBusEvents = (bus) => {
           conferenceStart,
           conferenceEnd,
         });
+
         navigateByLink(link);
+
+        return;
+      }
+
+      if (payload.name === 'workshop-calendar') {
+        const link = getWorkshopCalendarLink(
+          payload.data,
+          calendarWorkshopDescription,
+        );
+
+        navigateByLink(link);
+        return;
+      }
+
+      // video-widget should open link even after event is over
+      if (isAuth && payload.name === 'video-widget' && payload.link) {
+        navigateByLink(payload.link);
         return;
       }
 
@@ -184,15 +220,18 @@ const useBusEvents = (bus) => {
 const App = ({ bus }) => {
   const { isOpen, close, type, content, status, isAuth } = useBusEvents(bus);
 
-  const { reactLayerConfig = {} } = bus.getContent();
+  const { reactLayerConfig = {}, eventInfo } = bus.getContent();
+
+  const {
+    conferenceStart: conferenceStart,
+    conferenceFinish: conferenceEnd,
+  } = eventInfo;
 
   const {
     ticketsLink,
     hideSpeakerPopupLabel,
     calendarEventDescription,
     calendarEventName,
-    conferenceStart,
-    conferenceEnd,
   } = reactLayerConfig;
 
   if (type === 'watch-livestream') {
@@ -206,6 +245,27 @@ const App = ({ bus }) => {
     );
   }
 
+  if (type === 'watch-livestream-paid') {
+    return (
+      <DialogOverlay isOpen={isOpen} onDismiss={close}>
+        <GlobalStyle isOpen={isOpen} />
+        <DialogContent aria-label="video message from organizers">
+          {Boolean(isOpen) && <WatchMessagePaid />}
+        </DialogContent>
+      </DialogOverlay>
+    );
+  }
+  if (type === 'ticket-not-fount') {
+    return (
+      <DialogOverlay isOpen={isOpen} onDismiss={() => {}}>
+        <GlobalStyle isOpen={false} />
+        <DialogContent aria-label="video message from organizers">
+          {Boolean(isOpen) && <TicketNotFound ticketsLink={ticketsLink} />}
+        </DialogContent>
+      </DialogOverlay>
+    );
+  }
+
   if (!content || !isOpen) {
     return null;
   }
@@ -214,7 +274,7 @@ const App = ({ bus }) => {
     return (
       <DialogOverlay isOpen={isOpen} onDismiss={close}>
         <GlobalStyle isOpen={isOpen} />
-        <DialogContent aria-label="this activity is not available">
+        <DialogContent aria-label="popup with details about speaker">
           {isOpen ? (
             <SpeakerCard
               type={type}
@@ -234,7 +294,43 @@ const App = ({ bus }) => {
     );
   }
 
-  if (!isAuth && status !== 'archived') {
+  if (type === 'lightning-talks') {
+    return (
+      <DialogOverlay isOpen={isOpen} onDismiss={close}>
+        <GlobalStyle isOpen={isOpen} />
+        <DialogContent aria-label="popup with details about speaker">
+          {isOpen ? (
+            <LightningTalkCard
+              type={type}
+              content={content}
+              status={status}
+              hideLabel={hideSpeakerPopupLabel}
+              calendarLinkOptions={{
+                calendarEventDescription,
+                calendarEventName,
+                conferenceStart,
+                conferenceEnd,
+              }}
+            />
+          ) : null}
+        </DialogContent>
+      </DialogOverlay>
+    );
+  }
+
+  if (type === 'sponsor-card') {
+    return (
+      <DialogOverlay isOpen={isOpen} onDismiss={close}>
+        <GlobalStyle isOpen={isOpen} />
+        <DialogContent aria-label="popup with details about partner">
+          {isOpen ? <SponsorCard content={content} /> : null}
+        </DialogContent>
+      </DialogOverlay>
+    );
+  }
+
+  // video-widget full ticket box should be shown event after event is over
+  if (!isAuth && (status !== 'archived' || type === 'video-widget')) {
     /* not Auth users always see tickets message */
     return (
       <DialogOverlay isOpen={isOpen} onDismiss={close}>

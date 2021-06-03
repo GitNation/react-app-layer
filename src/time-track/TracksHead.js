@@ -8,8 +8,9 @@ const TimeTick = ({ time }) => (
 const useCurrentTime = (calcPosition) => {
   const [position, setPosition] = React.useState(null);
 
-  const updateTime = (time) => {
-    const pos = calcPosition(time);
+  const updateTime = () => {
+    const date = new Date();
+    const pos = calcPosition({ isoDate: date.toISOString() });
     setPosition(pos);
   };
 
