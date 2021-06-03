@@ -5,7 +5,6 @@ import TracksContent from './TracksContent';
 import Track from './Track';
 import { createTimeTicks, calcPositionFromTime } from './model';
 import { trackGAEvent } from '../services/ga';
-import { generateTimeEvents } from '../time-provider';
 
 // TODO add to cms boolean flag to ignore event click
 const IGNORE_CLICK_EVENT_SLUGS = [
@@ -29,6 +28,29 @@ const App = ({ bus }) => {
 
     speakers,
   } = content;
+
+  const groupedCustomTracks = customTracks.reduce(
+    (resultTracks, currentTrack) => {
+      const separatedTracks = currentTrack.list.reduce((tracksMap, event) => {
+        const result = { ...tracksMap };
+
+        if (result[event.subTrackIndex]) {
+          result[event.subTrackIndex].list.push(event);
+        } else {
+          result[event.subTrackIndex] = {
+            ...currentTrack,
+            isPrimaryTrack: event.subTrackIndex === 'default',
+            list: [event],
+          };
+        }
+
+        return result;
+      }, {});
+
+      return [...resultTracks, ...Object.values(separatedTracks)];
+    },
+    [],
+  );
 
   const {
     chatLink,
@@ -112,7 +134,7 @@ const App = ({ bus }) => {
 
   return (
     <Container>
-      <Aside schedule={schedule} customTracks={customTracks} />
+      <Aside schedule={schedule} customTracks={groupedCustomTracks} />
       <TracksContent
         timeTicks={timeTicks}
         trackWidth={trackWidth}
@@ -126,7 +148,7 @@ const App = ({ bus }) => {
             onClick={handleClick}
           />
         ))}
-        {customTracks.map((tr, i) => (
+        {groupedCustomTracks.map((tr, i) => (
           <Track
             key={`${tr.title}-${i}`}
             track={tr}
