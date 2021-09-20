@@ -27,6 +27,7 @@ const eventNames = [
   'link',
   'random-room',
   'speaker-card',
+  'speaker-card-offline',
   'sponsor-card',
   'watch-livestream',
   'watch-livestream-paid',
@@ -132,6 +133,7 @@ const useBusEvents = (bus) => {
 
       if (
         payload.name === 'speaker-card' ||
+        payload.name === 'speaker-card-offline' ||
         payload.name === 'sponsor-card' ||
         payload.name === 'lightning-talks'
       ) {
@@ -270,13 +272,16 @@ const App = ({ bus }) => {
     return null;
   }
 
-  if (type === 'speaker-card') {
+  if (type === 'speaker-card' || type === 'speaker-card-offline') {
+    const isOfflineCard = type === 'speaker-card-offline';
+
     return (
       <DialogOverlay isOpen={isOpen} onDismiss={close}>
         <GlobalStyle isOpen={isOpen} />
         <DialogContent aria-label="popup with details about speaker">
           {isOpen ? (
             <SpeakerCard
+              isOfflineCard={isOfflineCard}
               type={type}
               content={content}
               status={status}

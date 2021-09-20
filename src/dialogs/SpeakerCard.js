@@ -36,13 +36,14 @@ const selectQALink = (person) => {
   }
 };
 
-function SpeakerCard({
-  type,
-  content,
-  status,
-  hideLabel,
-  calendarLinkOptions,
-}) {
+function SpeakerCard(props) {
+  const {
+    type,
+    content,
+    isOfflineCard,
+    hideLabel,
+    calendarLinkOptions,
+  } = props;
   const [minHeightTalkDesc, setMinHeightTalkDesc] = useState(0);
   const socialBtnRef = useCallback((node) => {
     if (node !== null && window.matchMedia('(min-width: 600px)').matches) {
@@ -101,8 +102,41 @@ function SpeakerCard({
       </PopSpeakerTop>
 
       <PopSpeakerMid minHeight={minHeightTalkDesc}>
-        {person.activities && person.activities.talks
+        {!isOfflineCard && person.activities && person.activities.talks
           ? person.activities.talks.map((talk) => {
+              return (
+                <React.Fragment key={talk.title}>
+                  <PopSpeakerActivityInfo color={techColor}>
+                    <span>{!hideLabel ? talk.label : null}</span>
+                    <span>{talk.track.name}</span>
+                    {talk.timeString && (
+                      <span title="time is show in your local browser tme">
+                        {dayjs(talk.timeString).format('HH:mm')}
+                      </span>
+                    )}
+                  </PopSpeakerActivityInfo>
+                  <PopSpeakerTitle>{talk.title}</PopSpeakerTitle>
+                  <PopSpeakerBio
+                    dangerouslySetInnerHTML={{
+                      __html: talk.description,
+                    }}
+                  />
+                  {talk.timeString && calendarLink ? (
+                    <PopCalendarButton
+                      title="Add Talk to Calendar"
+                      href={calendarLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Add Talk to Calendar
+                    </PopCalendarButton>
+                  ) : null}
+                </React.Fragment>
+              );
+            })
+          : null}
+        {isOfflineCard && person.activities && person.activities.offlineTalks
+          ? person.activities.offlineTalks.map((talk) => {
               return (
                 <React.Fragment key={talk.title}>
                   <PopSpeakerActivityInfo color={techColor}>
