@@ -9,9 +9,7 @@ import {
 
 const InfoMessage = ({ title, message }) => {
   return (
-    <PopTicket id="popup-ticket"
-      style={{ padding: 30 }}
-    >
+    <PopTicket id="popup-ticket" style={{ padding: 30 }}>
       <PopTicketTitle>{title}</PopTicketTitle>
       <PopTicketDesc>{message}</PopTicketDesc>
     </PopTicket>
@@ -19,7 +17,6 @@ const InfoMessage = ({ title, message }) => {
 };
 
 const DialogPopup = ({ content, status }) => {
-
   const message = getMessage(content, status);
   const title = getTitle(content);
 

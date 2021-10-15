@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { PopButton } from './styled';
 
 export const PopTicket = styled.div`
+  color: white;
   background: var(--color-popup-ticket-background, #131513);
   border: 15px solid var(--color-popup-ticket-border, #5f5f5f);
   display: inline-block;

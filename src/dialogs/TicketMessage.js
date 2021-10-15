@@ -48,8 +48,12 @@ const TicketMessage = ({ ticketsLink }) => {
                 type="email"
                 name="email"
                 placeholder="Your email"
+                className="pop-ticket__input"
               />
-              <PopTicketSubmitButton type="submit">
+              <PopTicketSubmitButton
+                className="pop-ticket__input_btn"
+                type="submit"
+              >
                 <span>Unlock</span>
                 <PopTicketArrowSvg>
                   <use xlinkHref="img/sprite.svg#icon-arrow-right" />
