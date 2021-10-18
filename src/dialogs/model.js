@@ -51,7 +51,10 @@ export const getMessage = (content, status) => {
 
 export const getTitle = (content) => {
   try {
-    return content.data.title || content.data.linkText;
+    return (content.data.title || content.data.linkText).replace(
+      /(<([^>]+)>)/gi,
+      '',
+    );
   } catch (err) {
     return 'Activity';
   }

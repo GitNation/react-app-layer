@@ -27,11 +27,8 @@ const TicketNotFound = ({ ticketsLink }) => {
           </PopTicketTitle>
           <PopTicketDesc>
             If you have a ticket to the event, please double check the email
-            used to register on{' '}
-            <a href={ticketsLink} target="_blank">
-              Ti.to
-            </a>{' '}
-            or digital badges and enter your email below
+            used to register for the event on Tito, GitNation Portal (Multipass
+            users) or digital badges and enter your email below
           </PopTicketDesc>
           <PopTicketForm action="/live" method="get" noValidate>
             <PopTicketField>
@@ -50,11 +47,11 @@ const TicketNotFound = ({ ticketsLink }) => {
           </PopTicketForm>
           <div style={{ height: '30px' }} />
           <PopTicketDesc>
-            If you don't have a ticket, please register via our{' '}
+            If you don't have a registration, see our ticket options{' '}
             <a href={ticketsLink} target="_blank">
-              Ti.to
-            </a>{' '}
-            page.
+              here
+            </a>
+            .
           </PopTicketDesc>
         </PopTicketColRight>
       </PopTicketTwoCol>
