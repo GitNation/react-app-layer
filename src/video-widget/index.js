@@ -53,28 +53,12 @@ const Title = styled.div`
 `;
 
 function App({ bus }) {
-  const [videos, loading, error] = useObjectVal(db.ref('videos'));
+  const [videos, loading, error] = useObjectVal(db.ref('radv/videos'));
   const content = bus.getContent();
-  const {
-    isAuth,
-    reactLayerConfig: { linkToTalkRecordings },
-  } = content;
+  const { isAuth } = content;
 
   const handleClick = (e, { title }) => {
-    e.preventDefault();
-
     trackGAEvent('video-widget', 'click', `title:${title}`, isAuth);
-
-    const payload = {
-      data: {},
-      isAuth,
-      name: 'video-widget',
-      link: linkToTalkRecordings,
-    };
-
-    bus.clickEvent(payload);
-
-    return false;
   };
 
   return videos ? (
@@ -86,12 +70,13 @@ function App({ bus }) {
         <Container>
           <List>
             {Object.keys(videos).map((video, i) => {
-              const { image, title } = videos[video];
+              const { image, title, link } = videos[video];
 
               return (
                 <Item key={i}>
                   <ItemLink
-                    href="#"
+                    href={link}
+                    target="_blank"
                     onClick={(e) => {
                       handleClick(e, { title });
                     }}
