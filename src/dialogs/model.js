@@ -40,8 +40,8 @@ export const getMessage = (content, status) => {
     return (
       <span>
         Event moved to the archive. Checkout{' '}
-        <a href="http://gitnation.org" target="_blank">
-          http://gitnation.org
+        <a href="https://portal.gitnation.org" target="_blank">
+          GitNation Portal
         </a>{' '}
         for future events.
       </span>

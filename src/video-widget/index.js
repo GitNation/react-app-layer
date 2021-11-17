@@ -53,9 +53,11 @@ const Title = styled.div`
 `;
 
 function App({ bus }) {
-  const [videos, loading, error] = useObjectVal(db.ref('radv/videos'));
   const content = bus.getContent();
-  const { isAuth } = content;
+  const { reactLayerConfig = {}, isAuth } = content;
+  const [videos, loading, error] = useObjectVal(
+    db.ref(`${reactLayerConfig.firebaseObject}/videos`),
+  );
 
   const handleClick = (e, { title }) => {
     trackGAEvent('video-widget', 'click', `title:${title}`, isAuth);
