@@ -194,3 +194,33 @@ export const PopSpeakerActivityInfo = styled.div`
 export const LightningTalkContainer = styled.div`
   padding: 32px;
 `;
+
+export const WorkshopInfoContainer = styled.div`
+  display: flex;
+  margin: var(--sideSpacing);
+
+  @media only screen and (max-width: 599px) {
+    flex-direction: column;
+  }
+`;
+
+export const WorkshopInfoTitle = styled.div`
+  flex: 0 0 auto;
+  position: relative;
+  width: 185px;
+  margin: 0 var(--sideSpacing) 0 0;
+`;
+
+export const WorkshopPopBio = styled(PopSpeakerBio)`
+  text-align: justify;
+
+  p:not(:first-child) {
+    margin-top: 16px;
+  }
+`;
+
+export const WorkshopButtonContainer = styled.div`
+  position: sticky;
+  bottom: 0px;
+  padding: 16px var(--sideSpacing);
+`;

@@ -17,6 +17,7 @@ import {
   getWorkshopCalendarLink,
 } from '../calendar-provider';
 import LightningTalkCard from './LightningTalksCard';
+import WorkshopCard from './WorkshopCard';
 
 const eventNames = [
   'video-room',
@@ -28,6 +29,7 @@ const eventNames = [
   'random-room',
   'speaker-card',
   'speaker-card-offline',
+  'workshop-card',
   'sponsor-card',
   'watch-livestream',
   'watch-livestream-paid',
@@ -129,7 +131,14 @@ const useBusEvents = (bus) => {
         calendarEventName,
         conferenceStart,
         conferenceEnd,
+        pagesPieceOfTexts,
       } = reactLayerConfig;
+
+      if (payload.name === 'workshop-card') {
+        payload.pagesPieceOfTexts = pagesPieceOfTexts;
+        setOpen(true);
+        return;
+      }
 
       if (
         payload.name === 'speaker-card' ||
@@ -209,6 +218,7 @@ const useBusEvents = (bus) => {
 
   return {
     isOpen,
+    setOpen,
     type,
     close,
     content,
@@ -220,7 +230,15 @@ const useBusEvents = (bus) => {
 };
 
 const App = ({ bus }) => {
-  const { isOpen, close, type, content, status, isAuth } = useBusEvents(bus);
+  const {
+    isOpen,
+    close,
+    type,
+    content,
+    status,
+    isAuth,
+    setOpen,
+  } = useBusEvents(bus);
 
   const { reactLayerConfig = {}, eventInfo } = bus.getContent();
 
@@ -270,6 +288,17 @@ const App = ({ bus }) => {
 
   if (!content || !isOpen) {
     return null;
+  }
+
+  if (type === 'workshop-card') {
+    return (
+      <DialogOverlay isOpen={isOpen} onDismiss={close}>
+        <GlobalStyle isOpen={isOpen} />
+        <DialogContent aria-label="popup with details about workshop">
+          <WorkshopCard content={content} closeCard={() => setOpen(false)} />
+        </DialogContent>
+      </DialogOverlay>
+    );
   }
 
   if (type === 'speaker-card' || type === 'speaker-card-offline') {
