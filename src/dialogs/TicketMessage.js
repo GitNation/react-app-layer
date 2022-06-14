@@ -20,27 +20,10 @@ const TicketMessage = ({ ticketsLink }) => {
     <PopTicket id="popup-ticket">
       <PopTicketTwoCol>
         <PopTicketColLeft>
-          <PopTicketTitle>Dont have a full ticket?</PopTicketTitle>
+          <PopTicketTitle>Have the Multipass or a full ticket?</PopTicketTitle>
           <PopTicketDesc>
-            Watch-only ticket holders can watch our conference live, but all
-            other activities and video recordings are only available to
-            full-access attendees. Upgrade your ticket and get to join Q&amp;As
-            with pro speakers, advice lounge with our experts, networking rooms,
-            afterparty, and you’ll also enjoy many other perks.
-          </PopTicketDesc>
-          <PopTicketButtonWithBorder
-            href={ticketsLink}
-            className="pop-ticket__btn btn btn--border"
-            target="blank_"
-          >
-            Get one
-          </PopTicketButtonWithBorder>
-        </PopTicketColLeft>
-        <PopTicketColRight>
-          <PopTicketTitle>Have a full ticket?</PopTicketTitle>
-          <PopTicketDesc>
-            During conference days, enter your email assigned to the ticket
-            order to unlock all features.
+            During conference days, enter your email assigned to the order to
+            unlock all features.
           </PopTicketDesc>
           <PopTicketForm action="/live" method="get" target="_blank" noValidate>
             <PopTicketField>
@@ -61,6 +44,22 @@ const TicketMessage = ({ ticketsLink }) => {
               </PopTicketSubmitButton>
             </PopTicketField>
           </PopTicketForm>
+        </PopTicketColLeft>
+        <PopTicketColRight>
+          <PopTicketTitle>Get an upgrade</PopTicketTitle>
+          <PopTicketDesc>
+            Get your Multipass (or a full ticket) and unlock the full conf
+            experience with free hands-on workshops, speaker Q&amp;A rooms,
+            instant access to recordings and more!
+            <br /> Multipass also grants access to 10+ more top class JS events.
+          </PopTicketDesc>
+          <PopTicketButtonWithBorder
+            href="https://portal.gitnation.org/multipass"
+            className="pop-ticket__btn btn btn--border"
+            target="blank_"
+          >
+            Buy Multipass
+          </PopTicketButtonWithBorder>
         </PopTicketColRight>
       </PopTicketTwoCol>
     </PopTicket>
