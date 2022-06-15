@@ -39,12 +39,21 @@ const TrackContent = styled.div`
   width: 100%;
 `;
 
-const ePic = (pic) =>
-  pic ? (
+const ePic = (pic) => {
+  if (!pic) {
+    return null;
+  }
+
+  const picId = pic.url.split('/').reverse()[0];
+
+  return (
     <div className="time-track__pic">
-      <img src={pic.url} />
+      <img
+        src={`https://media.graphassets.com/resize=fit:crop,height:100,width:100/output=format:webp/${picId}`}
+      />
     </div>
-  ) : null;
+  );
+};
 
 const eTitle = (speaker, title) => (
   <div className="time-track__speaker">{getTitleStr(speaker, title)}</div>
