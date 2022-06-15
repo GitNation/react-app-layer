@@ -23,7 +23,9 @@ const App = ({ bus }) => {
     customTracks: defaultCustomTracks,
     schedule: defaultSchedule,
     scheduleOffline,
+    //HARDCODE JSN / RS
     isOfflineTimeTrack = false,
+    isOfflineJSNTimeTrack = false,
     eventInfo,
     isAuth,
     availableTracks,
@@ -38,6 +40,11 @@ const App = ({ bus }) => {
   if (isOfflineTimeTrack) {
     schedule = [scheduleOffline[0], scheduleOffline[1]];
     customTracks = [scheduleOffline[2], scheduleOffline[3]];
+  }
+  // HARDCODE JSN 2022
+  if (isOfflineJSNTimeTrack) {
+    schedule = [scheduleOffline[0], scheduleOffline[1]];
+    customTracks = [scheduleOffline[2]];
   }
 
   const groupedCustomTracks = customTracks.reduce(
@@ -69,11 +76,16 @@ const App = ({ bus }) => {
     conferenceStart: defaultStartTime,
     conferenceFinish: endTime,
   } = eventInfo;
+  console.log('startTime', defaultStartTime);
 
   let startTime = defaultStartTime;
   // HARDCODE RS 2022
   if (isOfflineTimeTrack) {
     startTime = '2022-06-17T06:00:00+00:00';
+  }
+  // HARDCODE JSN 2022
+  if (isOfflineJSNTimeTrack) {
+    startTime = '2022-06-16T04:00:00+00:00';
   }
 
   const timeTicks = createTimeTicks(startTime, endTime);
@@ -83,6 +95,10 @@ const App = ({ bus }) => {
   const handleClick = (eventContent) => {
     // HARDCODE RS 2022
     if (isOfflineTimeTrack) {
+      return;
+    }
+    // HARDCODE JSN 2022
+    if (isOfflineJSNTimeTrack) {
       return;
     }
 
