@@ -20,14 +20,25 @@ const IGNORE_CLICK_EVENT_SLUGS = [
 const App = ({ bus }) => {
   const content = bus.getContent();
   const {
-    customTracks,
-    schedule,
+    customTracks: defaultCustomTracks,
+    schedule: defaultSchedule,
+    scheduleOffline,
+    isOfflineTimeTrack = false,
     eventInfo,
     isAuth,
     availableTracks,
 
     speakers,
   } = content;
+
+  let schedule = defaultSchedule;
+  let customTracks = defaultCustomTracks;
+
+  // HARDCODE RS 2022
+  if (isOfflineTimeTrack) {
+    schedule = [scheduleOffline[0], scheduleOffline[1]];
+    customTracks = [scheduleOffline[2], scheduleOffline[3]];
+  }
 
   const groupedCustomTracks = customTracks.reduce(
     (resultTracks, currentTrack) => {
@@ -55,15 +66,26 @@ const App = ({ bus }) => {
   const {
     chatLink,
     chatLinkAuth,
-    conferenceStart: startTime,
+    conferenceStart: defaultStartTime,
     conferenceFinish: endTime,
   } = eventInfo;
+
+  let startTime = defaultStartTime;
+  // HARDCODE RS 2022
+  if (isOfflineTimeTrack) {
+    startTime = '2022-06-17T06:00:00+00:00';
+  }
 
   const timeTicks = createTimeTicks(startTime, endTime);
   const calcPosition = calcPositionFromTime(startTime);
   const trackWidth = calcPosition({ isoDate: endTime });
 
   const handleClick = (eventContent) => {
+    // HARDCODE RS 2022
+    if (isOfflineTimeTrack) {
+      return;
+    }
+
     if (IGNORE_CLICK_EVENT_SLUGS.includes(eventContent.slug)) {
       return;
     }
