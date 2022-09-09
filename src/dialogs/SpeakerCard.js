@@ -23,7 +23,7 @@ const socialTitle = {
   gh: 'Github',
   med: 'Medium',
   site: 'Site',
-  default: 'Link',
+  default: 'GitNation Portal',
 };
 
 const fallbackTechColor = 'white';
