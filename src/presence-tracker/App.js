@@ -14,7 +14,7 @@ export default function App({ bus }) {
     if (emsEventId && email) {
       const interval = setInterval(() => {
         window.navigator.sendBeacon(
-          'https://ems.gitnation.org/api/live/track',
+          'https://portal.gitnation.org/api/live/track',
           JSON.stringify({
             eventId: emsEventId,
             email,
