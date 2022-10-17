@@ -21,8 +21,6 @@ function WorkshopCard(props) {
 
   const person = content.data.speaker;
 
-  console.log('content', content);
-
   return (
     <PopSpeaker id={`popup-${person.slug}`}>
       <PopSpeakerTop>

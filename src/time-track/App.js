@@ -96,7 +96,6 @@ const App = ({ bus }) => {
     conferenceStart: defaultStartTime,
     conferenceFinish: endTime,
   } = eventInfo;
-  console.log('startTime', defaultStartTime);
 
   let startTime = defaultStartTime;
   // HARDCODE RS 2022
@@ -186,7 +185,6 @@ const App = ({ bus }) => {
 
     trackGAEvent('TT', 'CL', payload?.data?.slug, isAuth);
 
-    console.log('payload', payload);
     bus.clickEvent(payload);
   };
 
