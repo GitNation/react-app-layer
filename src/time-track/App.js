@@ -70,6 +70,26 @@ const App = ({ bus }) => {
     [],
   );
 
+  const groupedMainTracks = schedule.reduce((resultTracks, currentTrack) => {
+    const separatedTracks = currentTrack.list.reduce((tracksMap, event) => {
+      const result = { ...tracksMap };
+
+      if (result[event.subTrackIndex]) {
+        result[event.subTrackIndex].list.push(event);
+      } else {
+        result[event.subTrackIndex] = {
+          ...currentTrack,
+          isPrimaryTrack: event.subTrackIndex === 'default',
+          list: [event],
+        };
+      }
+
+      return result;
+    }, {});
+
+    return [...resultTracks, ...Object.values(separatedTracks)];
+  }, []);
+
   const {
     chatLink,
     chatLinkAuth,
@@ -178,7 +198,7 @@ const App = ({ bus }) => {
         trackWidth={trackWidth}
         calcPosition={calcPosition}
       >
-        {schedule.map((sch, i) => (
+        {groupedMainTracks.map((sch, i) => (
           <Track
             key={`${sch.title}-${i}`}
             track={sch}
