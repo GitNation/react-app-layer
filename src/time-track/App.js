@@ -17,6 +17,31 @@ const IGNORE_CLICK_EVENT_SLUGS = [
   'day-3-opening',
 ];
 
+const getGroupedTracks = (tracks) =>
+  tracks.reduce((resultTracks, currentTrack) => {
+    const separatedTracks = currentTrack.list.reduce((tracksMap, event) => {
+      const result = { ...tracksMap };
+
+      if (result[event.subTrackIndex]) {
+        result[event.subTrackIndex].list.push(event);
+      } else {
+        result[event.subTrackIndex] = {
+          ...currentTrack,
+          isPrimaryTrack: event.subTrackIndex === 'default',
+          title:
+            event.subTrackIndex === 'default' || !event.subTrackIndex
+              ? currentTrack.title
+              : '',
+          list: [event],
+        };
+      }
+
+      return result;
+    }, {});
+
+    return [...resultTracks, ...Object.values(separatedTracks)];
+  }, []);
+
 const App = ({ bus }) => {
   const content = bus.getContent();
   const {
@@ -47,48 +72,8 @@ const App = ({ bus }) => {
     customTracks = [scheduleOffline[2]];
   }
 
-  const groupedCustomTracks = customTracks.reduce(
-    (resultTracks, currentTrack) => {
-      const separatedTracks = currentTrack.list.reduce((tracksMap, event) => {
-        const result = { ...tracksMap };
-
-        if (result[event.subTrackIndex]) {
-          result[event.subTrackIndex].list.push(event);
-        } else {
-          result[event.subTrackIndex] = {
-            ...currentTrack,
-            isPrimaryTrack: event.subTrackIndex === 'default',
-            list: [event],
-          };
-        }
-
-        return result;
-      }, {});
-
-      return [...resultTracks, ...Object.values(separatedTracks)];
-    },
-    [],
-  );
-
-  const groupedMainTracks = schedule.reduce((resultTracks, currentTrack) => {
-    const separatedTracks = currentTrack.list.reduce((tracksMap, event) => {
-      const result = { ...tracksMap };
-
-      if (result[event.subTrackIndex]) {
-        result[event.subTrackIndex].list.push(event);
-      } else {
-        result[event.subTrackIndex] = {
-          ...currentTrack,
-          isPrimaryTrack: event.subTrackIndex === 'default',
-          list: [event],
-        };
-      }
-
-      return result;
-    }, {});
-
-    return [...resultTracks, ...Object.values(separatedTracks)];
-  }, []);
+  const groupedCustomTracks = getGroupedTracks(customTracks);
+  const groupedMainTracks = getGroupedTracks(schedule);
 
   const {
     chatLink,
@@ -190,7 +175,7 @@ const App = ({ bus }) => {
 
   return (
     <Container>
-      <Aside schedule={schedule} customTracks={groupedCustomTracks} />
+      <Aside schedule={groupedMainTracks} customTracks={groupedCustomTracks} />
       <TracksContent
         timeTicks={timeTicks}
         trackWidth={trackWidth}
