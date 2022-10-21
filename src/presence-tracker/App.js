@@ -10,16 +10,18 @@ function isEventGoing(tracks) {
     const currentTime = iso2sec(new Date().toISOString());
 
     for (const track of tracks) {
-      for (const event of track.list) {
-        if (event.isoDate && event.duration) {
-          const startTime = iso2sec(event.isoDate);
-          const finishTime = startTime + event.duration * 60;
-
-          if (currentTime > startTime && currentTime < finishTime) {
-            return true;
+      if (track.list) {
+        for (const event of track.list) {
+          if (event.isoDate && event.duration) {
+            const startTime = iso2sec(event.isoDate);
+            const finishTime = startTime + event.duration * 60;
+  
+            if (currentTime > startTime && currentTime < finishTime) {
+              return true;
+            }
           }
-        }
-      }   
+        }  
+      } 
     }
   }
 
@@ -30,13 +32,14 @@ export default function App({ bus }) {
   useEffect(() => {
     const {
       eventInfo: { emsEventId },
-      schedule,
+      schedule = [],
+      customTracks = [],
     } = bus.getContent();
     const email = getCookie('watchMail');
 
     if (emsEventId && email) {
       const interval = setInterval(() => {
-        if (isEventGoing(schedule)) {
+        if (isEventGoing([...schedule, ...customTracks])) {
           window.navigator.sendBeacon(
             'https://portal.gitnation.org/api/live/track',
             JSON.stringify({
