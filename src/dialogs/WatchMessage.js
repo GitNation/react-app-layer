@@ -49,7 +49,10 @@ const WatchMessage = ({ ticketsLink }) => {
             opportunities and check your email for a possibility to upgrade to
             full ticket by sharing your personalized badge.
           </PopTicketDesc>
-          <PopTicketButtonWithBorder href="/quick-access" target="blank_">
+          <PopTicketButtonWithBorder
+            href="https://ti.to/gitnation/react-day-berlin-remote-only-2022/with/watch-only-ticket"
+            target="blank_"
+          >
             Claim access
           </PopTicketButtonWithBorder>
         </PopTicketColRight>
