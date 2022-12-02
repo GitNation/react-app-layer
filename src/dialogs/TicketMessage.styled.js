@@ -76,7 +76,7 @@ export const PopTicketButtonWithBorder = styled(PopButton)`
   margin: auto auto 0;
   height: 50px;
   border: 2px solid transparent;
-  color: var(--color-brand, #000);
+  color: white;
   font-size: 14px;
 
   &:hover {
