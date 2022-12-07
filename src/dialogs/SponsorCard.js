@@ -93,7 +93,7 @@ function SponsorCard({ content }) {
             </PopSponsorBtn>
             {email && (
               <PopSponsorBtnDisclaimer>
-                allow {sponsor.itemID} to send you more details over email
+                allow {sponsor.companyName} to send you more details over email
               </PopSponsorBtnDisclaimer>
             )}
           </div>
