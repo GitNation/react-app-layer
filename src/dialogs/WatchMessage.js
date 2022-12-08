@@ -50,7 +50,7 @@ const WatchMessage = ({ ticketsLink }) => {
             full ticket by sharing your personalized badge.
           </PopTicketDesc>
           <PopTicketButtonWithBorder
-            href="https://ti.to/gitnation/react-day-berlin-remote-only-2022/with/watch-only-ticket"
+            href="https://ti.to/gitnation/graphql-galaxy-2022/with/watch-only-ticket"
             target="blank_"
           >
             Claim access
