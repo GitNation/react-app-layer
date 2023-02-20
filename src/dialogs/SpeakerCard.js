@@ -104,17 +104,22 @@ function SpeakerCard(props) {
       <PopSpeakerMid minHeight={minHeightTalkDesc}>
         {!isOfflineCard && person.activities && person.activities.talks
           ? person.activities.talks.map((talk) => {
+              const showInfo = talk.label || talk.track || talk.timeString;
               return (
                 <React.Fragment key={talk.title}>
-                  <PopSpeakerActivityInfo color={techColor}>
-                    <span>{!hideLabel ? talk.label : null}</span>
-                    <span>{talk.track.name}</span>
-                    {talk.timeString && (
-                      <span title="time is show in your local browser tme">
-                        {dayjs(talk.timeString).format('HH:mm')}
-                      </span>
-                    )}
-                  </PopSpeakerActivityInfo>
+                  {showInfo && (
+                    <PopSpeakerActivityInfo color={techColor}>
+                      <span>{!hideLabel ? talk.label : null}</span>
+                      {talk.track && (
+                        <span>{talk.track.name}</span>
+                      )}
+                      {talk.timeString && (
+                        <span title="time is show in your local browser tme">
+                          {dayjs(talk.timeString).format('HH:mm')}
+                        </span>
+                      )}
+                    </PopSpeakerActivityInfo>
+                  )}
                   <PopSpeakerTitle>{talk.title}</PopSpeakerTitle>
                   <PopSpeakerBio
                     dangerouslySetInnerHTML={{
@@ -137,17 +142,22 @@ function SpeakerCard(props) {
           : null}
         {isOfflineCard && person.activities && person.activities.offlineTalks
           ? person.activities.offlineTalks.map((talk) => {
+              const showInfo = talk.label || talk.track || talk.timeString;
               return (
                 <React.Fragment key={talk.title}>
-                  <PopSpeakerActivityInfo color={techColor}>
-                    <span>{!hideLabel ? talk.label : null}</span>
-                    <span>{talk.track.name}</span>
-                    {talk.timeString && (
-                      <span title="time is show in your local browser tme">
-                        {dayjs(talk.timeString).format('HH:mm')}
-                      </span>
-                    )}
-                  </PopSpeakerActivityInfo>
+                  {showInfo && (
+                    <PopSpeakerActivityInfo color={techColor}>
+                      <span>{!hideLabel ? talk.label : null}</span>
+                      {talk.track && (
+                        <span>{talk.track.name}</span>
+                      )}
+                      {talk.timeString && (
+                        <span title="time is show in your local browser tme">
+                          {dayjs(talk.timeString).format('HH:mm')}
+                        </span>
+                      )}
+                    </PopSpeakerActivityInfo>
+                  )}
                   <PopSpeakerTitle>{talk.title}</PopSpeakerTitle>
                   <PopSpeakerBio
                     dangerouslySetInnerHTML={{
