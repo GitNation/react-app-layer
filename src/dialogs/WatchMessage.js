@@ -50,7 +50,7 @@ const WatchMessage = ({ ticketsLink }) => {
             full ticket by sharing your personalized badge.
           </PopTicketDesc>
           <PopTicketButtonWithBorder
-            href="https://ti.to/gitnation/graphql-galaxy-2022"
+            href="https://ti.to/gitnation/techleadjs-conf-2023"
             target="blank_"
           >
             Claim access
