@@ -52,7 +52,6 @@ function SpeakerCard(props) {
   }, []);
   const person = content.data;
   const qaLink = selectQALink(person);
-
   const calendarLink = createCalendarLink(person, calendarLinkOptions);
 
   const techColor =
@@ -60,46 +59,48 @@ function SpeakerCard(props) {
 
   return (
     <PopSpeaker id={`popup-${person.slug}`}>
-      <PopSpeakerTop>
-        <PopSpeakerAvatarWrap>
-          <PopSpeakerAvatar src={person.avatar} alt={person.name} />
-        </PopSpeakerAvatarWrap>
-        <PopSpeakerDesc>
-          <PopSpeakerName>{person.name}</PopSpeakerName>
-          <PopSpeakerCompany>{person.company}</PopSpeakerCompany>
-          <PopSpeakerBio
-            dangerouslySetInnerHTML={{
-              __html: person.bio,
-            }}
-          />
-        </PopSpeakerDesc>
+      {person.name && (
+        <PopSpeakerTop>
+          <PopSpeakerAvatarWrap>
+            <PopSpeakerAvatar src={person.avatar} alt={person.name} />
+          </PopSpeakerAvatarWrap>
+          <PopSpeakerDesc>
+            <PopSpeakerName>{person.name}</PopSpeakerName>
+            <PopSpeakerCompany>{person.company}</PopSpeakerCompany>
+            <PopSpeakerBio
+              dangerouslySetInnerHTML={{
+                __html: person.bio,
+              }}
+            />
+          </PopSpeakerDesc>
 
-        <PopSpeakerSocials>
-          {person.socials && (
-            <div ref={socialBtnRef}>
-              {/*{qaLink ? (*/}
-              {/*  <PopSpeakerBtn*/}
-              {/*    href={qaLink}*/}
-              {/*    target="_blank"*/}
-              {/*    rel="noopener noreferrer"*/}
-              {/*  >*/}
-              {/*    JOIN SPEAKER'S VIDEO ROOM*/}
-              {/*  </PopSpeakerBtn>*/}
-              {/*) : null}*/}
-              {person.socials.map((soc) => (
-                <PopSpeakerBtn
-                  key={soc.link}
-                  href={soc.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {socialTitle[soc.icon] || socialTitle.default}
-                </PopSpeakerBtn>
-              ))}
-            </div>
-          )}
-        </PopSpeakerSocials>
-      </PopSpeakerTop>
+          <PopSpeakerSocials>
+            {person.socials && (
+              <div ref={socialBtnRef}>
+                {/*{qaLink ? (*/}
+                {/*  <PopSpeakerBtn*/}
+                {/*    href={qaLink}*/}
+                {/*    target="_blank"*/}
+                {/*    rel="noopener noreferrer"*/}
+                {/*  >*/}
+                {/*    JOIN SPEAKER'S VIDEO ROOM*/}
+                {/*  </PopSpeakerBtn>*/}
+                {/*) : null}*/}
+                {person.socials.map((soc) => (
+                  <PopSpeakerBtn
+                    key={soc.link}
+                    href={soc.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {socialTitle[soc.icon] || socialTitle.default}
+                  </PopSpeakerBtn>
+                ))}
+              </div>
+            )}
+          </PopSpeakerSocials>
+        </PopSpeakerTop>
+      )}
 
       <PopSpeakerMid minHeight={minHeightTalkDesc}>
         {!isOfflineCard && person.activities && person.activities.talks
@@ -110,9 +111,7 @@ function SpeakerCard(props) {
                   {showInfo && (
                     <PopSpeakerActivityInfo color={techColor}>
                       <span>{!hideLabel ? talk.label : null}</span>
-                      {talk.track && (
-                        <span>{talk.track.name}</span>
-                      )}
+                      {talk.track && <span>{talk.track.name}</span>}
                       {talk.timeString && (
                         <span title="time is show in your local browser tme">
                           {dayjs(talk.timeString).format('HH:mm')}
@@ -148,9 +147,7 @@ function SpeakerCard(props) {
                   {showInfo && (
                     <PopSpeakerActivityInfo color={techColor}>
                       <span>{!hideLabel ? talk.label : null}</span>
-                      {talk.track && (
-                        <span>{talk.track.name}</span>
-                      )}
+                      {talk.track && <span>{talk.track.name}</span>}
                       {talk.timeString && (
                         <span title="time is show in your local browser tme">
                           {dayjs(talk.timeString).format('HH:mm')}
