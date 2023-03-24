@@ -47,7 +47,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${({ isOpen }) =>
       isOpen ? 'hsla(0, 0%, 0%, 0.85)' : 'hsla(0, 0%, 0%, 0.4)'};
     transition: background-color 500ms ease;
-    z-index: 10;
+    z-index: 20;
   }
 
   [data-reach-dialog-content] {
@@ -57,7 +57,44 @@ const GlobalStyle = createGlobalStyle`
   
   [data-reach-dialog-overlay] [data-reach-dialog-content] {
     width: 840px;
+    position: relative;
     max-width: 100%;
+  }
+  
+`;
+
+export const PopCloseButton = styled.button`
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  z-index: 101;
+  cursor: pointer;
+  text-align: center;
+  background-color: transparent;
+  padding: 0;
+  color: var(--color-popup-button-close, #000);
+  transition: all ease 0.3s;
+
+  &:after,
+  &:before {
+    content: '';
+    width: 26px;
+    height: 3px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -13px;
+    margin-top: -1px;
+    border-radius: 10px;
+    background: var(--color-popup-button-text, #fff);
+  }
+  &:after {
+    transform: rotate(45deg);
+  }
+  &:before {
+    transform: rotate(-45deg);
   }
 `;
 
@@ -259,6 +296,10 @@ const App = ({ bus }) => {
       <DialogOverlay isOpen={isOpen} onDismiss={close}>
         <GlobalStyle isOpen={isOpen} />
         <DialogContent aria-label="video message from organizers">
+          <PopCloseButton
+            onClick={() => setOpen(false)}
+            aria-label="popup close"
+          ></PopCloseButton>
           {isOpen ? <WatchMessage ticketsLink={ticketsLink} /> : null}
         </DialogContent>
       </DialogOverlay>
@@ -270,6 +311,10 @@ const App = ({ bus }) => {
       <DialogOverlay isOpen={isOpen} onDismiss={close}>
         <GlobalStyle isOpen={isOpen} />
         <DialogContent aria-label="video message from organizers">
+          <PopCloseButton
+            onClick={() => setOpen(false)}
+            aria-label="popup close"
+          ></PopCloseButton>
           {Boolean(isOpen) && <WatchMessagePaid />}
         </DialogContent>
       </DialogOverlay>
@@ -280,6 +325,10 @@ const App = ({ bus }) => {
       <DialogOverlay isOpen={isOpen} onDismiss={() => {}}>
         <GlobalStyle isOpen={false} />
         <DialogContent aria-label="video message from organizers">
+          <PopCloseButton
+            onClick={() => setOpen(false)}
+            aria-label="popup close"
+          ></PopCloseButton>
           {Boolean(isOpen) && <TicketNotFound ticketsLink={ticketsLink} />}
         </DialogContent>
       </DialogOverlay>
@@ -295,6 +344,10 @@ const App = ({ bus }) => {
       <DialogOverlay isOpen={isOpen} onDismiss={close}>
         <GlobalStyle isOpen={isOpen} />
         <DialogContent aria-label="popup with details about workshop">
+          <PopCloseButton
+            onClick={() => setOpen(false)}
+            aria-label="popup close"
+          ></PopCloseButton>
           <WorkshopCard content={content} closeCard={() => setOpen(false)} />
         </DialogContent>
       </DialogOverlay>
@@ -307,7 +360,12 @@ const App = ({ bus }) => {
     return (
       <DialogOverlay isOpen={isOpen} onDismiss={close}>
         <GlobalStyle isOpen={isOpen} />
+
         <DialogContent aria-label="popup with details about speaker">
+          <PopCloseButton
+            onClick={() => setOpen(false)}
+            aria-label="popup close"
+          ></PopCloseButton>
           {isOpen ? (
             <SpeakerCard
               isOfflineCard={isOfflineCard}
@@ -333,6 +391,10 @@ const App = ({ bus }) => {
       <DialogOverlay isOpen={isOpen} onDismiss={close}>
         <GlobalStyle isOpen={isOpen} />
         <DialogContent aria-label="popup with details about speaker">
+          <PopCloseButton
+            onClick={() => setOpen(false)}
+            aria-label="popup close"
+          ></PopCloseButton>
           {isOpen ? (
             <LightningTalkCard
               type={type}
@@ -357,6 +419,10 @@ const App = ({ bus }) => {
       <DialogOverlay isOpen={isOpen} onDismiss={close}>
         <GlobalStyle isOpen={isOpen} />
         <DialogContent aria-label="popup with details about partner">
+          <PopCloseButton
+            onClick={() => setOpen(false)}
+            aria-label="popup close"
+          ></PopCloseButton>
           {isOpen ? <SponsorCard content={content} /> : null}
         </DialogContent>
       </DialogOverlay>
@@ -370,6 +436,10 @@ const App = ({ bus }) => {
       <DialogOverlay isOpen={isOpen} onDismiss={close}>
         <GlobalStyle isOpen={isOpen} />
         <DialogContent aria-label="this activity is not available">
+          <PopCloseButton
+            onClick={() => setOpen(false)}
+            aria-label="popup close"
+          ></PopCloseButton>
           {isOpen ? <TicketMessage ticketsLink={ticketsLink} /> : null}
         </DialogContent>
       </DialogOverlay>
@@ -381,6 +451,10 @@ const App = ({ bus }) => {
     <DialogOverlay isOpen={isOpen} onDismiss={close}>
       <GlobalStyle isOpen={isOpen} />
       <DialogContent aria-label="this activity is not available">
+        <PopCloseButton
+          onClick={() => setOpen(false)}
+          aria-label="popup close"
+        ></PopCloseButton>
         {isOpen ? (
           <DialogPopup type={type} content={content} status={status} />
         ) : null}

@@ -6,6 +6,7 @@ export const BgHeadImg =
 /**
  * In this document we used css variable:
  --color-popup-title
+ --color-popup-button-close = #ffffff
  --color-popup-company
  --color-popup-button-text
  --color-popup-border = #5f5f5f
