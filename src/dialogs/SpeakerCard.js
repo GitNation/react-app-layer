@@ -60,46 +60,46 @@ function SpeakerCard(props) {
   return (
     <PopSpeaker id={`popup-${person.slug}`}>
       {person.name && (
-          <PopSpeakerTop>
-            <PopSpeakerAvatarWrap>
-              <PopSpeakerAvatar src={person.avatar} alt={person.name} />
-            </PopSpeakerAvatarWrap>
-            <PopSpeakerDesc>
-              <PopSpeakerName>{person.name}</PopSpeakerName>
-              <PopSpeakerCompany>{person.company}</PopSpeakerCompany>
-              <PopSpeakerBio
-                dangerouslySetInnerHTML={{
-                  __html: person.bio,
-                }}
-              />
-            </PopSpeakerDesc>
+        <PopSpeakerTop>
+          <PopSpeakerAvatarWrap>
+            <PopSpeakerAvatar src={person.avatar} alt={person.name} />
+          </PopSpeakerAvatarWrap>
+          <PopSpeakerDesc>
+            <PopSpeakerName>{person.name}</PopSpeakerName>
+            <PopSpeakerCompany>{person.company}</PopSpeakerCompany>
+            <PopSpeakerBio
+              dangerouslySetInnerHTML={{
+                __html: person.bio,
+              }}
+            />
+          </PopSpeakerDesc>
 
-            <PopSpeakerSocials>
-              {person.socials && (
-                <div ref={socialBtnRef}>
-                  {/*{qaLink ? (*/}
-                  {/*  <PopSpeakerBtn*/}
-                  {/*    href={qaLink}*/}
-                  {/*    target="_blank"*/}
-                  {/*    rel="noopener noreferrer"*/}
-                  {/*  >*/}
-                  {/*    JOIN SPEAKER'S VIDEO ROOM*/}
-                  {/*  </PopSpeakerBtn>*/}
-                  {/*) : null}*/}
-                  {person.socials.map((soc) => (
-                    <PopSpeakerBtn
-                      key={soc.link}
-                      href={soc.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {socialTitle[soc.icon] || socialTitle.default}
-                    </PopSpeakerBtn>
-                  ))}
-                </div>
-              )}
-            </PopSpeakerSocials>
-          </PopSpeakerTop>
+          <PopSpeakerSocials>
+            {person.socials && (
+              <div ref={socialBtnRef}>
+                {/*{qaLink ? (*/}
+                {/*  <PopSpeakerBtn*/}
+                {/*    href={qaLink}*/}
+                {/*    target="_blank"*/}
+                {/*    rel="noopener noreferrer"*/}
+                {/*  >*/}
+                {/*    JOIN SPEAKER'S VIDEO ROOM*/}
+                {/*  </PopSpeakerBtn>*/}
+                {/*) : null}*/}
+                {person.socials.map((soc) => (
+                  <PopSpeakerBtn
+                    key={soc.link}
+                    href={soc.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {socialTitle[soc.icon] || socialTitle.default}
+                  </PopSpeakerBtn>
+                ))}
+              </div>
+            )}
+          </PopSpeakerSocials>
+        </PopSpeakerTop>
       )}
 
       <PopSpeakerMid minHeight={minHeightTalkDesc}>
