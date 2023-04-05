@@ -2,7 +2,6 @@ import React, { useState, useCallback } from 'react';
 import dayjs from 'dayjs';
 import { createCalendarLink } from '../calendar-provider';
 import {
-  PopCloseButton,
   PopSpeaker,
   PopSpeakerTop,
   PopSpeakerAvatarWrap,
@@ -61,7 +60,6 @@ function SpeakerCard(props) {
   return (
     <PopSpeaker id={`popup-${person.slug}`}>
       {person.name && (
-        <>
           <PopSpeakerTop>
             <PopSpeakerAvatarWrap>
               <PopSpeakerAvatar src={person.avatar} alt={person.name} />
@@ -102,7 +100,6 @@ function SpeakerCard(props) {
               )}
             </PopSpeakerSocials>
           </PopSpeakerTop>
-        </>
       )}
 
       <PopSpeakerMid minHeight={minHeightTalkDesc}>
