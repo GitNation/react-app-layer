@@ -50,7 +50,7 @@ const WatchMessage = ({ ticketsLink }) => {
             full ticket by sharing your personalized badge.
           </PopTicketDesc>
           <PopTicketButtonWithBorder
-            href="https://portal.gitnation.org/badges/techleadjs-conference-2023/18872"
+            href="https://portal.gitnation.org/badges/node-congress-2023/18872"
             target="blank_"
           >
             Claim access
