@@ -282,6 +282,7 @@ const App = ({ bus }) => {
   const {
     conferenceStart: conferenceStart,
     conferenceFinish: conferenceEnd,
+    topSpeaker,
   } = eventInfo;
 
   const {
@@ -300,7 +301,7 @@ const App = ({ bus }) => {
             onClick={() => setOpen(false)}
             aria-label="popup close"
           ></PopCloseButton>
-          {isOpen ? <WatchMessage ticketsLink={ticketsLink} /> : null}
+          {isOpen ? <WatchMessage ticketsLink={ticketsLink} badgeUrl={topSpeaker?.badgeUrl} /> : null}
         </DialogContent>
       </DialogOverlay>
     );

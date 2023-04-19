@@ -15,7 +15,7 @@ import {
   PopTicketArrowSvg,
 } from './TicketMessage.styled';
 
-const WatchMessage = ({ ticketsLink }) => {
+const WatchMessage = ({ ticketsLink, badgeUrl }) => {
   return (
     <PopTicket id="popup-ticket">
       <PopTicketTwoCol>
@@ -50,7 +50,7 @@ const WatchMessage = ({ ticketsLink }) => {
             full ticket by sharing your personalized badge.
           </PopTicketDesc>
           <PopTicketButtonWithBorder
-            href="https://portal.gitnation.org/badges/node-congress-2023/18872"
+            href={badgeUrl}
             target="blank_"
           >
             Claim access
