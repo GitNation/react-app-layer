@@ -61,9 +61,12 @@ function SpeakerCard(props) {
     <PopSpeaker id={`popup-${person.slug}`}>
       {person.name && (
         <PopSpeakerTop>
-          <PopSpeakerAvatarWrap>
-            <PopSpeakerAvatar src={person.avatar} alt={person.name} />
-          </PopSpeakerAvatarWrap>
+          {person.avatar && (
+            <PopSpeakerAvatarWrap>
+              <PopSpeakerAvatar src={person.avatar} alt={person.name} />
+            </PopSpeakerAvatarWrap>
+          )}
+
           <PopSpeakerDesc>
             <PopSpeakerName>{person.name}</PopSpeakerName>
             <PopSpeakerCompany>{person.company}</PopSpeakerCompany>
