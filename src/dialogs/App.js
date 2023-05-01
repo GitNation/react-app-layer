@@ -188,10 +188,8 @@ const useBusEvents = (bus) => {
       }
 
       if (payload.name === 'talk-calendar') {
-        const speaker = {
-          name: payload.data.speaker,
-        };
-        const link = createCalendarLink([speaker], { talks: [payload.data] }, {
+        const speakers = payload.data.speakers || [payload.data.speaker];
+        const link = createCalendarLink(speakers, { talks: [payload.data] }, {
           calendarEventDescription,
           calendarEventName,
           conferenceStart,
