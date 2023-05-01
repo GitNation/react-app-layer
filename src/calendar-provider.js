@@ -1,9 +1,10 @@
 const ADD_EVENT_ID = 'aypbtNBcPzBIdDvukmvT46093';
 import { DateTime } from 'luxon';
 
-const createEventTitle = (speaker, talk, eventName) => {
+const createEventTitle = (speakers, talk, eventName) => {
+  const speakersStr = speakers.map(s => s.name).join(', ');
   try {
-    return `${speaker.name || ''}${speaker.name ? ' - ' : ''}"${talk.title}"${
+    return `${speakersStr || ''}${speakersStr ? ' - ' : ''}"${talk.title}"${
       eventName ? ` at ${eventName}` : ''
     }`;
   } catch (err) {
@@ -12,7 +13,8 @@ const createEventTitle = (speaker, talk, eventName) => {
 };
 
 export const createCalendarLink = (
-  speaker,
+  speakers,
+  activities,
   {
     calendarEventDescription,
     calendarEventName,
@@ -23,9 +25,9 @@ export const createCalendarLink = (
   const description = encodeURIComponent(calendarEventDescription);
 
   try {
-    const talk = speaker.activities && speaker.activities.talks[0];
+    const talk = activities && activities.talks[0];
     const title = encodeURIComponent(
-      createEventTitle(speaker, talk, calendarEventName),
+      createEventTitle(speakers, talk, calendarEventName),
     );
 
     const localDate = DateTime.fromISO(talk.isoDate || talk.timeString);
