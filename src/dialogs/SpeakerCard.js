@@ -16,6 +16,7 @@ import {
   PopSpeakerMid,
   PopSpeakerActivityInfo,
   PopCalendarButton,
+  PopSpeakerWrapper,
 } from './SpeakerCard.styled';
 
 const socialTitle = {
@@ -50,61 +51,63 @@ function SpeakerCard(props) {
       setMinHeightTalkDesc(node.getBoundingClientRect().height);
     }
   }, []);
-  const person = content.data;
-  const qaLink = selectQALink(person);
-  const calendarLink = createCalendarLink(person, calendarLinkOptions);
+
+  const { data } = content;
+  const speakers = data.speakers || [content.data];
+  const calendarLink = createCalendarLink(speakers, data.activities, calendarLinkOptions);
 
   const techColor =
-    person.tagBG && person.tagBG !== 'black' ? person.tagBG : fallbackTechColor;
+    speakers[0]?.tagBG && speakers[0].tagBG !== 'black' ? speakers[0].tagBG : fallbackTechColor;
 
+  const slug = speakers.map(s => s.slug).join('-');
   return (
-    <PopSpeaker id={`popup-${person.slug}`}>
-      {person.name && (
+    <PopSpeaker id={`popup-${slug}`}>
+      {speakers.length > 0 && speakers.some(s => !!s.name) && (
         <PopSpeakerTop>
-          <PopSpeakerAvatarWrap>
-            <PopSpeakerAvatar src={person.avatar} alt={person.name} />
-          </PopSpeakerAvatarWrap>
-          <PopSpeakerDesc>
-            <PopSpeakerName>{person.name}</PopSpeakerName>
-            <PopSpeakerCompany>{person.company}</PopSpeakerCompany>
-            <PopSpeakerBio
-              dangerouslySetInnerHTML={{
-                __html: person.bio,
-              }}
-            />
-          </PopSpeakerDesc>
+          {
+            speakers.map((person, i) => (
+              <PopSpeakerWrapper key={i}>
+                {person.avatar && (
+                  <PopSpeakerAvatarWrap>
+                    <PopSpeakerAvatar src={person.avatar} alt={person.name} />
+                  </PopSpeakerAvatarWrap>
+                )}
 
-          <PopSpeakerSocials>
-            {person.socials && (
-              <div ref={socialBtnRef}>
-                {/*{qaLink ? (*/}
-                {/*  <PopSpeakerBtn*/}
-                {/*    href={qaLink}*/}
-                {/*    target="_blank"*/}
-                {/*    rel="noopener noreferrer"*/}
-                {/*  >*/}
-                {/*    JOIN SPEAKER'S VIDEO ROOM*/}
-                {/*  </PopSpeakerBtn>*/}
-                {/*) : null}*/}
-                {person.socials.map((soc) => (
-                  <PopSpeakerBtn
-                    key={soc.link}
-                    href={soc.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {socialTitle[soc.icon] || socialTitle.default}
-                  </PopSpeakerBtn>
-                ))}
-              </div>
-            )}
-          </PopSpeakerSocials>
+                <PopSpeakerDesc>
+                  <PopSpeakerName>{person.name}</PopSpeakerName>
+                  <PopSpeakerCompany>{person.company}</PopSpeakerCompany>
+                  <PopSpeakerBio
+                    dangerouslySetInnerHTML={{
+                      __html: person.bio,
+                    }}
+                  />
+                </PopSpeakerDesc>
+
+                {person.socials && (
+                  <PopSpeakerSocials>
+                    <div ref={socialBtnRef}>
+                      {person.socials.map((soc) => (
+                        <PopSpeakerBtn
+                          key={soc.link}
+                          href={soc.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {socialTitle[soc.icon] || socialTitle.default}
+                        </PopSpeakerBtn>
+                      ))}
+                    </div>
+                  </PopSpeakerSocials>
+                )}
+              </PopSpeakerWrapper>
+            ))
+          }
         </PopSpeakerTop>
       )}
 
       <PopSpeakerMid minHeight={minHeightTalkDesc}>
-        {!isOfflineCard && person.activities && person.activities.talks
-          ? person.activities.talks.map((talk) => {
+        {!isOfflineCard && data.activities && data.activities.talks
+          ? data.activities.talks.map((talk) => {
               const showInfo = talk.label || talk.track || talk.timeString;
               return (
                 <React.Fragment key={talk.title}>
@@ -139,8 +142,8 @@ function SpeakerCard(props) {
               );
             })
           : null}
-        {isOfflineCard && person.activities && person.activities.offlineTalks
-          ? person.activities.offlineTalks.map((talk) => {
+        {isOfflineCard && data.activities && data.activities.offlineTalks
+          ? data.activities.offlineTalks.map((talk) => {
               const showInfo = talk.label || talk.track || talk.timeString;
               return (
                 <React.Fragment key={talk.title}>
