@@ -16,6 +16,7 @@ import {
   PopSpeakerMid,
   PopSpeakerActivityInfo,
   PopCalendarButton,
+  PopSpeakerWrapper,
 } from './SpeakerCard.styled';
 
 const socialTitle = {
@@ -64,8 +65,8 @@ function SpeakerCard(props) {
       {speakers.length > 0 && speakers.some(s => !!s.name) && (
         <PopSpeakerTop>
           {
-            speakers.map(person => (
-              <>
+            speakers.map((person, i) => (
+              <PopSpeakerWrapper key={i}>
                 {person.avatar && (
                   <PopSpeakerAvatarWrap>
                     <PopSpeakerAvatar src={person.avatar} alt={person.name} />
@@ -82,8 +83,8 @@ function SpeakerCard(props) {
                   />
                 </PopSpeakerDesc>
 
-                <PopSpeakerSocials>
-                  {person.socials && (
+                {person.socials && (
+                  <PopSpeakerSocials>
                     <div ref={socialBtnRef}>
                       {person.socials.map((soc) => (
                         <PopSpeakerBtn
@@ -96,9 +97,9 @@ function SpeakerCard(props) {
                         </PopSpeakerBtn>
                       ))}
                     </div>
-                  )}
-                </PopSpeakerSocials>
-              </>
+                  </PopSpeakerSocials>
+                )}
+              </PopSpeakerWrapper>
             ))
           }
         </PopSpeakerTop>
