@@ -34,15 +34,17 @@ export const PopSpeaker = styled.div`
 `;
 
 export const PopSpeakerTop = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: calc(var(--sideSpacing) / 2);
   padding: var(--sideSpacing);
-  background: var(--background-popup-head-image, url(${BgHeadImg})) center top;
+  background: var(--background-popup-head-image, url(${BgHeadImg}))
+    center top;
 `;
 
 export const PopSpeakerWrapper = styled.div`
-  position: relative;
+  
   display: flex;
 
   @media only screen and (max-width: 599px) {
