@@ -120,16 +120,19 @@ export const PopSpeakerBio = styled.div`
 
 export const PopSpeakerSocials = styled.div`
   width: 224px;
-  position: absolute;
-  right: var(--sideSpacing);
-  top: calc(100% + var(--sideSpacing));
 
   @media only screen and (max-width: 599px) {
     position: relative;
     right: auto;
-    margin: 30px auto 0;
+    margin: 20px auto 20px;
   }
 `;
+
+export const PopSpeakerSocialsHeader = styled.p`
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: var(--color-popup-general-text, #888);
+`
 
 export const PopButton = styled.a`
   cursor: pointer;
@@ -168,17 +171,25 @@ export const PopCalendarButton = styled(PopButton)`
   width: 100%;
 `;
 
-export const PopSpeakerMid = styled.div`
-  min-height: calc(
-    var(--sideSpacing) + ${({ minHeight }) => minHeight}px + var(--sideSpacing)
-  );
-  padding: var(--sideSpacing) calc(254px + var(--sideSpacing))
-    var(--sideSpacing) var(--sideSpacing);
+export const PopSpeakerMidWrapper = styled.div`
+  display: flex;
+  padding: var(--sideSpacing);
+  gap: var(--sideSpacing);
+`
+
+export const PopSpeakerMidLeft = styled.div`
+  flex: 1;
+`;
+
+export const PopSpeakerMidRight = styled.div`
+  display: flex;
+  flex-direction:column;
+  gap: calc(var(--sideSpacing) / 2);
 
   @media only screen and (max-width: 599px) {
-    padding: var(--sideSpacing);
+    display: none;
   }
-`;
+`
 
 export const PopSpeakerActivityInfo = styled.div`
   color: ${({ color }) => color};
@@ -233,3 +244,9 @@ export const WorkshopButtonContainer = styled.div`
   bottom: 0px;
   padding: 16px var(--sideSpacing);
 `;
+
+export const MobileOnly = styled.div`
+  @media only screen and (min-width: 599px) {
+    display: none;
+  }
+`

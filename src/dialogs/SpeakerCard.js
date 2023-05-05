@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, forwardRef } from 'react';
 import dayjs from 'dayjs';
 import { createCalendarLink } from '../calendar-provider';
 import {
@@ -13,10 +13,14 @@ import {
   PopSpeakerBio,
   PopSpeakerSocials,
   PopSpeakerBtn,
-  PopSpeakerMid,
+  PopSpeakerMidLeft,
+  PopSpeakerMidRight,
   PopSpeakerActivityInfo,
   PopCalendarButton,
   PopSpeakerWrapper,
+  PopSpeakerSocialsHeader,
+  PopSpeakerMidWrapper,
+  MobileOnly,
 } from './SpeakerCard.styled';
 
 const socialTitle = {
@@ -39,18 +43,11 @@ const selectQALink = (person) => {
 
 function SpeakerCard(props) {
   const {
-    type,
     content,
     isOfflineCard,
     hideLabel,
     calendarLinkOptions,
   } = props;
-  const [minHeightTalkDesc, setMinHeightTalkDesc] = useState(0);
-  const socialBtnRef = useCallback((node) => {
-    if (node !== null && window.matchMedia('(min-width: 600px)').matches) {
-      setMinHeightTalkDesc(node.getBoundingClientRect().height);
-    }
-  }, []);
 
   const { data } = content;
   const speakers = data.speakers || [content.data];
@@ -83,104 +80,126 @@ function SpeakerCard(props) {
                   />
                 </PopSpeakerDesc>
 
-                {person.socials && (
-                  <PopSpeakerSocials>
-                    <div ref={socialBtnRef}>
-                      {person.socials.map((soc) => (
-                        <PopSpeakerBtn
-                          key={soc.link}
-                          href={soc.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {socialTitle[soc.icon] || socialTitle.default}
-                        </PopSpeakerBtn>
-                      ))}
-                    </div>
-                  </PopSpeakerSocials>
-                )}
+                <MobileOnly>
+                  <SocialsBlock person={person} />
+                </MobileOnly>
               </PopSpeakerWrapper>
             ))
           }
         </PopSpeakerTop>
       )}
 
-      <PopSpeakerMid minHeight={minHeightTalkDesc}>
-        {!isOfflineCard && data.activities && data.activities.talks
-          ? data.activities.talks.map((talk) => {
-              const showInfo = talk.label || talk.track || talk.timeString;
-              return (
-                <React.Fragment key={talk.title}>
-                  {showInfo && (
-                    <PopSpeakerActivityInfo color={techColor}>
-                      <span>{!hideLabel ? talk.label : null}</span>
-                      {talk.track && <span>{talk.track.name}</span>}
-                      {talk.timeString && (
-                        <span title="time is show in your local browser tme">
-                          {dayjs(talk.timeString).format('HH:mm')}
-                        </span>
-                      )}
-                    </PopSpeakerActivityInfo>
-                  )}
-                  <PopSpeakerTitle>{talk.title}</PopSpeakerTitle>
-                  <PopSpeakerBio
-                    dangerouslySetInnerHTML={{
-                      __html: talk.description,
-                    }}
-                  />
-                  {talk.timeString && calendarLink ? (
-                    <PopCalendarButton
-                      title="Add Talk to Calendar"
-                      href={calendarLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Add Talk to Calendar
-                    </PopCalendarButton>
-                  ) : null}
-                </React.Fragment>
-              );
-            })
-          : null}
-        {isOfflineCard && data.activities && data.activities.offlineTalks
-          ? data.activities.offlineTalks.map((talk) => {
-              const showInfo = talk.label || talk.track || talk.timeString;
-              return (
-                <React.Fragment key={talk.title}>
-                  {showInfo && (
-                    <PopSpeakerActivityInfo color={techColor}>
-                      <span>{!hideLabel ? talk.label : null}</span>
-                      {talk.track && <span>{talk.track.name}</span>}
-                      {talk.timeString && (
-                        <span title="time is show in your local browser tme">
-                          {dayjs(talk.timeString).format('HH:mm')}
-                        </span>
-                      )}
-                    </PopSpeakerActivityInfo>
-                  )}
-                  <PopSpeakerTitle>{talk.title}</PopSpeakerTitle>
-                  <PopSpeakerBio
-                    dangerouslySetInnerHTML={{
-                      __html: talk.description,
-                    }}
-                  />
-                  {talk.timeString && calendarLink ? (
-                    <PopCalendarButton
-                      title="Add Talk to Calendar"
-                      href={calendarLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Add Talk to Calendar
-                    </PopCalendarButton>
-                  ) : null}
-                </React.Fragment>
-              );
-            })
-          : null}
-      </PopSpeakerMid>
+      <PopSpeakerMidWrapper>
+        <PopSpeakerMidLeft>
+          {!isOfflineCard && data.activities && data.activities.talks
+            ? data.activities.talks.map((talk) => {
+                const showInfo = talk.label || talk.track || talk.timeString;
+                return (
+                  <React.Fragment key={talk.title}>
+                    {showInfo && (
+                      <PopSpeakerActivityInfo color={techColor}>
+                        <span>{!hideLabel ? talk.label : null}</span>
+                        {talk.track && <span>{talk.track.name}</span>}
+                        {talk.timeString && (
+                          <span title="time is show in your local browser tme">
+                            {dayjs(talk.timeString).format('HH:mm')}
+                          </span>
+                        )}
+                      </PopSpeakerActivityInfo>
+                    )}
+                    <PopSpeakerTitle>{talk.title}</PopSpeakerTitle>
+                    <PopSpeakerBio
+                      dangerouslySetInnerHTML={{
+                        __html: talk.description,
+                      }}
+                    />
+                    {talk.timeString && calendarLink ? (
+                      <PopCalendarButton
+                        title="Add Talk to Calendar"
+                        href={calendarLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Add Talk to Calendar
+                      </PopCalendarButton>
+                    ) : null}
+                  </React.Fragment>
+                );
+              })
+            : null}
+          {isOfflineCard && data.activities && data.activities.offlineTalks
+            ? data.activities.offlineTalks.map((talk) => {
+                const showInfo = talk.label || talk.track || talk.timeString;
+                return (
+                  <React.Fragment key={talk.title}>
+                    {showInfo && (
+                      <PopSpeakerActivityInfo color={techColor}>
+                        <span>{!hideLabel ? talk.label : null}</span>
+                        {talk.track && <span>{talk.track.name}</span>}
+                        {talk.timeString && (
+                          <span title="time is show in your local browser tme">
+                            {dayjs(talk.timeString).format('HH:mm')}
+                          </span>
+                        )}
+                      </PopSpeakerActivityInfo>
+                    )}
+                    <PopSpeakerTitle>{talk.title}</PopSpeakerTitle>
+                    <PopSpeakerBio
+                      dangerouslySetInnerHTML={{
+                        __html: talk.description,
+                      }}
+                    />
+                    {talk.timeString && calendarLink ? (
+                      <PopCalendarButton
+                        title="Add Talk to Calendar"
+                        href={calendarLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Add Talk to Calendar
+                      </PopCalendarButton>
+                    ) : null}
+                  </React.Fragment>
+                );
+              })
+            : null}
+        </PopSpeakerMidLeft>
+        <PopSpeakerMidRight>
+          {speakers.map((speaker, index) => {
+            return (
+              <SocialsBlock
+                key={index}
+                header={speakers.length > 1 && speaker.name}
+                person={speaker}
+              />
+            )
+          })}
+        </PopSpeakerMidRight>
+      </PopSpeakerMidWrapper>
     </PopSpeaker>
   );
+}
+
+const SocialsBlock = ({ header, person }) => {
+  return person.socials && (
+    <PopSpeakerSocials>
+      {header && (
+        <PopSpeakerSocialsHeader>{header}</PopSpeakerSocialsHeader>
+      )}
+      <div>
+        {person.socials.map((soc) => (
+          <PopSpeakerBtn
+            key={soc.link}
+            href={soc.link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {socialTitle[soc.icon] || socialTitle.default}
+          </PopSpeakerBtn>
+        ))}
+      </div>
+    </PopSpeakerSocials>
+  )
 }
 
 export default SpeakerCard;
