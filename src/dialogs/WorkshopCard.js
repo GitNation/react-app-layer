@@ -25,7 +25,7 @@ function WorkshopCard(props) {
   return (
     <PopSpeaker id={`popup-${person.slug}`}>
       <PopSpeakerTop>
-        {trainers.length > 0 ? (
+        {trainers && trainers.length > 0 ? (
           trainers.map((trainer, i) => (
             <PopSpeakerAvatarWrap key={i}>
               <PopSpeakerAvatar src={trainer.avatar.url} alt={trainer.name} />
@@ -38,7 +38,7 @@ function WorkshopCard(props) {
         )}
         <PopSpeakerDesc>
           <PopSpeakerName>{content.data.title}</PopSpeakerName>
-          {trainers.length > 0 ? (
+          {trainers && trainers.length > 0 ? (
             <PopSpeakerCompany>
               {trainers.map((trainer, i) => (
                 <span key={trainer.name + i}>{trainer.name} &nbsp; &nbsp;</span>
