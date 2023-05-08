@@ -10,6 +10,7 @@ import {
   PopSpeakerBio,
   PopSpeakerBtn,
   PopSpeakerMid,
+  PopSpeakerWrapper,
   WorkshopInfoContainer,
   WorkshopInfoTitle,
   WorkshopPopBio,
@@ -20,16 +21,33 @@ function WorkshopCard(props) {
   const { content, closeCard } = props;
 
   const person = content.data.speaker;
-
+  const trainers = content.data.trainers;
   return (
     <PopSpeaker id={`popup-${person.slug}`}>
       <PopSpeakerTop>
-        <PopSpeakerAvatarWrap>
-          <PopSpeakerAvatar src={person.avatar.url} alt={person.name} />
-        </PopSpeakerAvatarWrap>
+        {trainers && trainers.length > 0 ? (
+          trainers.map((trainer, i) => (
+            <PopSpeakerAvatarWrap key={i}>
+              <PopSpeakerAvatar src={trainer.avatar.url} alt={trainer.name} />
+            </PopSpeakerAvatarWrap>
+          ))
+        ) : (
+          <PopSpeakerAvatarWrap>
+            <PopSpeakerAvatar src={person.avatar.url} alt={person.name} />
+          </PopSpeakerAvatarWrap>
+        )}
         <PopSpeakerDesc>
           <PopSpeakerName>{content.data.title}</PopSpeakerName>
-          <PopSpeakerCompany>{person.name}</PopSpeakerCompany>
+          {trainers && trainers.length > 0 ? (
+            <PopSpeakerCompany>
+              {trainers.map((trainer, i) => (
+                <span key={trainer.name + i}>{trainer.name} &nbsp; &nbsp;</span>
+              ))}
+            </PopSpeakerCompany>
+          ) : (
+            <PopSpeakerCompany>{person.name}</PopSpeakerCompany>
+          )}
+
           <WorkshopPopBio
             dangerouslySetInnerHTML={{
               __html: content.data.description,
