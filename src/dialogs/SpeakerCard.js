@@ -72,7 +72,11 @@ function SpeakerCard(props) {
 
                 <PopSpeakerDesc>
                   <PopSpeakerName>{person.name}</PopSpeakerName>
-                  <PopSpeakerCompany>{person.company}</PopSpeakerCompany>
+                  <PopSpeakerCompany>
+                    {person.company}
+                    {person.company && person.location ? ', ' : ''}
+                    {person.location ? person.location : ''}
+                  </PopSpeakerCompany>
                   <PopSpeakerBio
                     dangerouslySetInnerHTML={{
                       __html: person.bio,
