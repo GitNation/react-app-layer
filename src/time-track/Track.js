@@ -82,6 +82,25 @@ const iSpeaker = (name, place, title, text) => (
   </React.Fragment>
 );
 
+const iEmsTalk = (speakers, title, text) => (
+  <React.Fragment>
+    <p className="track-tooltip__speaker">
+      {speakers.map(({ name, location }, i) => (
+        <>
+          {name}, {location}{i !== (speakers.length - 1) ? '; ' : ''} 
+        </>
+      ))}
+    </p>
+    <p className="track-tooltip__title">«‎{title}»</p>
+    <div
+      className="track-tooltip__desc"
+      dangerouslySetInnerHTML={{
+        __html: text,
+      }}
+    ></div>
+  </React.Fragment>
+);
+
 const iLt = (title, lightningTalks) => (
   <React.Fragment>
     <p className="track-tooltip__speaker">{title}</p>
@@ -136,6 +155,9 @@ const Talk = ({ talk, onClick, isOrgEvent }) => {
     name,
     place,
     description,
+
+    // new ems format
+    speakers,
   } = talk;
 
   const handleClick = () => {
@@ -144,8 +166,10 @@ const Talk = ({ talk, onClick, isOrgEvent }) => {
 
   const [isVisible, toggleIsVisible] = useState(false);
 
+  const isOrgTooltipExists = isOrgEvent && !!description;
+  const isEmsTalkTooltipExists = speakers && speakers.length > 0;
   const isAsLeastOneTooltipExists =
-    name || lightningTalks || (isOrgEvent && !!description);
+    name || lightningTalks || isOrgTooltipExists || isEmsTalkTooltipExists;
 
   const changePortalVisibility = useCallback((boolean) => {
     if (window && window?.innerWidth > TABLET_WIDTH) {
@@ -172,11 +196,12 @@ const Talk = ({ talk, onClick, isOrgEvent }) => {
             className="track-tooltip"
             style={{ position: 'sticky', '--bgColor': talk.bgColor }}
           >
+            <Tooltip on={isEmsTalkTooltipExists}>{iEmsTalk(speakers, title, text)}</Tooltip>
             <Tooltip on={!!name}>{iSpeaker(name, place, title, text)}</Tooltip>
             <Tooltip on={!!lightningTalks}>
               {iLt(title, lightningTalks)}
             </Tooltip>
-            <Tooltip on={isOrgEvent && !!description}>
+            <Tooltip on={isOrgTooltipExists}>
               <div dangerouslySetInnerHTML={{ __html: description }} />
             </Tooltip>
           </div>
