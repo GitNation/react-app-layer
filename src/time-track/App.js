@@ -42,6 +42,18 @@ const getGroupedTracks = (tracks) =>
     return [...resultTracks, ...Object.values(separatedTracks)];
   }, []);
 
+// new format returns arrat of conference days
+// each day might have multiple tracks with nested talks
+// todo: add generic util
+const getFlatTrackList = (data) => {
+  return data.list.reduce((result, item) => {
+    if (Array.isArray(item.list)) {
+      return result.concat(getFlatTrackList(item));
+    }
+    return result.concat(item);
+  }, []);
+}
+
 const App = ({ bus }) => {
   const content = bus.getContent();
   const {
@@ -56,24 +68,73 @@ const App = ({ bus }) => {
     availableTracks,
 
     speakers,
+
+    emsSchedule,
+    emsScheduleOffline,
   } = content;
 
   let schedule = defaultSchedule;
   let customTracks = defaultCustomTracks;
 
-  // HARDCODE RS 2022
-  if (isOfflineTimeTrack) {
-    schedule = [scheduleOffline[0], scheduleOffline[1]];
-    customTracks = [scheduleOffline[2], scheduleOffline[3]];
-  }
-  // HARDCODE JSN 2022
-  if (isOfflineJSNTimeTrack) {
-    schedule = [scheduleOffline[0], scheduleOffline[1]];
-    customTracks = [scheduleOffline[2]];
-  }
+  let formattedMainTracks = [];
+  let formattedCustomTracks = [];
+  // todo: add generic function
+  if(emsSchedule || emsScheduleOffline) {
+    const [firstDayCommunityTrack, firstDayResidentsTrack] = emsSchedule[0].list;
+    const [secondDayCommunityTrack, secondDayResidentsTrack] = emsSchedule[1].list;
+    const communityTrackList = [...getFlatTrackList(firstDayCommunityTrack), ...getFlatTrackList(secondDayCommunityTrack)];
+    const residentsTrackList = [...getFlatTrackList(firstDayResidentsTrack), ...getFlatTrackList(secondDayResidentsTrack)];
 
-  const groupedCustomTracks = getGroupedTracks(customTracks);
-  const groupedMainTracks = getGroupedTracks(schedule);
+    schedule = [
+      {
+        // 1st is community track
+        title: firstDayCommunityTrack.track,
+        list: communityTrackList,
+      },
+      {
+        // 2nd is residents track
+        title: firstDayResidentsTrack.track,
+        list: residentsTrackList,
+      },
+    ];
+
+    // HARDCODE JSN/RS 2023 (show offline schedule of either sOfflineTimeTrack || isOfflineJSNTimeTrack is true)
+    if ((isOfflineTimeTrack || isOfflineJSNTimeTrack) && emsScheduleOffline) {
+      const [firstDayCommunityTrack, firstDayResidentsTrack] = emsScheduleOffline[0].list;
+
+      schedule = [
+        {
+          // 1st is community track
+          title: firstDayCommunityTrack.track,
+          list: getFlatTrackList(firstDayCommunityTrack),
+        },
+        {
+          // 2nd is residents track
+          title: firstDayResidentsTrack.track,
+          list: getFlatTrackList(firstDayResidentsTrack),
+        },
+      ];
+      // hide custom customTracks for offline conference
+      customTracks = [];
+    }
+    formattedMainTracks = schedule;
+    formattedCustomTracks = customTracks;
+  } else {
+    // HARDCODE RS 2022
+    if (isOfflineTimeTrack) {
+      schedule = [scheduleOffline[0], scheduleOffline[1]];
+      customTracks = [scheduleOffline[2], scheduleOffline[3]];
+    }
+
+    // HARDCODE JSN 2022
+    if (isOfflineJSNTimeTrack) {
+      schedule = [scheduleOffline[0], scheduleOffline[1]];
+      customTracks = [scheduleOffline[2]];
+    }
+
+    formattedMainTracks = getGroupedTracks(schedule);
+    formattedCustomTracks = getGroupedTracks(customTracks);
+  }
 
   const {
     chatLink,
@@ -83,13 +144,13 @@ const App = ({ bus }) => {
   } = eventInfo;
 
   let startTime = defaultStartTime;
-  // HARDCODE RS 2022
+  // HARDCODE RS 2023
   if (isOfflineTimeTrack) {
-    startTime = '2022-06-17T06:00:00+00:00';
+    startTime = '2023-06-02T06:00:00+00:00';
   }
-  // HARDCODE JSN 2022
+  // HARDCODE JSN 2023
   if (isOfflineJSNTimeTrack) {
-    startTime = '2022-06-16T04:00:00+00:00';
+    startTime = '2023-06-01T06:00:00+00:00';
   }
 
   const timeTicks = createTimeTicks(startTime, endTime);
@@ -175,13 +236,13 @@ const App = ({ bus }) => {
 
   return (
     <Container>
-      <Aside schedule={groupedMainTracks} customTracks={groupedCustomTracks} />
+      <Aside schedule={formattedMainTracks} customTracks={formattedCustomTracks} />
       <TracksContent
         timeTicks={timeTicks}
         trackWidth={trackWidth}
         calcPosition={calcPosition}
       >
-        {groupedMainTracks.map((sch, i) => (
+        {formattedMainTracks.map((sch, i) => (
           <Track
             key={`${sch.title}-${i}`}
             track={sch}
@@ -189,7 +250,7 @@ const App = ({ bus }) => {
             onClick={handleClick}
           />
         ))}
-        {groupedCustomTracks.map((tr, i) => (
+        {formattedCustomTracks.map((tr, i) => (
           <Track
             key={`${tr.title}-${i}`}
             track={tr}
