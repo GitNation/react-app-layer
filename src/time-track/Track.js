@@ -85,11 +85,11 @@ const iSpeaker = (name, place, title, text) => (
 const iEmsTalk = (speakers, title, text) => (
   <React.Fragment>
     <p className="track-tooltip__speaker">
-      {speakers.map(({ name, location }, i) => (
+      {speakers ? speakers.map(({ name, location }, i) => (
         <>
           {name}, {location}{i !== (speakers.length - 1) ? '; ' : ''} 
         </>
-      ))}
+      )): null}
     </p>
     <p className="track-tooltip__title">«‎{title}»</p>
     <div
