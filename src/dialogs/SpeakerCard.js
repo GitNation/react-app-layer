@@ -59,33 +59,36 @@ function SpeakerCard(props) {
   const slug = speakers.map(s => s.slug).join('-');
   return (
     <PopSpeaker id={`popup-${slug}`}>
-      {speakers.length > 0 && speakers.some(s => !!s.name) && (
+      {speakers.length > 0 && speakers.some((s) => !!s.name) && (
         <PopSpeakerTop>
-          {
-            speakers.map((person, i) => (
-              <PopSpeakerWrapper key={i}>
-                {person.avatar && (
-                  <PopSpeakerAvatarWrap>
-                    <PopSpeakerAvatar src={person.avatar} alt={person.name} />
-                  </PopSpeakerAvatarWrap>
-                )}
+          {speakers.map((person, i) => (
+            <PopSpeakerWrapper key={i}>
+              {person.avatar && (
+                <PopSpeakerAvatarWrap>
+                  <PopSpeakerAvatar src={person.avatar} alt={person.name} />
+                </PopSpeakerAvatarWrap>
+              )}
 
-                <PopSpeakerDesc>
-                  <PopSpeakerName>{person.name}</PopSpeakerName>
-                  <PopSpeakerCompany>{person.company}</PopSpeakerCompany>
-                  <PopSpeakerBio
-                    dangerouslySetInnerHTML={{
-                      __html: person.bio,
-                    }}
-                  />
-                </PopSpeakerDesc>
+              <PopSpeakerDesc>
+                <PopSpeakerName>{person.name}</PopSpeakerName>
+                <PopSpeakerCompany>
+                  {person.company && person.location
+                    ? `${person.company}, ${person.location}`
+                    : person.company}
+                  {person.location && person.location}
+                </PopSpeakerCompany>
+                <PopSpeakerBio
+                  dangerouslySetInnerHTML={{
+                    __html: person.bio,
+                  }}
+                />
+              </PopSpeakerDesc>
 
-                <MobileOnly>
-                  <SocialsBlock person={person} />
-                </MobileOnly>
-              </PopSpeakerWrapper>
-            ))
-          }
+              <MobileOnly>
+                <SocialsBlock person={person} />
+              </MobileOnly>
+            </PopSpeakerWrapper>
+          ))}
         </PopSpeakerTop>
       )}
 
@@ -172,7 +175,7 @@ function SpeakerCard(props) {
                 header={speakers.length > 1 && speaker.name}
                 person={speaker}
               />
-            )
+            );
           })}
         </PopSpeakerMidRight>
       </PopSpeakerMidWrapper>
