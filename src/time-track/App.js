@@ -82,19 +82,17 @@ const App = ({ bus }) => {
   if(emsSchedule || emsScheduleOffline) {
     const [firstDayCommunityTrack, firstDayResidentsTrack] = emsSchedule[0].list;
     const [secondDayCommunityTrack, secondDayResidentsTrack] = emsSchedule[1].list;
-    const communityTrackList = [...getFlatTrackList(firstDayCommunityTrack), ...getFlatTrackList(secondDayCommunityTrack)];
-    const residentsTrackList = [...getFlatTrackList(firstDayResidentsTrack), ...getFlatTrackList(secondDayResidentsTrack)];
 
     schedule = [
       {
         // 1st is community track
         title: firstDayCommunityTrack.track,
-        list: communityTrackList,
+        list: getFlatTrackList([...firstDayCommunityTrack, ...secondDayCommunityTrack]),
       },
       {
         // 2nd is residents track
         title: firstDayResidentsTrack.track,
-        list: residentsTrackList,
+        list: getFlatTrackList([...firstDayResidentsTrack, ...secondDayResidentsTrack]),
       },
     ];
 
