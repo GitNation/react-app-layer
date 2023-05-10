@@ -44,13 +44,18 @@ const ePic = (pic) => {
     return null;
   }
 
-  const picId = pic.url.split('/').reverse()[0];
+  let imgSrc = '';
+  // new ems format, when avatar passed as a string instead of object (user.avatar db field)
+  if (typeof pic === 'string') {
+    imgSrc = pic;
+  } else {
+    const picId = pic.url.split('/').reverse()[0];
+    imgSrc = `https://media.graphassets.com/resize=fit:crop,height:100,width:100/output=format:webp/${picId}`;
+  }
 
   return (
     <div className="time-track__pic">
-      <img
-        src={`https://media.graphassets.com/resize=fit:crop,height:100,width:100/output=format:webp/${picId}`}
-      />
+      <img src={imgSrc} />
     </div>
   );
 };
