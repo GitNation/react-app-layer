@@ -42,13 +42,10 @@ const getGroupedTracks = (tracks) =>
     return [...resultTracks, ...Object.values(separatedTracks)];
   }, []);
 
-// new format returns arrat of conference days
-// each day might have multiple tracks with nested talks
-// todo: add generic util
-const getFlatTrackList = (data) => {
-  return data.list.reduce((result, item) => {
+const getFlatTrackList = (tracksList) =>
+  tracksList.reduce((result, item) => {
     if (Array.isArray(item.list)) {
-      return result.concat(getFlatTrackList(item));
+      return result.concat(getFlatTrackList(item.list));
     }
     return result.concat(item);
   }, []);
@@ -87,12 +84,12 @@ const App = ({ bus }) => {
       {
         // 1st is community track
         title: firstDayCommunityTrack.track,
-        list: getFlatTrackList([...firstDayCommunityTrack, ...secondDayCommunityTrack]),
+        list: getFlatTrackList(firstDayCommunityTrack.list.concat(secondDayCommunityTrack.list)),
       },
       {
         // 2nd is residents track
         title: firstDayResidentsTrack.track,
-        list: getFlatTrackList([...firstDayResidentsTrack, ...secondDayResidentsTrack]),
+        list: getFlatTrackList(firstDayResidentsTrack.list.concat(secondDayResidentsTrack.list)),
       },
     ];
 
@@ -104,12 +101,12 @@ const App = ({ bus }) => {
         {
           // 1st is community track
           title: firstDayCommunityTrack.track,
-          list: getFlatTrackList(firstDayCommunityTrack),
+          list: getFlatTrackList(firstDayCommunityTrack.list),
         },
         {
           // 2nd is residents track
           title: firstDayResidentsTrack.track,
-          list: getFlatTrackList(firstDayResidentsTrack),
+          list: getFlatTrackList(firstDayResidentsTrack.list),
         },
       ];
       // hide custom customTracks for offline conference
