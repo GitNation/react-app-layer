@@ -45,7 +45,7 @@ const ePic = (pic) => {
   }
 
   let imgSrc = '';
-  // new ems format, when avatar passed as a string instead of object (user.avatar db field)
+  // ems data has avatar as a string instead of object (user.avatar db field)
   if (typeof pic === 'string') {
     imgSrc = pic;
   } else {
@@ -156,7 +156,6 @@ const Talk = ({ talk, onClick, isOrgEvent }) => {
     place,
     description,
 
-    // new ems format
     speakers,
   } = talk;
 

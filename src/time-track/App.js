@@ -49,7 +49,39 @@ const getFlatTrackList = (tracksList) =>
     }
     return result.concat(item);
   }, []);
-}
+
+const getTracksForSingleDay = (scheduleDay) => {
+  return scheduleDay.list.reduce((acc, trackData) => {
+    if (acc[trackData.track]) {
+      acc[trackData.track].list = acc[trackData.track].list.concat(getFlatTrackList(trackData.list));
+    } else {
+      acc[trackData.track] = {
+        title: trackData.track,
+        list: getFlatTrackList(trackData.list),
+      };
+    }
+
+    return acc;
+  }, {});
+};
+
+const getTracksForAllDays = (emsSchedule) => {
+  const tracksResultObject = emsSchedule.reduce((acc, scheduleDay) => {
+    const tracksForSingleDay = getTracksForSingleDay(scheduleDay);
+
+    Object.keys(tracksForSingleDay).forEach((track) => {
+      if (acc[track]) {
+        acc[track].list = acc[track].list.concat(tracksForSingleDay[track].list);
+      } else {
+        acc[track] = tracksForSingleDay[track];
+      }
+    });
+    
+    return acc;
+  }, {});
+
+  return Object.values(tracksResultObject);
+};
 
 const App = ({ bus }) => {
   const content = bus.getContent();
@@ -75,40 +107,16 @@ const App = ({ bus }) => {
 
   let formattedMainTracks = [];
   let formattedCustomTracks = [];
-  // todo: add generic function
-  if(emsSchedule || emsScheduleOffline) {
-    const [firstDayCommunityTrack, firstDayResidentsTrack] = emsSchedule[0].list;
-    const [secondDayCommunityTrack, secondDayResidentsTrack] = emsSchedule[1].list;
 
-    schedule = [
-      {
-        // 1st is community track
-        title: firstDayCommunityTrack.track,
-        list: getFlatTrackList(firstDayCommunityTrack.list.concat(secondDayCommunityTrack.list)),
-      },
-      {
-        // 2nd is residents track
-        title: firstDayResidentsTrack.track,
-        list: getFlatTrackList(firstDayResidentsTrack.list.concat(secondDayResidentsTrack.list)),
-      },
-    ];
+  if(emsSchedule || emsScheduleOffline) {
+    const scheduleTracks = getTracksForAllDays(emsSchedule);
+    schedule = scheduleTracks;
 
     // HARDCODE JSN/RS 2023 (show offline schedule of either sOfflineTimeTrack || isOfflineJSNTimeTrack is true)
     if ((isOfflineTimeTrack || isOfflineJSNTimeTrack) && emsScheduleOffline) {
-      const [firstDayCommunityTrack, firstDayResidentsTrack] = emsScheduleOffline[0].list;
+      const scheduleOfflineTracks = getTracksForAllDays(emsScheduleOffline);
 
-      schedule = [
-        {
-          // 1st is community track
-          title: firstDayCommunityTrack.track,
-          list: getFlatTrackList(firstDayCommunityTrack.list),
-        },
-        {
-          // 2nd is residents track
-          title: firstDayResidentsTrack.track,
-          list: getFlatTrackList(firstDayResidentsTrack.list),
-        },
-      ];
+      schedule = scheduleOfflineTracks;
       // hide custom customTracks for offline conference
       customTracks = [];
     }
