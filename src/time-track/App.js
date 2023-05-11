@@ -52,10 +52,12 @@ const getFlatTrackList = (tracksList) =>
 
 const getTracksForSingleDay = (scheduleDay) => {
   return scheduleDay.list.reduce((acc, trackData) => {
-    if (acc[trackData.track]) {
-      acc[trackData.track].list = acc[trackData.track].list.concat(getFlatTrackList(trackData.list));
+    const trackTitleKey = trackData.track.trim().toLowerCase();
+
+    if (acc[trackTitleKey]) {
+      acc[trackTitleKey].list = acc[trackTitleKey].list.concat(getFlatTrackList(trackData.list));
     } else {
-      acc[trackData.track] = {
+      acc[trackTitleKey] = {
         title: trackData.track,
         list: getFlatTrackList(trackData.list),
       };
