@@ -92,7 +92,10 @@ const iEmsTalk = (speakers, title, shortDescription) => (
       )): null}
     </p>
     <p className="track-tooltip__title">«‎{title}»</p>
-    <div className="track-tooltip__desc">{shortDescription}</div>
+    {shortDescription
+        ? <div className="track-tooltip__desc">{shortDescription}</div>
+        : null
+      }
   </React.Fragment>
 );
 
