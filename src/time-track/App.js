@@ -42,6 +42,49 @@ const getGroupedTracks = (tracks) =>
     return [...resultTracks, ...Object.values(separatedTracks)];
   }, []);
 
+const getFlatTrackList = (tracksList) =>
+  tracksList.reduce((result, item) => {
+    if (Array.isArray(item.list)) {
+      return result.concat(getFlatTrackList(item.list));
+    }
+    return result.concat(item);
+  }, []);
+
+const getTracksForSingleDay = (scheduleDay) => {
+  return scheduleDay.list.reduce((acc, trackData) => {
+    const trackTitleKey = trackData.track.trim().toLowerCase();
+
+    if (acc[trackTitleKey]) {
+      acc[trackTitleKey].list = acc[trackTitleKey].list.concat(getFlatTrackList(trackData.list));
+    } else {
+      acc[trackTitleKey] = {
+        title: trackData.track,
+        list: getFlatTrackList(trackData.list),
+      };
+    }
+
+    return acc;
+  }, {});
+};
+
+const getTracksForAllDays = (emsSchedule) => {
+  const tracksResultObject = emsSchedule.reduce((acc, scheduleDay) => {
+    const tracksForSingleDay = getTracksForSingleDay(scheduleDay);
+
+    Object.keys(tracksForSingleDay).forEach((track) => {
+      if (acc[track]) {
+        acc[track].list = acc[track].list.concat(tracksForSingleDay[track].list);
+      } else {
+        acc[track] = tracksForSingleDay[track];
+      }
+    });
+    
+    return acc;
+  }, {});
+
+  return Object.values(tracksResultObject);
+};
+
 const App = ({ bus }) => {
   const content = bus.getContent();
   const {
@@ -56,24 +99,47 @@ const App = ({ bus }) => {
     availableTracks,
 
     speakers,
+
+    emsSchedule,
+    emsScheduleOffline,
   } = content;
 
   let schedule = defaultSchedule;
   let customTracks = defaultCustomTracks;
 
-  // HARDCODE RS 2022
-  if (isOfflineTimeTrack) {
-    schedule = [scheduleOffline[0], scheduleOffline[1]];
-    customTracks = [scheduleOffline[2], scheduleOffline[3]];
-  }
-  // HARDCODE JSN 2022
-  if (isOfflineJSNTimeTrack) {
-    schedule = [scheduleOffline[0], scheduleOffline[1]];
-    customTracks = [scheduleOffline[2]];
-  }
+  let formattedMainTracks = [];
+  let formattedCustomTracks = [];
 
-  const groupedCustomTracks = getGroupedTracks(customTracks);
-  const groupedMainTracks = getGroupedTracks(schedule);
+  if(emsSchedule || emsScheduleOffline) {
+    const scheduleTracks = getTracksForAllDays(emsSchedule);
+    schedule = scheduleTracks;
+
+    // HARDCODE JSN/RS 2023 (show offline schedule of either sOfflineTimeTrack || isOfflineJSNTimeTrack is true)
+    if ((isOfflineTimeTrack || isOfflineJSNTimeTrack) && emsScheduleOffline) {
+      const scheduleOfflineTracks = getTracksForAllDays(emsScheduleOffline);
+
+      schedule = scheduleOfflineTracks;
+      // hide custom customTracks for offline conference
+      customTracks = [];
+    }
+    formattedMainTracks = schedule;
+    formattedCustomTracks = customTracks;
+  } else {
+    // HARDCODE RS 2022
+    if (isOfflineTimeTrack) {
+      schedule = [scheduleOffline[0], scheduleOffline[1]];
+      customTracks = [scheduleOffline[2], scheduleOffline[3]];
+    }
+
+    // HARDCODE JSN 2022
+    if (isOfflineJSNTimeTrack) {
+      schedule = [scheduleOffline[0], scheduleOffline[1]];
+      customTracks = [scheduleOffline[2]];
+    }
+
+    formattedMainTracks = getGroupedTracks(schedule);
+    formattedCustomTracks = getGroupedTracks(customTracks);
+  }
 
   const {
     chatLink,
@@ -83,13 +149,13 @@ const App = ({ bus }) => {
   } = eventInfo;
 
   let startTime = defaultStartTime;
-  // HARDCODE RS 2022
+  // HARDCODE RS 2023
   if (isOfflineTimeTrack) {
-    startTime = '2022-06-17T06:00:00+00:00';
+    startTime = '2023-06-02T06:00:00+00:00';
   }
-  // HARDCODE JSN 2022
+  // HARDCODE JSN 2023
   if (isOfflineJSNTimeTrack) {
-    startTime = '2022-06-16T04:00:00+00:00';
+    startTime = '2023-06-01T06:00:00+00:00';
   }
 
   const timeTicks = createTimeTicks(startTime, endTime);
@@ -175,13 +241,13 @@ const App = ({ bus }) => {
 
   return (
     <Container>
-      <Aside schedule={groupedMainTracks} customTracks={groupedCustomTracks} />
+      <Aside schedule={formattedMainTracks} customTracks={formattedCustomTracks} />
       <TracksContent
         timeTicks={timeTicks}
         trackWidth={trackWidth}
         calcPosition={calcPosition}
       >
-        {groupedMainTracks.map((sch, i) => (
+        {formattedMainTracks.map((sch, i) => (
           <Track
             key={`${sch.title}-${i}`}
             track={sch}
@@ -189,7 +255,7 @@ const App = ({ bus }) => {
             onClick={handleClick}
           />
         ))}
-        {groupedCustomTracks.map((tr, i) => (
+        {formattedCustomTracks.map((tr, i) => (
           <Track
             key={`${tr.title}-${i}`}
             track={tr}
