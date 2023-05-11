@@ -82,7 +82,7 @@ const iSpeaker = (name, place, title, text) => (
   </React.Fragment>
 );
 
-const iEmsTalk = (speakers, title, text) => (
+const iEmsTalk = (speakers, title, shortDescription) => (
   <React.Fragment>
     <p className="track-tooltip__speaker">
       {speakers ? speakers.map(({ name, location }, i) => (
@@ -92,12 +92,10 @@ const iEmsTalk = (speakers, title, text) => (
       )): null}
     </p>
     <p className="track-tooltip__title">«‎{title}»</p>
-    <div
-      className="track-tooltip__desc"
-      dangerouslySetInnerHTML={{
-        __html: text,
-      }}
-    ></div>
+    {shortDescription
+        ? <div className="track-tooltip__desc">{shortDescription}</div>
+        : null
+      }
   </React.Fragment>
 );
 
@@ -157,6 +155,7 @@ const Talk = ({ talk, onClick, isOrgEvent }) => {
     description,
 
     speakers,
+    shortDescription,
   } = talk;
 
   const handleClick = () => {
@@ -166,7 +165,7 @@ const Talk = ({ talk, onClick, isOrgEvent }) => {
   const [isVisible, toggleIsVisible] = useState(false);
 
   const isOrgTooltipExists = isOrgEvent && !!description;
-  const isEmsTalkTooltipExists = speakers && speakers.length > 0;
+  const isEmsTalkTooltipExists = (speakers && speakers.length > 0) || shortDescription;
   const isAsLeastOneTooltipExists =
     name || lightningTalks || isOrgTooltipExists || isEmsTalkTooltipExists;
 
@@ -195,7 +194,7 @@ const Talk = ({ talk, onClick, isOrgEvent }) => {
             className="track-tooltip"
             style={{ position: 'sticky', '--bgColor': talk.bgColor }}
           >
-            <Tooltip on={isEmsTalkTooltipExists}>{iEmsTalk(speakers, title, text)}</Tooltip>
+            <Tooltip on={isEmsTalkTooltipExists}>{iEmsTalk(speakers, title, shortDescription)}</Tooltip>
             <Tooltip on={!!name}>{iSpeaker(name, place, title, text)}</Tooltip>
             <Tooltip on={!!lightningTalks}>
               {iLt(title, lightningTalks)}
