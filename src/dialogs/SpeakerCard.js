@@ -74,7 +74,7 @@ function SpeakerCard(props) {
                 <PopSpeakerName>{person.name}</PopSpeakerName>
                 <PopSpeakerCompany>
                   {person.company}
-                  {#todo simplify the code #}
+                  {/* todo simplify the code */}
                   {person.company && person.location ? ', ' : ''}
                   {person.location}
                 </PopSpeakerCompany>
