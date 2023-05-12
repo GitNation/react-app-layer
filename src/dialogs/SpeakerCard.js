@@ -42,21 +42,22 @@ const selectQALink = (person) => {
 };
 
 function SpeakerCard(props) {
-  const {
-    content,
-    isOfflineCard,
-    hideLabel,
-    calendarLinkOptions,
-  } = props;
+  const { content, isOfflineCard, hideLabel, calendarLinkOptions } = props;
 
   const { data } = content;
   const speakers = data.speakers || [content.data];
-  const calendarLink = createCalendarLink(speakers, data.activities, calendarLinkOptions);
+  const calendarLink = createCalendarLink(
+    speakers,
+    data.activities,
+    calendarLinkOptions,
+  );
 
   const techColor =
-    speakers[0]?.tagBG && speakers[0].tagBG !== 'black' ? speakers[0].tagBG : fallbackTechColor;
+    speakers[0]?.tagBG && speakers[0].tagBG !== 'black'
+      ? speakers[0].tagBG
+      : fallbackTechColor;
 
-  const slug = speakers.map(s => s.slug).join('-');
+  const slug = speakers.map((s) => s.slug).join('-');
   return (
     <PopSpeaker id={`popup-${slug}`}>
       {speakers.length > 0 && speakers.some((s) => !!s.name) && (
@@ -74,8 +75,9 @@ function SpeakerCard(props) {
                 <PopSpeakerCompany>
                   {person.company && person.location
                     ? `${person.company}, ${person.location}`
+                    : !person.company && person.location
+                    ? person.location
                     : person.company}
-                  {person.location && person.location}
                 </PopSpeakerCompany>
                 <PopSpeakerBio
                   dangerouslySetInnerHTML={{
@@ -184,25 +186,25 @@ function SpeakerCard(props) {
 }
 
 const SocialsBlock = ({ header, person }) => {
-  return person.socials && (
-    <PopSpeakerSocials>
-      {header && (
-        <PopSpeakerSocialsHeader>{header}</PopSpeakerSocialsHeader>
-      )}
-      <div>
-        {person.socials.map((soc) => (
-          <PopSpeakerBtn
-            key={soc.link}
-            href={soc.link}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {socialTitle[soc.icon] || socialTitle.default}
-          </PopSpeakerBtn>
-        ))}
-      </div>
-    </PopSpeakerSocials>
-  )
-}
+  return (
+    person.socials && (
+      <PopSpeakerSocials>
+        {header && <PopSpeakerSocialsHeader>{header}</PopSpeakerSocialsHeader>}
+        <div>
+          {person.socials.map((soc) => (
+            <PopSpeakerBtn
+              key={soc.link}
+              href={soc.link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {socialTitle[soc.icon] || socialTitle.default}
+            </PopSpeakerBtn>
+          ))}
+        </div>
+      </PopSpeakerSocials>
+    )
+  );
+};
 
 export default SpeakerCard;
