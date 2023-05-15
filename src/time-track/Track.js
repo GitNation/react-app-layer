@@ -131,7 +131,7 @@ const DiscussionRoomTooltipContent = ({ text, title, speakers }) => {
 
   return (
     <div>
-      {speakers.map((info) => (
+      {speakers?.map((info) => (
         <p key={info.name}>
           <strong>{info.name}</strong>
           {info.company ? ` (${info.company})` : null}
@@ -156,6 +156,7 @@ const Talk = ({ talk, onClick, isOrgEvent }) => {
 
     speakers,
     shortDescription,
+    icon,
   } = talk;
 
   const handleClick = () => {
@@ -205,7 +206,7 @@ const Talk = ({ talk, onClick, isOrgEvent }) => {
           </div>
         )}
       </RelativePortal>
-      {ePic(avatar)}
+      {icon ? ePic(icon) : ePic(avatar)}
       {eTitle(speaker, title)}
     </div>
   );
@@ -227,12 +228,11 @@ const QARoom = ({ talk, onClick }) => {
 };
 
 const SpeakerRoom = ({ talk, onClick }) => {
-  const { speakers, title, roomLink, type } = talk;
-  const [speaker] = speakers;
+  const { speakers, title, roomLink, type, icon, link } = talk;
 
   const handleClick = () => {
     let samePage = false;
-    if (roomLink?.[0] === '#') {
+    if ((link || roomLink)?.[0] === '#') {
       samePage = true;
     }
     let override = {};
@@ -249,14 +249,14 @@ const SpeakerRoom = ({ talk, onClick }) => {
       className="time-track__link room js-time"
       style={{ '--bgColor': talk.bgColor, width: '100%' }}
     >
-      {ePic(speaker.avatar)}
+      {icon ? ePic(icon) : speakers && ePic(speakers[0].avatar)}
       {eTitle('', title)}
     </a>
   );
 };
 
 const DiscussionRoom = ({ talk, onClick }) => {
-  const { pic, speakers, title, text } = talk;
+  const { pic, speakers, title, text, icon } = talk;
 
   const [isVisible, toggleIsVisible] = useState(false);
 
@@ -290,7 +290,7 @@ const DiscussionRoom = ({ talk, onClick }) => {
           </div>
         )}
       </RelativePortal>
-      {ePic(pic, 'png')}
+      {icon ? ePic(icon) : ePic(pic)}
       {eTitle('', title)}
       {camIcon}
     </a>

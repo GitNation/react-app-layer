@@ -123,7 +123,8 @@ const App = ({ bus }) => {
       customTracks = [];
     }
     formattedMainTracks = schedule;
-    formattedCustomTracks = customTracks;
+    // remove when migrate all data to ems
+    formattedCustomTracks = [];
   } else {
     // HARDCODE RS 2022
     if (isOfflineTimeTrack) {
