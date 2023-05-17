@@ -20,6 +20,8 @@ import {
   PopSpeakerWrapper,
   PopSpeakerSocialsHeader,
   PopSpeakerMidWrapper,
+  PopSpeakerSubactivities,
+  PopSpeakerSubTitle,
   MobileOnly,
 } from './SpeakerCard.styled';
 
@@ -98,6 +100,7 @@ function SpeakerCard(props) {
           {!isOfflineCard && data.activities && data.activities.talks
             ? data.activities.talks.map((talk) => {
                 const showInfo = talk.label || talk.track || talk.timeString;
+                
                 return (
                   <React.Fragment key={talk.title}>
                     {showInfo && (
@@ -112,11 +115,24 @@ function SpeakerCard(props) {
                       </PopSpeakerActivityInfo>
                     )}
                     <PopSpeakerTitle>{talk.title}</PopSpeakerTitle>
-                    <PopSpeakerBio
-                      dangerouslySetInnerHTML={{
-                        __html: talk.description,
-                      }}
-                    />
+                    {!talk.subactivities ? (
+                      <PopSpeakerBio
+                        dangerouslySetInnerHTML={{
+                          __html: talk.description,
+                        }}
+                      />
+                    ) : (
+                      talk.subactivities.map((sub) => (
+                        <PopSpeakerSubactivities key={sub.title}>
+                          <PopSpeakerSubTitle>{sub.title}</PopSpeakerSubTitle>
+                          <PopSpeakerBio
+                            dangerouslySetInnerHTML={{
+                              __html: sub.text,
+                            }}
+                          />
+                        </PopSpeakerSubactivities>
+                      ))
+                    )}
                     {talk.timeString && calendarLink ? (
                       <PopCalendarButton
                         title="Add Talk to Calendar"
@@ -134,6 +150,7 @@ function SpeakerCard(props) {
           {isOfflineCard && data.activities && data.activities.offlineTalks
             ? data.activities.offlineTalks.map((talk) => {
                 const showInfo = talk.label || talk.track || talk.timeString;
+                
                 return (
                   <React.Fragment key={talk.title}>
                     {showInfo && (
@@ -148,11 +165,25 @@ function SpeakerCard(props) {
                       </PopSpeakerActivityInfo>
                     )}
                     <PopSpeakerTitle>{talk.title}</PopSpeakerTitle>
-                    <PopSpeakerBio
-                      dangerouslySetInnerHTML={{
-                        __html: talk.description,
-                      }}
-                    />
+                    {!talk.subactivities ? (
+                      <PopSpeakerBio
+                        dangerouslySetInnerHTML={{
+                          __html: talk.description,
+                        }}
+                      />
+                    ) : (
+                      talk.subactivities.map((sub) => (
+                        <PopSpeakerSubactivities key={sub.title}>
+                          <PopSpeakerSubTitle>{sub.title}</PopSpeakerSubTitle>
+                          <PopSpeakerBio
+                            dangerouslySetInnerHTML={{
+                              __html: sub.text,
+                            }}
+                          />
+                        </PopSpeakerSubactivities>
+                      ))
+                    )}
+
                     {talk.timeString && calendarLink ? (
                       <PopCalendarButton
                         title="Add Talk to Calendar"
