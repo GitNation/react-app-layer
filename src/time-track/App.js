@@ -102,6 +102,7 @@ const App = ({ bus }) => {
 
     emsSchedule,
     emsScheduleOffline,
+    tracksOrdered,
   } = content;
 
   let schedule = defaultSchedule;
@@ -122,7 +123,9 @@ const App = ({ bus }) => {
       // hide custom customTracks for offline conference
       customTracks = [];
     }
-    formattedMainTracks = schedule;
+    formattedMainTracks = tracksOrdered
+      ? tracksOrdered.map((track) => schedule.find((s) => s.title === track))
+      : schedule;
     // remove when migrate all data to ems
     formattedCustomTracks = [];
   } else {
