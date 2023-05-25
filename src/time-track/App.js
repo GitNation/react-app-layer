@@ -197,7 +197,7 @@ const App = ({ bus }) => {
       isAuth,
       name: 'any-room',
       link:
-        eventContent.roomLink ||
+        eventContent.link ||
         eventContent.discussionRoomLink ||
         eventContent.additionalLink ||
         correctDiscordLink,
@@ -226,7 +226,7 @@ const App = ({ bus }) => {
     // TODO make type_id for events in db schema
 
     if (
-      !eventContent.roomLink &&
+      !eventContent.link &&
       !eventContent.discussionRoomLink &&
       !eventContent.speaker &&
       !correctDiscordLink
