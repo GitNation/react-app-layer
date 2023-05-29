@@ -25,6 +25,9 @@ function LightningTalkCard({ content: { data }, calendarLinkOptions }) {
       <PopSpeaker id={`popup-${data.slug}`}>
         {data.lightningTalks &&
           data.lightningTalks.map((talk) => {
+            const speaker = talk.speakers && talk.speakers.length > 0
+              ? talk.speakers[0]
+              : { avatar: talk.avatar.url, name: talk.speaker };
             return (
               <React.Fragment key={talk.title}>
                 <PopSpeakerTop
@@ -36,11 +39,11 @@ function LightningTalkCard({ content: { data }, calendarLinkOptions }) {
                 >
                   <PopSpeakerAvatarWrap>
                     <PopSpeakerAvatar
-                      src={talk.avatar.url}
-                      alt={talk.speaker}
+                      src={speaker.avatar}
+                      alt={speaker.name}
                     />
                   </PopSpeakerAvatarWrap>
-                  <PopSpeakerName>{talk.speaker}</PopSpeakerName>
+                  <PopSpeakerName>{speaker.name}</PopSpeakerName>
                 </PopSpeakerTop>
                 <div style={{ marginBottom: '32px' }} />
                 <LightningTalkContainer>

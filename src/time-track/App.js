@@ -15,6 +15,9 @@ const IGNORE_CLICK_EVENT_SLUGS = [
   'day-1-opening',
   'day-2-opening',
   'day-3-opening',
+  'opening-ceremony',
+  'coffee-break',
+  'closing-ceremony',
 ];
 
 const getGroupedTracks = (tracks) =>
@@ -234,8 +237,9 @@ const App = ({ bus }) => {
       payload.isAuth = true;
     }
 
-    if (eventContent.lightningTalks && isTrackAvailable) {
+    if ((eventContent.lightningTalks || eventContent.isLightning) && isTrackAvailable) {
       payload.name = 'lightning-talks';
+      payload.data.lightningTalks = eventContent.isLightning ? eventContent.subactivities : eventContent.lightningTalks;
     }
 
     trackGAEvent('TT', 'CL', payload?.data?.slug, isAuth);

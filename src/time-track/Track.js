@@ -86,9 +86,9 @@ const iEmsTalk = (speakers, title, shortDescription) => (
   <React.Fragment>
     <p className="track-tooltip__speaker">
       {speakers ? speakers.map(({ name, location }, i) => (
-        <>
+        <React.Fragment key={i}>
           {name}, {location}{i !== (speakers.length - 1) ? '; ' : ''} 
-        </>
+        </React.Fragment>
       )): null}
     </p>
     <p className="track-tooltip__title">«‎{title}»</p>
@@ -158,9 +158,10 @@ const Talk = ({ talk, onClick, isOrgEvent }) => {
     shortDescription,
     icon,
   } = talk;
+  const mainSpeaker = speakers && speakers.length > 0 ? speakers[0].name : speaker;
 
   const handleClick = () => {
-    onClick({ date: '', track: '' });
+    onClick({ date: '', track: '', speaker: mainSpeaker });
   };
 
   const [isVisible, toggleIsVisible] = useState(false);
@@ -180,7 +181,7 @@ const Talk = ({ talk, onClick, isOrgEvent }) => {
     <div
       className="time-track__item js-time"
       onClick={handleClick}
-      title={!name && !lightningTalks ? getTitleStr(speaker, title) : ''}
+      title={!name && !lightningTalks ? getTitleStr(mainSpeaker, title) : ''}
       style={{
         '--bgColor': talk.bgColor,
         width: '100%',
@@ -207,7 +208,7 @@ const Talk = ({ talk, onClick, isOrgEvent }) => {
         )}
       </RelativePortal>
       {icon ? ePic(icon) : ePic(avatar)}
-      {eTitle(speaker, title)}
+      {eTitle(mainSpeaker, title)}
     </div>
   );
 };

@@ -76,9 +76,11 @@ export const getLightningTalksCalendarLink = ({
 }) => {
   const localDate = DateTime.fromISO(isoDate);
   const encodedTitle = encodeURIComponent(`${title}`);
+
   const description = encodeURIComponent(
     lightningTalks.reduce((acc, cur) => {
-      const next = `"${cur.title}" by ${cur.speaker}`;
+      const speakers = cur.speakers ? cur.speakers.map(s => s.name).join(', ') : cur.speaker;
+      const next = `"${cur.title}" by ${speakers}`;
       if (acc) {
         return `${acc}, ${next}`;
       }
