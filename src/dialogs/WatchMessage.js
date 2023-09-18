@@ -15,7 +15,7 @@ import {
   PopTicketArrowSvg,
 } from './TicketMessage.styled';
 
-const WatchMessage = ({ ticketsLink, badgeUrl }) => {
+const WatchMessage = ({ ticketsLink, badgeUrl, actionUrl }) => {
   return (
     <PopTicket id="popup-ticket">
       <PopTicketTwoCol>
@@ -26,7 +26,12 @@ const WatchMessage = ({ ticketsLink, badgeUrl }) => {
             Multipass below. If you're not sure, please check an email from the
             event org team containing direct access link.
           </PopTicketDesc>
-          <PopTicketForm action="/live" method="get" target="_blank" noValidate>
+          <PopTicketForm
+            action={actionUrl}
+            method="get"
+            target="_blank"
+            noValidate
+          >
             <PopTicketField>
               <PopTicketInput
                 type="email"
@@ -49,10 +54,7 @@ const WatchMessage = ({ ticketsLink, badgeUrl }) => {
             opportunities and check your email for a possibility to upgrade to
             full ticket by sharing your personalized badge.
           </PopTicketDesc>
-          <PopTicketButtonWithBorder
-            href={badgeUrl}
-            target="blank_"
-          >
+          <PopTicketButtonWithBorder href={badgeUrl} target="blank_">
             Claim access
           </PopTicketButtonWithBorder>
         </PopTicketColRight>

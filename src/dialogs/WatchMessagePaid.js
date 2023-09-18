@@ -15,7 +15,7 @@ import {
   PopTicketArrowSvg,
 } from './TicketMessage.styled';
 
-const WatchMessagePaid = () => {
+const WatchMessagePaid = ({ actionUrl }) => {
   return (
     <PopTicket id="popup-ticket">
       <PopTicketTwoCol>
@@ -26,7 +26,12 @@ const WatchMessagePaid = () => {
             you're not sure, please check an email from the event org team
             containing direct access link and other useful instructions.
           </PopTicketDesc>
-          <PopTicketForm action="/live" method="get" target="_blank" noValidate>
+          <PopTicketForm
+            action={actionUrl}
+            method="get"
+            target="_blank"
+            noValidate
+          >
             <PopTicketField>
               <PopTicketInput
                 type="email"

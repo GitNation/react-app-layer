@@ -189,12 +189,16 @@ const useBusEvents = (bus) => {
 
       if (payload.name === 'talk-calendar') {
         const speakers = payload.data.speakers || [payload.data.speaker];
-        const link = createCalendarLink(speakers, { talks: [payload.data] }, {
-          calendarEventDescription,
-          calendarEventName,
-          conferenceStart,
-          conferenceEnd,
-        });
+        const link = createCalendarLink(
+          speakers,
+          { talks: [payload.data] },
+          {
+            calendarEventDescription,
+            calendarEventName,
+            conferenceStart,
+            conferenceEnd,
+          },
+        );
 
         navigateByLink(link);
 
@@ -278,6 +282,7 @@ const App = ({ bus }) => {
     conferenceStart: conferenceStart,
     conferenceFinish: conferenceEnd,
     topSpeaker,
+    emsEvent,
   } = eventInfo;
 
   const {
@@ -287,6 +292,7 @@ const App = ({ bus }) => {
     calendarEventName,
   } = reactLayerConfig;
 
+  const actionUrl = `https://portal.gitnation.org/events/${emsEvent.slug}/watch`;
   if (type === 'watch-livestream') {
     return (
       <DialogOverlay isOpen={isOpen} onDismiss={close}>
@@ -296,7 +302,13 @@ const App = ({ bus }) => {
             onClick={() => setOpen(false)}
             aria-label="popup close"
           ></PopCloseButton>
-          {isOpen ? <WatchMessage ticketsLink={ticketsLink} badgeUrl={topSpeaker?.badgeUrl} /> : null}
+          {isOpen ? (
+            <WatchMessage
+              ticketsLink={ticketsLink}
+              badgeUrl={topSpeaker?.badgeUrl}
+              actionUrl={actionUrl}
+            />
+          ) : null}
         </DialogContent>
       </DialogOverlay>
     );
@@ -311,7 +323,7 @@ const App = ({ bus }) => {
             onClick={() => setOpen(false)}
             aria-label="popup close"
           ></PopCloseButton>
-          {Boolean(isOpen) && <WatchMessagePaid />}
+          {Boolean(isOpen) && <WatchMessagePaid actionUrl={actionUrl} />}
         </DialogContent>
       </DialogOverlay>
     );
