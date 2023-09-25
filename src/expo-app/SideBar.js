@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Switch, Route, NavLink, useRouteMatch } from 'react-router-dom';
-import { db } from '../firebase';
-import { useObjectVal } from 'react-firebase-hooks/database';
 import { useLocalStorage } from '../lib/useLocalStorage';
 
 const brandColor = '#fef502';
@@ -216,7 +214,6 @@ export default function SideBar({ partner }) {
     perks,
   } = partner;
   const { path, url } = useRouteMatch();
-  const [config, loading, error] = useObjectVal(db.ref('config'));
   const [hideDiscordInvite, setCloseDiscordInvite] = useLocalStorage(
     'expo-app-remember-hide-discord-invite',
   );

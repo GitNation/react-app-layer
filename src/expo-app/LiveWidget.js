@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
-import { db } from '../firebase';
-import { useObjectVal } from 'react-firebase-hooks/database';
 
 export const LiveWidget = styled.div`
   padding: 5px 10px;
@@ -15,8 +13,6 @@ export const LiveWidget = styled.div`
 `;
 
 function App() {
-  const [isLive, loading, error] = useObjectVal(db.ref('isLive'));
-
   return <div>{isLive ? <LiveWidget>Live</LiveWidget> : null}</div>;
 }
 

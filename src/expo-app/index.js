@@ -4,8 +4,6 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import PartnerPage from './PartnerPage';
 import PartnersList from './PartnersList';
-import { db } from '../firebase';
-import { useObjectVal } from 'react-firebase-hooks/database';
 import { createBrowserHistory } from 'history';
 
 const history = createBrowserHistory();
@@ -23,8 +21,6 @@ const AppContainer = styled.div`
 `;
 
 function App() {
-  const [partners, loading, error] = useObjectVal(db.ref('partners'));
-
   return (
     <AppContainer>
       <Router basename="expo" hashType="noslash" history={history}>

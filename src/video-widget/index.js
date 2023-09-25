@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
-import { useObjectVal } from 'react-firebase-hooks/database';
-
-import { db } from '../firebase';
 import { trackGAEvent } from '../services/ga';
 
 const mountEventName = 'video-widget-mount';
@@ -55,9 +52,6 @@ const Title = styled.div`
 function App({ bus }) {
   const content = bus.getContent();
   const { reactLayerConfig = {}, isAuth } = content;
-  const [videos, loading, error] = useObjectVal(
-    db.ref(`${reactLayerConfig.firebaseObject}/videos`),
-  );
 
   const handleClick = (e, { title }) => {
     trackGAEvent('video-widget', 'click', `title:${title}`, isAuth);
