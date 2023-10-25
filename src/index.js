@@ -1,4 +1,3 @@
-import './firebase';
 import { initModalTakeoverWidget } from './ModalTakeoverWidget';
 import { initDialogs } from './dialogs';
 import { initTimeTrack } from './time-track';

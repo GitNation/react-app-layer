@@ -12,11 +12,9 @@
   "dependencies": {
     "@reach/dialog": "^0.10.3",
     "classnames": "^2.2.6",
-    "firebase": "^7.15.1",
     "luxon": "^1.24.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-firebase-hooks": "^2.2.0",
     "react-modal": "^3.11.2",
     "react-relative-portal": "^1.8.0",
     "react-router-dom": "^5.2.0",
