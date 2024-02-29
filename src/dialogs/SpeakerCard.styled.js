@@ -39,16 +39,18 @@ export const PopSpeakerTop = styled.div`
   flex-direction: column;
   gap: calc(var(--sideSpacing) / 2);
   padding: var(--sideSpacing);
-  background: var(--background-popup-head-image, url(${BgHeadImg})) center top;
+  background: var(--background-popup-head-image, url(${BgHeadImg}))
+    center top;
 `;
 
 export const PopSpeakerWrapper = styled.div`
+  
   display: flex;
 
   @media only screen and (max-width: 599px) {
     flex-direction: column;
   }
-`;
+`
 
 export const PopSpeakerAvatarWrap = styled.div`
   flex: 0 0 auto;
@@ -83,17 +85,11 @@ export const PopSpeakerDesc = styled.div`
 export const PopSpeakerTitle = styled.h4`
   font-weight: 400;
   font-size: 28px;
-  margin: 20px 0 10px;
-  color: var(--color-popup-title, #fff);
-  &:first-child {
-    margin-top: -4px;
-  }
-`;
-
-export const PopSpeakerName = styled.h4`
-  font-weight: 400;
   margin: -4px 0 10px;
   color: var(--color-popup-title, #fff);
+`;
+
+export const PopSpeakerName = styled(PopSpeakerTitle)`
   font-size: 30px;
   @media only screen and (max-width: 599px) {
     margin: 20px 0 10px;
@@ -136,7 +132,7 @@ export const PopSpeakerSocialsHeader = styled.p`
   font-size: 16px;
   margin-bottom: 10px;
   color: var(--color-popup-general-text, #888);
-`;
+`
 
 export const PopButton = styled.a`
   cursor: pointer;
@@ -179,7 +175,7 @@ export const PopSpeakerMidWrapper = styled.div`
   display: flex;
   padding: var(--sideSpacing);
   gap: var(--sideSpacing);
-`;
+`
 
 export const PopSpeakerMidLeft = styled.div`
   flex: 1;
@@ -187,13 +183,13 @@ export const PopSpeakerMidLeft = styled.div`
 
 export const PopSpeakerMidRight = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction:column;
   gap: calc(var(--sideSpacing) / 2);
 
   @media only screen and (max-width: 599px) {
     display: none;
   }
-`;
+`
 
 export const PopSpeakerActivityInfo = styled.div`
   color: ${({ color }) => color};
@@ -253,4 +249,4 @@ export const MobileOnly = styled.div`
   @media only screen and (min-width: 599px) {
     display: none;
   }
-`;
+`
