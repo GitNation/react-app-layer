@@ -99,19 +99,43 @@ function SpeakerCard(props) {
         <PopSpeakerMidLeft>
           {!isOfflineCard && data.activities && data.activities.talks
             ? data.activities.talks.map((talk) => {
-                return <PopSpeakerContent talk={talk} />;
+                return (
+                  <PopSpeakerContent
+                    key={talk.title}
+                    talk={talk}
+                    techColor={techColor}
+                    hideLabel={hideLabel}
+                    calendarLink={calendarLink}
+                  />
+                );
               })
             : null}
           {isOfflineCard && data.activities && data.activities.offlineTalks
             ? data.activities.offlineTalks.map((talk) => {
-                return <PopSpeakerContent talk={talk} />;
+                return (
+                  <PopSpeakerContent
+                    key={talk.title}
+                    talk={talk}
+                    techColor={techColor}
+                    hideLabel={hideLabel}
+                    calendarLink={calendarLink}
+                  />
+                );
               })
             : null}
 
           {!isOfflineCard && data.activities && data.activities.offlineTalks
             ? data.activities.offlineTalks.map((talk) => {
                 if (talk.category !== 2) return null;
-                return <PopSpeakerContent talk={talk} />;
+                return (
+                  <PopSpeakerContent
+                    key={talk.title}
+                    talk={talk}
+                    techColor={techColor}
+                    hideLabel={hideLabel}
+                    calendarLink={calendarLink}
+                  />
+                );
               })
             : null}
         </PopSpeakerMidLeft>
@@ -153,10 +177,10 @@ const SocialsBlock = ({ header, person }) => {
   );
 };
 
-const PopSpeakerContent = ({ talk }) => {
+const PopSpeakerContent = ({ talk, techColor, hideLabel, calendarLink }) => {
   const showInfo = talk.label || talk.track || talk.timeString;
   return (
-    <React.Fragment key={talk.title}>
+    <React.Fragment>
       {showInfo && (
         <PopSpeakerActivityInfo color={techColor}>
           <span>{!hideLabel ? talk.label : null}</span>
