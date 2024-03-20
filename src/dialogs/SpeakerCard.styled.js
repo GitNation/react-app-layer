@@ -80,6 +80,10 @@ export const PopSpeakerDesc = styled.div`
   }
 `;
 
+export const PopSpeakerCategory = styled.span`
+  color: var(--color-popup-general-text, #888);
+`;
+
 export const PopSpeakerTitle = styled.h4`
   font-weight: 400;
   font-size: 28px;

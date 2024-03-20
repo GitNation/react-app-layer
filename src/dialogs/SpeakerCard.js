@@ -8,6 +8,7 @@ import {
   PopSpeakerAvatar,
   PopSpeakerDesc,
   PopSpeakerName,
+  PopSpeakerCategory,
   PopSpeakerTitle,
   PopSpeakerCompany,
   PopSpeakerBio,
@@ -99,6 +100,7 @@ function SpeakerCard(props) {
         <PopSpeakerMidLeft>
           {!isOfflineCard && data.activities && data.activities.talks
             ? data.activities.talks.map((talk) => {
+                if (talk.category === 2) return null;
                 return (
                   <PopSpeakerContent
                     key={talk.title}
@@ -193,7 +195,12 @@ const PopSpeakerContent = ({ talk, techColor, hideLabel, calendarLink }) => {
         </PopSpeakerActivityInfo>
       )}
 
-      <PopSpeakerTitle>{talk.title}</PopSpeakerTitle>
+      <PopSpeakerTitle>
+        <PopSpeakerCategory>
+          {talk.category == 2 ? 'Workshop: ' : 'Talk: '}
+        </PopSpeakerCategory>
+        {talk.title}
+      </PopSpeakerTitle>
       <PopSpeakerBio
         dangerouslySetInnerHTML={{
           __html: talk.description,
