@@ -258,3 +258,9 @@ export const MobileOnly = styled.div`
     display: none;
   }
 `;
+
+export const PopSpeakerContentWrap = styled.div`
+  &:not(:first-child) {
+    margin-top: 30px;
+  }
+`;

@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { createCalendarLink } from '../calendar-provider';
 import {
   PopSpeaker,
+  PopSpeakerContentWrap,
   PopSpeakerTop,
   PopSpeakerAvatarWrap,
   PopSpeakerAvatar,
@@ -76,10 +77,7 @@ function SpeakerCard(props) {
               <PopSpeakerDesc>
                 <PopSpeakerName>{person.name}</PopSpeakerName>
                 <PopSpeakerCompany>
-                  {person.company}
-                  {/* todo simplify the code */}
-                  {person.company && person.location ? ', ' : ''}
-                  {person.location}
+                  {person.companyCountryData}
                 </PopSpeakerCompany>
                 <PopSpeakerBio
                   dangerouslySetInnerHTML={{
@@ -97,7 +95,7 @@ function SpeakerCard(props) {
       )}
 
       <PopSpeakerMidWrapper>
-        <PopSpeakerMidLeft>
+        {/* <PopSpeakerMidLeft>
           {!isOfflineCard && data.activities && data.activities.talks
             ? data.activities.talks.map((talk) => {
                 if (talk.category === 2) return null;
@@ -140,7 +138,24 @@ function SpeakerCard(props) {
                 );
               })
             : null}
+        </PopSpeakerMidLeft> */}
+
+        <PopSpeakerMidLeft>
+          {data.activities.allTalks
+            ? data.activities.allTalks.map((talk) => {
+                return (
+                  <PopSpeakerContent
+                    key={talk.title}
+                    talk={talk}
+                    techColor={techColor}
+                    hideLabel={hideLabel}
+                    calendarLink={calendarLink}
+                  />
+                );
+              })
+            : null}
         </PopSpeakerMidLeft>
+
         <PopSpeakerMidRight>
           {speakers.map((speaker, index) => {
             return (
@@ -180,12 +195,12 @@ const SocialsBlock = ({ header, person }) => {
 };
 
 const PopSpeakerContent = ({ talk, techColor, hideLabel, calendarLink }) => {
-  const showInfo = talk.label || talk.track || talk.timeString;
+  const showInfo = (talk.label && !hideLabel) || talk.track || talk.timeString;
   return (
-    <React.Fragment>
+    <PopSpeakerContentWrap>
       {showInfo && (
         <PopSpeakerActivityInfo color={techColor}>
-          <span>{!hideLabel ? talk.label : null}</span>
+          {!hideLabel && talk.label && <span>{talk.label}</span>}
           {talk.track && <span>{talk.track.name}</span>}
           {talk.timeString && (
             <span title="time is show in your local browser tme">
@@ -216,7 +231,7 @@ const PopSpeakerContent = ({ talk, techColor, hideLabel, calendarLink }) => {
           Add Talk to Calendar
         </PopCalendarButton>
       ) : null}
-    </React.Fragment>
+    </PopSpeakerContentWrap>
   );
 };
 
