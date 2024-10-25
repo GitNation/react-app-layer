@@ -2,7 +2,7 @@ const ADD_EVENT_ID = 'aypbtNBcPzBIdDvukmvT46093';
 import { DateTime } from 'luxon';
 
 const createEventTitle = (speakers, talk, eventName) => {
-  const speakersStr = speakers.map(s => s.name).join(', ');
+  const speakersStr = speakers.map((s) => s.name).join(', ');
   try {
     return `${speakersStr || ''}${speakersStr ? ' - ' : ''}"${talk.title}"${
       eventName ? ` at ${eventName}` : ''
@@ -25,7 +25,7 @@ export const createCalendarLink = (
   const description = encodeURIComponent(calendarEventDescription);
 
   try {
-    const talk = activities && activities.talks[0];
+    const talk = activities && activities.allTalks[0];
     const title = encodeURIComponent(
       createEventTitle(speakers, talk, calendarEventName),
     );
@@ -79,7 +79,9 @@ export const getLightningTalksCalendarLink = ({
 
   const description = encodeURIComponent(
     lightningTalks.reduce((acc, cur) => {
-      const speakers = cur.speakers ? cur.speakers.map(s => s.name).join(', ') : cur.speaker;
+      const speakers = cur.speakers
+        ? cur.speakers.map((s) => s.name).join(', ')
+        : cur.speaker;
       const next = `"${cur.title}" by ${speakers}`;
       if (acc) {
         return `${acc}, ${next}`;
