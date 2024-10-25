@@ -32,7 +32,7 @@ const socialTitle = {
   instagram: 'Instagram',
   in: 'Linkedin',
   site: 'Site',
-  default: 'GitNation Portal',
+  default: 'GitNation.com',
 };
 
 const fallbackTechColor = 'white';
@@ -95,51 +95,6 @@ function SpeakerCard(props) {
       )}
 
       <PopSpeakerMidWrapper>
-        {/* <PopSpeakerMidLeft>
-          {!isOfflineCard && data.activities && data.activities.talks
-            ? data.activities.talks.map((talk) => {
-                if (talk.category === 2) return null;
-                return (
-                  <PopSpeakerContent
-                    key={talk.title}
-                    talk={talk}
-                    techColor={techColor}
-                    hideLabel={hideLabel}
-                    calendarLink={calendarLink}
-                  />
-                );
-              })
-            : null}
-          {isOfflineCard && data.activities && data.activities.offlineTalks
-            ? data.activities.offlineTalks.map((talk) => {
-                return (
-                  <PopSpeakerContent
-                    key={talk.title}
-                    talk={talk}
-                    techColor={techColor}
-                    hideLabel={hideLabel}
-                    calendarLink={calendarLink}
-                  />
-                );
-              })
-            : null}
-
-          {!isOfflineCard && data.activities && data.activities.offlineTalks
-            ? data.activities.offlineTalks.map((talk) => {
-                if (talk.category !== 2) return null;
-                return (
-                  <PopSpeakerContent
-                    key={talk.title}
-                    talk={talk}
-                    techColor={techColor}
-                    hideLabel={hideLabel}
-                    calendarLink={calendarLink}
-                  />
-                );
-              })
-            : null}
-        </PopSpeakerMidLeft> */}
-
         <PopSpeakerMidLeft>
           {data.activities.allTalks
             ? data.activities.allTalks.map((talk) => {
