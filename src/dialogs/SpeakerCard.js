@@ -30,6 +30,7 @@ const socialTitle = {
   gh: 'Github',
   med: 'Medium',
   instagram: 'Instagram',
+  bluesky: 'Bluesky',
   in: 'Linkedin',
   site: 'Site',
   default: 'GitNation.com',
